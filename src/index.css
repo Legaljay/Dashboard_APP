@@ -1,0 +1,187 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: #555;/*rgba(255, 255, 255, 0.87);*/
+  background-color: #fff; /* #242424 */
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+} */
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  width: 100vw;
+  min-height: 100vh;
+  scroll-behavior: smooth;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: transparent;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  outline: none;
+}
+button:hover {
+  /* border-color: #646cff; */
+  outline: none;
+}
+button:focus,
+button:focus-visible {
+  /* outline: 1px auto -webkit-focus-ring-color; */
+  outline: none;
+}
+
+/* React Select Styles */
+.react-select-container {
+  width: 100%;
+}
+
+.react-select__control {
+  @apply border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 !important;
+}
+
+.react-select__value-container {
+  @apply px-3 py-0 !important;
+}
+
+.react-select__input {
+  @apply text-gray-900 dark:text-white !important;
+}
+
+.react-select__single-value {
+  @apply text-gray-900 dark:text-white !important;
+}
+
+.react-select__menu {
+  @apply bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 !important;
+}
+
+.react-select__option {
+  @apply text-gray-900 dark:text-white hover:bg-primary-50 dark:hover:bg-primary-900 !important;
+}
+
+.react-select__option--is-focused {
+  @apply bg-primary-50 dark:bg-primary-900 !important;
+}
+
+.react-select__option--is-selected {
+  @apply bg-[#fafafa] rounded-sm text-gray-700 dark:text-white hover:bg-[#f3f4f6] dark:hover:bg-[#f3f4f6] !important;
+}
+
+/* Phone Input Styles */
+.react-phone-input {
+  width: 100% !important;
+}
+
+.react-phone-input .form-control {
+  @apply w-full h-10 px-3 py-2 text-gray-900 dark:text-white bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 !important;
+}
+
+.react-phone-input .country-list {
+  @apply bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 !important;
+}
+
+.react-phone-input .country-list .country {
+  @apply text-gray-900 dark:text-white hover:bg-primary-50 dark:hover:bg-primary-900 !important;
+}
+
+.react-phone-input .selected-flag {
+  @apply bg-transparent border-r border-gray-300 dark:border-gray-700 !important;
+}
+
+.react-phone-input .selected-flag:hover,
+.react-phone-input .selected-flag:focus {
+  @apply bg-gray-50 dark:bg-gray-700 !important;
+}
+
+/* Custom Scrollbar Styles */
+@layer utilities {
+  /* Webkit browsers (Chrome, Safari, Edge) */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  /* Dark mode */
+  .dark ::-webkit-scrollbar-track {
+    background: #1f2937;
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    background: #4b5563;
+  }
+
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
+  }
+
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
+  }
+
+  .dark * {
+    scrollbar-color: #4b5563 #1f2937;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  /* a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  } */
+}

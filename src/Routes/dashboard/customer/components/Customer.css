@@ -1,0 +1,135 @@
+.customer-container {
+  padding: 2rem;
+}
+
+.customer-header {
+  margin-bottom: 2rem;
+}
+
+.customer-header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.customer-header p {
+  color: #666;
+}
+
+.customer-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #eee;
+}
+
+.tab-button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #666;
+  position: relative;
+}
+
+.tab-button.active {
+  color: #0066cc;
+  font-weight: 500;
+}
+
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #0066cc;
+}
+
+/* Conversation Styles */
+.conversation-container,
+.summary-container,
+.notes-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.conversation-item,
+.summary-item,
+.note-item {
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.conversation-header,
+.summary-header,
+.note-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.conversation-content,
+.summary-content,
+.note-content {
+  line-height: 1.6;
+}
+
+.conversation-summary {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.conversation-summary h4 {
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+/* Notes Form */
+.add-note-form {
+  margin-bottom: 2rem;
+}
+
+.note-input {
+  width: 100%;
+  min-height: 100px;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.add-note-button {
+  padding: 0.75rem 1.5rem;
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.add-note-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Empty States */
+.no-conversations,
+.no-summaries,
+.no-notes {
+  text-align: center;
+  color: #666;
+  padding: 3rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
