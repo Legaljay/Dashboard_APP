@@ -1,0 +1,13 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="0.4" y="0.4" width="31.2" height="31.2" rx="6" fill="white"/>
+<path d="M10.5484 12.5293C10.3448 12.6108 10.1819 12.8552 10.1819 13.0704V15.0021C10.1819 15.3221 10.4437 15.5839 10.7637 15.5839H21.2364C21.5564 15.5839 21.8182 15.3221 21.8182 15.0021V13.0704C21.8182 12.8552 21.6553 12.6108 21.4517 12.5293L16.2153 10.4348C16.099 10.3883 15.9012 10.3883 15.7848 10.4348L12.9688 11.5635" stroke="#292D32" strokeWidth="1.2" stroke-miterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M21.8182 21.9838H10.1819V20.2383C10.1819 19.9183 10.4437 19.6565 10.7637 19.6565H21.2364C21.5564 19.6565 21.8182 19.9183 21.8182 20.2383V21.9838Z" stroke="#292D32" strokeWidth="1.2" stroke-miterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M11.3457 19.6567V15.584" stroke="#292D32" strokeWidth="1.2" stroke-miterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M13.6731 19.6567V15.584" stroke="#292D32" strokeWidth="1.2" stroke-miterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M16.0005 19.6567V15.584" stroke="#292D32" strokeWidth="1.2" stroke-miterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M18.3281 19.6567V15.584" stroke="#292D32" strokeWidth="1.2" stroke-miterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M20.6541 19.6567V15.584" stroke="#292D32" strokeWidth="1.2" stroke-miterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M9.6001 21.9839H22.4001" stroke="#292D32" strokeWidth="1.2" stroke-miterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M15.9999 14.1292C16.4819 14.1292 16.8727 13.7385 16.8727 13.2565C16.8727 12.7745 16.4819 12.3838 15.9999 12.3838C15.5179 12.3838 15.1272 12.7745 15.1272 13.2565C15.1272 13.7385 15.5179 14.1292 15.9999 14.1292Z" stroke="#292D32" strokeWidth="1.2" stroke-miterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+<rect x="0.4" y="0.4" width="31.2" height="31.2" rx="6" stroke="#E5E5E5" strokeWidth="0.8"/>
+</svg>
