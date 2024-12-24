@@ -50,7 +50,7 @@ import { useState, useEffect, useCallback } from 'react';
  *         ${hasHover ? 'has-hover' : 'touch'}
  *       `}
  *     >
- *       {/* Grid items */}
+ *       ** Grid items **
  *     </div>
  *   );
  * }
