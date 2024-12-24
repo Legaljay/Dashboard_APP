@@ -23,7 +23,7 @@ export interface MemoryTemplateUpdateDTO {
 }
 
 export interface MemoryTemplateState {
-  templates: Record<string, MemoryTemplate>;
+  templates: Record<string, MemoryTEmplate>;
   loading: boolean;
   error: string | null;
 }

@@ -121,9 +121,9 @@ const memoryTemplateSlice = createSlice({
       .addCase(fetchMemoryTemplates.fulfilled, (state, action) => {
         state.loading = false;
         state.templates = action.payload.reduce((acc, template) => {
-          acc[template.id] = template;
+          acc[template.category] = template;
           return acc;
-        }, {} as Record<string, MemoryTemplate>);
+        }, {} as Record<string, MemoryTEmplate>);
       })
       .addCase(fetchMemoryTemplates.rejected, (state, action) => {
         state.loading = false;
@@ -137,7 +137,7 @@ const memoryTemplateSlice = createSlice({
       })
       .addCase(createMemoryTemplate.fulfilled, (state, action) => {
         state.loading = false;
-        state.templates[action.payload.id] = action.payload;
+        state.templates[action.payload.category] = action.payload;
       })
       .addCase(createMemoryTemplate.rejected, (state, action) => {
         state.loading = false;
@@ -151,7 +151,7 @@ const memoryTemplateSlice = createSlice({
       })
       .addCase(fetchMemoryTemplateById.fulfilled, (state, action) => {
         state.loading = false;
-        state.templates[action.payload.id] = action.payload;
+        state.templates[action.payload.category] = action.payload;
       })
       .addCase(fetchMemoryTemplateById.rejected, (state, action) => {
         state.loading = false;
@@ -165,7 +165,7 @@ const memoryTemplateSlice = createSlice({
       })
       .addCase(updateMemoryTemplate.fulfilled, (state, action) => {
         state.loading = false;
-        state.templates[action.payload.id] = action.payload;
+        state.templates[action.payload.category] = action.payload;
       })
       .addCase(updateMemoryTemplate.rejected, (state, action) => {
         state.loading = false;
@@ -191,8 +191,8 @@ const memoryTemplateSlice = createSlice({
 // Selectors
 export const selectAllMemoryTemplates = (state: RootState) => Object.values(state.memoryTemplate.templates);
 export const selectMemoryTemplateById = (id: string) => (state: RootState) => state.memoryTemplate.templates[id];
-export const selectMemoryTemplatesByApplication = (applicationId: string) => (state: RootState) =>
-  Object.values(state.memoryTemplate.templates).filter(template => template.applicationId === applicationId);
+// export const selectMemoryTemplatesByApplication = (applicationId: string) => (state: RootState) =>
+//   Object.values(state.memoryTemplate.templates).filter(template => template.applicationId === applicationId);
 export const selectMemoryTemplateLoading = (state: RootState) => state.memoryTemplate.loading;
 export const selectMemoryTemplateError = (state: RootState) => state.memoryTemplate.error;
 
