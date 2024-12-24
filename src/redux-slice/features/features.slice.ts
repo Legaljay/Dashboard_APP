@@ -3,7 +3,14 @@ import { RootState } from '../store';
 import { ApiEndpoints } from '@/enums/api.enum';
 import { api } from '@/services/api';
 import { replaceUrlParams } from '@/utils/api.utils';
-import { ApplicationFeature, ApplicationResponse } from '../../types/application';
+import { ApplicationFeature } from '@/types/application.types';
+
+
+interface ApplicationResponse<T = void> {
+  message: string;
+  status: string;
+  data: T;
+}
 
 // State interface
 interface FeaturesState {
@@ -73,20 +80,20 @@ export const publishFeature = createAsyncThunk(
   }
 );
 
-export const batchUpdateFeatures = createAsyncThunk(
-  'features/batchUpdateFeatures',
-  async ({ appId, updates }: { appId: string; updates: { featureId: string; enabled: boolean }[] }, { rejectWithValue }) => {
-    try {
-      const response = await api.put<ApplicationResponse<ApplicationFeature[]>>(
-        replaceUrlParams(ApiEndpoints.APPLICATION_FEATURES_BATCH, { id: appId }),
-        { updates }
-      );
-      return response.data.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to batch update features');
-    }
-  }
-);
+// export const batchUpdateFeatures = createAsyncThunk(
+//   'features/batchUpdateFeatures',
+//   async ({ appId, updates }: { appId: string; updates: { featureId: string; enabled: boolean }[] }, { rejectWithValue }) => {
+//     try {
+//       const response = await api.put<ApplicationResponse<ApplicationFeature[]>>(
+//         replaceUrlParams(ApiEndpoints.APPLICATION_FEATURES_BATCH, { id: appId }),
+//         { updates }
+//       );
+//       return response.data.data;
+//     } catch (error: any) {
+//       return rejectWithValue(error.response?.data?.message || 'Failed to batch update features');
+//     }
+//   }
+// );
 
 // Slice
 const featuresSlice = createSlice({
@@ -126,10 +133,10 @@ const featuresSlice = createSlice({
         }
         state.lastSync = new Date().toISOString();
       })
-      .addCase(batchUpdateFeatures.fulfilled, (state, action) => {
-        state.features = action.payload;
-        state.lastSync = new Date().toISOString();
-      });
+      // .addCase(batchUpdateFeatures.fulfilled, (state, action) => {
+      //   state.features = action.payload;
+      //   state.lastSync = new Date().toISOString();
+      // });
   },
 });
 

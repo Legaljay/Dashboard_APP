@@ -6,11 +6,11 @@ import uiReducer from './ui.slice';
 import authReducer from './auth/auth.slice';
 import settingsReducer from './settings.slice';
 import businessReducer from './business/business.slice';
-import chatReducer from './chat/chat.slice';
-import subscriptionReducer from './subscription/subscription.slice';
-import walletReducer from './wallet/wallet.slice';
+// import chatReducer from './chat/chat.slice';
+// import subscriptionReducer from './subscription/subscription.slice';
+// import walletReducer from './wallet/wallet.slice';
 import teamReducer from './team/team.slice';
-import filesReducer from './files/files.slice';
+// import filesReducer from './files/files.slice';
 import featuresReducer from './features/features.slice';
 import messagingReducer from './messaging/messaging.slice';
 import notificationsReducer from './notifications/notifications.slice';
@@ -42,12 +42,15 @@ import appInstructionsReducer from './app-instructions/app-instructions.slice';
 import appDraftReducer from './app-draft/app-draft.slice';
 import appPluginsReducer from './plugins/plugins.slice';
 import currencyReducer from './currency/currency.slice';
+import appFeaturesReducer from './app-features/app-features.slice';
+import appWidgetReducer from './app-widget/app-widget.slice';
+
 
 const persistConfig = {
   key: 'root',
   version: 1,
   storage,
-  whitelist: ['ui', 'auth', 'settings', 'business', 'chat', 'currency', 'subscription', 'wallet', 'team', 'files', 'features', 'messaging', 'channels', 'profile', 'businessSubscription', 'businessWallet', 'businessCredits', 'appHistory', 'appCustomers', 'appAnalytics', 'topup', 'appSessions', 'appChat', 'appWebhooks', 'appIntegrations', 'transactions', 'appPeer', 'chatRating', 'applications', 'widget', 'memoryTemplate', 'notifications', 'user', 'memory', 'apiKeys', 'mfa', 'appCategories', 'appInstructions', 'appDraft', 'plugins'],
+  whitelist: ['ui', 'auth', 'settings', 'business', 'chat', 'currency', 'subscription', 'wallet', 'team', 'files', 'features', 'messaging', 'channels', 'profile', 'businessSubscription', 'businessWallet', 'businessCredits', 'appHistory', 'appCustomers', 'appAnalytics', 'topup', 'appSessions', 'appChat', 'appWebhooks', 'appIntegrations', 'transactions', 'appPeer', 'chatRating', 'applications', 'widget', 'memoryTemplate', 'notifications', 'user', 'memory', 'apiKeys', 'mfa', 'appCategories', 'appInstructions', 'appDraft', 'plugins', 'appFeatures', 'appWidget'],
 };
 
 const rootReducer = combineReducers({
@@ -55,12 +58,12 @@ const rootReducer = combineReducers({
   auth: authReducer,
   settings: settingsReducer,
   business: businessReducer,
-  chat: chatReducer,
-  subscription: subscriptionReducer,
-  wallet: walletReducer,
+  // chat: chatReducer,
+  // subscription: subscriptionReducer,
+  // wallet: walletReducer,
   team: teamReducer,
   applications: applicationsReducer,
-  files: filesReducer,
+  // files: filesReducer,
   features: featuresReducer,
   messaging: messagingReducer,
   channels: channelsReducer,
@@ -91,6 +94,8 @@ const rootReducer = combineReducers({
   appDraft: appDraftReducer,
   plugins: appPluginsReducer,
   currency: currencyReducer,
+  appFeatures: appFeaturesReducer,
+  appWidget: appWidgetReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

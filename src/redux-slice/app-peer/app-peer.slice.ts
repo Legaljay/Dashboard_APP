@@ -205,9 +205,9 @@ const peerSlice = createSlice({
 export const { clearError, resetState } = peerSlice.actions;
 
 // Selectors
-export const selectPeerConnections = (state: RootState) => state.peer.connections;
-export const selectActivePeerConnection = (state: RootState) => state.peer.activeConnection;
-export const selectPeerLoading = (state: RootState) => state.peer.loading;
-export const selectPeerError = (state: RootState) => state.peer.error;
+export const selectPeerConnections = (state: RootState) => state.appPeer.connections;
+export const selectActivePeerConnection = (state: RootState) => state.appPeer.activeConnection;
+export const selectPeerLoading = (state: RootState) => state.appPeer.loading;
+export const selectPeerError = (state: RootState) => state.appPeer.error;
 
 export default peerSlice.reducer;

@@ -276,7 +276,7 @@ const appChatSlice = createSlice({
       .addCase(sendDemoMessage.fulfilled, (state, action) => {
         state.loading.sendDemo = false;
         if (state.activeChat?.id === action.payload.chatId) {
-          state.activeChat.messages.push(action.payload);
+          state.activeChat?.messages.push(action.payload);
         }
         const chatIndex = state.chats.findIndex(chat => chat.id === action.payload.chatId);
         if (chatIndex !== -1) {

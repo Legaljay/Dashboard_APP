@@ -128,6 +128,7 @@ export interface BusinessInvitation {
   status: 'pending' | 'accepted' | 'rejected' | 'expired';
   invitedBy: string;
   permissions: string[];
+  token: string;
   expiresAt: string;
   createdAt: string;
   updatedAt: string;

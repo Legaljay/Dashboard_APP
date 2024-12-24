@@ -26,10 +26,10 @@ const useTourGuide = ({
   maskClassName,
   className,
 }: UseTourGuideProps) => {
-  const { setSteps, setCurrentStep, setIsOpen } = useTour();
+  const { setSteps, setCurrentStep, setIsOpen, currentStep } = useTour();
 
   useEffect(() => {
-    setSteps(steps);
+    setSteps?.(steps);
     setCurrentStep(0); // Start at the first step
     setIsOpen(isOpen); // Control the visibility of the tour
   }, [steps, isOpen, setSteps, setCurrentStep, setIsOpen]);

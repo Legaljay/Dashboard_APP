@@ -41,7 +41,7 @@ const Plan: React.FC<PlanProps> = () => {
                     {subscription?.status === 'active' ? 'Active' : 'Inactive'}
                   </p>
                   <p className="text-sm text-gray-500 mt-1">
-                    ${subscription?.price}/month
+                    ${subscription?.monthly_amount}/month
                   </p>
                 </div>
               </div>
@@ -57,7 +57,7 @@ const Plan: React.FC<PlanProps> = () => {
                   <div className="flex justify-between items-center">
                     <div>
                       <p className="font-medium">{previousPlan.name}</p>
-                      <p className="text-sm text-gray-500">${previousPlan.price}/month</p>
+                      <p className="text-sm text-gray-500">${previousPlan.monthly_amount}/month</p>
                     </div>
                     <button
                       className="text-blue-600 hover:text-blue-800"
@@ -77,7 +77,7 @@ const Plan: React.FC<PlanProps> = () => {
                   <div className="flex justify-between items-center">
                     <div>
                       <p className="font-medium">{nextPlan.name}</p>
-                      <p className="text-sm text-gray-500">${nextPlan.price}/month</p>
+                      <p className="text-sm text-gray-500">${nextPlan.monthly_amount}/month</p>
                     </div>
                     <button
                       className="text-blue-600 hover:text-blue-800"

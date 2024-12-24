@@ -83,38 +83,38 @@ export const createChannel = createAsyncThunk(
   }
 );
 
-export const updateChannel = createAsyncThunk(
-  'channels/updateChannel',
-  async ({ applicationId, channelId, channelData }: { 
-    applicationId: string; 
-    channelId: string; 
-    channelData: Partial<Channel> 
-  }, { rejectWithValue }) => {
-    try {
-      const response = await api.put(
-        ApiEndpoints.APP_CHANNEL.replace(':applicationId', applicationId).replace(':channelId', channelId),
-        channelData
-      );
-      return response.data.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to update channel');
-    }
-  }
-);
+// export const updateChannel = createAsyncThunk(
+//   'channels/updateChannel',
+//   async ({ applicationId, channelId, channelData }: { 
+//     applicationId: string; 
+//     channelId: string; 
+//     channelData: Partial<Channel> 
+//   }, { rejectWithValue }) => {
+//     try {
+//       const response = await api.put(
+//         ApiEndpoints.APP_CHANNEL.replace(':applicationId', applicationId).replace(':channelId', channelId),
+//         channelData
+//       );
+//       return response.data.data;
+//     } catch (error: any) {
+//       return rejectWithValue(error.response?.data?.message || 'Failed to update channel');
+//     }
+//   }
+// );
 
-export const deleteChannel = createAsyncThunk(
-  'channels/deleteChannel',
-  async ({ applicationId, channelId }: { applicationId: string; channelId: string }, { rejectWithValue }) => {
-    try {
-      await api.delete(
-        ApiEndpoints.APP_CHANNEL.replace(':applicationId', applicationId).replace(':channelId', channelId)
-      );
-      return channelId;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to delete channel');
-    }
-  }
-);
+// export const deleteChannel = createAsyncThunk(
+//   'channels/deleteChannel',
+//   async ({ applicationId, channelId }: { applicationId: string; channelId: string }, { rejectWithValue }) => {
+//     try {
+//       await api.delete(
+//         ApiEndpoints.APP_CHANNEL.replace(':applicationId', applicationId).replace(':channelId', channelId)
+//       );
+//       return channelId;
+//     } catch (error: any) {
+//       return rejectWithValue(error.response?.data?.message || 'Failed to delete channel');
+//     }
+//   }
+// );
 
 const channelsSlice = createSlice({
   name: 'channels',
@@ -163,39 +163,39 @@ const channelsSlice = createSlice({
         state.error.create = action.payload as string;
       })
 
-      // Update Channel
-      .addCase(updateChannel.pending, (state) => {
-        state.loading.update = true;
-        state.error.update = null;
-      })
-      .addCase(updateChannel.fulfilled, (state, action) => {
-        state.loading.update = false;
-        const index = state.channels.findIndex(channel => channel.id === action.payload.id);
-        if (index !== -1) {
-          state.channels[index] = action.payload;
-        }
-      })
-      .addCase(updateChannel.rejected, (state, action) => {
-        state.loading.update = false;
-        state.error.update = action.payload as string;
-      })
+      // // Update Channel
+      // .addCase(updateChannel.pending, (state) => {
+      //   state.loading.update = true;
+      //   state.error.update = null;
+      // })
+      // .addCase(updateChannel.fulfilled, (state, action) => {
+      //   state.loading.update = false;
+      //   const index = state.channels.findIndex(channel => channel.id === action.payload.id);
+      //   if (index !== -1) {
+      //     state.channels[index] = action.payload;
+      //   }
+      // })
+      // .addCase(updateChannel.rejected, (state, action) => {
+      //   state.loading.update = false;
+      //   state.error.update = action.payload as string;
+      // })
 
-      // Delete Channel
-      .addCase(deleteChannel.pending, (state) => {
-        state.loading.delete = true;
-        state.error.delete = null;
-      })
-      .addCase(deleteChannel.fulfilled, (state, action) => {
-        state.loading.delete = false;
-        state.channels = state.channels.filter(channel => channel.id !== action.payload);
-        if (state.selectedChannel === action.payload) {
-          state.selectedChannel = null;
-        }
-      })
-      .addCase(deleteChannel.rejected, (state, action) => {
-        state.loading.delete = false;
-        state.error.delete = action.payload as string;
-      });
+      // // Delete Channel
+      // .addCase(deleteChannel.pending, (state) => {
+      //   state.loading.delete = true;
+      //   state.error.delete = null;
+      // })
+      // .addCase(deleteChannel.fulfilled, (state, action) => {
+      //   state.loading.delete = false;
+      //   state.channels = state.channels.filter(channel => channel.id !== action.payload);
+      //   if (state.selectedChannel === action.payload) {
+      //     state.selectedChannel = null;
+      //   }
+      // })
+      // .addCase(deleteChannel.rejected, (state, action) => {
+      //   state.loading.delete = false;
+      //   state.error.delete = action.payload as string;
+      // });
   },
 });
 

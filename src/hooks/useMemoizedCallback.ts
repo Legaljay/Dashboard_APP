@@ -165,7 +165,7 @@ export function useMemoizedCallback<T extends AnyFunction>(
     // Manage cache size using FIFO
     if (cache.current.size >= maxCacheSize) {
       const oldestKey = cache.current.keys().next().value;
-      cache.current.delete(oldestKey);
+      cache.current.delete(oldestKey as string);
     }
 
     // Store new result in cache

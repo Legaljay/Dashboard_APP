@@ -3,9 +3,9 @@ import { RootState } from '../store';
 import { api } from '@/services/api';
 import { ApiEndpoints } from '@/enums/api.enum';
 import {
-  BusinessState,
-  BusinessLoadingState,
-  BusinessErrorState,
+  // BusinessState,
+  // BusinessLoadingState,
+  // BusinessErrorState,
   BusinessCreateDTO,
   TopUpRequestDTO,
   BusinessResponse,
@@ -704,7 +704,7 @@ const businessSlice = createSlice({
 
       // Switch Current Business
       .addCase(switchBusiness.fulfilled, (state, action) => {
-        state.activeBusiness = action.payload as Business;
+        state.activeBusiness = action.payload.data as Business;
         businessStateHandlers.resetBusinessSpecificStates(state);
       })
       .addCase(switchBusiness.rejected, (state, action) => {
@@ -768,7 +768,7 @@ const businessSlice = createSlice({
 
       .addCase(verifyTeamInvite.fulfilled, (state, action) => {
         state.team.invitations = state.team.invitations.map(invite => 
-          invite.token === action.payload.token ? action.payload : invite
+          invite.token === action.payload?.token ? action.payload : invite
         );
       })
       .addCase(verifyTeamInvite.rejected, (state, action) => {
@@ -794,7 +794,7 @@ const businessSlice = createSlice({
         handleAsyncState.pending(state, 'wallet');
       })
       .addCase(fetchWallet.fulfilled, (state, action) => {
-        state.wallet = action.payload;
+        state.wallet = action.payload as BusinessWallet;
         handleAsyncState.fulfilled(state, 'wallet');
       })
       .addCase(fetchWallet.rejected, (state, action) => {
@@ -805,7 +805,7 @@ const businessSlice = createSlice({
         handleAsyncState.pending(state, 'credits');
       })
       .addCase(fetchCredits.fulfilled, (state, action) => {
-        state.credits = action.payload;
+        state.credits = action.payload as BusinessCredit;
         handleAsyncState.fulfilled(state, 'credits');
       })
       .addCase(fetchCredits.rejected, (state, action) => {
@@ -825,28 +825,28 @@ const businessSlice = createSlice({
 
       // ============= Subscription Operations =============
       .addCase(fetchCurrentSubscription.fulfilled, (state, action) => {
-        state.subscription = action.payload;
+        state.subscription = action.payload as BusinessSubscription;
       })
       .addCase(fetchCurrentSubscription.rejected, (state, action) => {
         handleAsyncState.rejected(state, 'subscription', action.error.message || 'Failed to fetch subscription');
       })
 
       .addCase(fetchAvailableSubscriptions.fulfilled, (state, action) => {
-        state.availableSubscriptions = action.payload;
+        state.availableSubscriptions = action.payload as unknown as BusinessSubscription[];
       })
       .addCase(fetchAvailableSubscriptions.rejected, (state, action) => {
         handleAsyncState.rejected(state, 'availableSubscriptions', action.error.message || 'Failed to fetch available subscriptions');
       })
 
       .addCase(upgradeSubscription.fulfilled, (state, action) => {
-        state.subscription = action.payload;
+        state.subscription = action.payload as BusinessSubscription;
       })
       .addCase(upgradeSubscription.rejected, (state, action) => {
         handleAsyncState.rejected(state, 'upgradePlan', action.error.message || 'Failed to upgrade subscription');
       })
 
       .addCase(downgradeSubscription.fulfilled, (state, action) => {
-        state.subscription = action.payload;
+        state.subscription = action.payload as BusinessSubscription;
       })
       .addCase(downgradeSubscription.rejected, (state, action) => {
         handleAsyncState.rejected(state, 'downgradePlan', action.error.message || 'Failed to downgrade subscription');
