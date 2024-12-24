@@ -1,13 +1,13 @@
 import React, { Fragment, useState, useMemo, useCallback } from "react";
 import { useMatch, useNavigate, useLocation } from "react-router-dom";
-import { Bell, Down, Help, Check, Add } from "../../assets/svg";
-import help from "../../assets/svg/help.svg";
+import { Bell, Down, Help, Check, Add } from "@/assets/svg";
+import help from "@/assets/svg/help.svg";
 import { HiXMark } from "react-icons/hi2";
 import { Menu, Transition } from "@headlessui/react";
-import { Sidebar } from "../../components/ui/sidebar/Sidebar";
-// import { useToast } from "../../contexts/ToastContext";
+import { Sidebar } from "@/components/ui/sidebar/Sidebar";
+// import { useToast } from "@/contexts/ToastContext";
 import { FaPlus } from "react-icons/fa";
-import BreadCrumbs from "../../components/BreadCrumbs";
+import BreadCrumbs from "@/components/BreadCrumbs";
 import { useAppDispatch, useAppSelector } from "@/redux-slice/hooks";
 import {
   switchBusiness,

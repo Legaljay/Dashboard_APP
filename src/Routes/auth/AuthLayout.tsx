@@ -1,8 +1,8 @@
 import React, { PropsWithChildren } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Logo from "../../assets/img/Logo.png";
-import { ThemeToggle } from "../../components/ui/ThemeToggle";
+import Logo from "@/assets/img/Logo.png";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 const AuthLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const navigate = useNavigate();

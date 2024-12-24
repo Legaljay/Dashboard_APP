@@ -1,9 +1,9 @@
 import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import DashboardCard from './DashboardCard';
-import Launch2 from '@/Assets/svg/launch1.svg';
-import Puzzle2 from '@/Assets/svg/mentalpuzzle.svg';
-import TestTime2 from '@/Assets/svg/testClock.svg';
+import Launch2 from '@/assets/svg/launch1.svg';
+import Puzzle2 from '@/assets/svg/mentalpuzzle.svg';
+import TestTime2 from '@/assets/svg/testClock.svg';
 
 const QuickAccess = memo(() => {
   const quickAccessLinks = [
