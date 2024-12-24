@@ -35,6 +35,7 @@ const signupFields = [
     type: "text" as const,
     placeholder: "Enter your first name",
     className: "!bg-transparent text-gray-500",
+    containerClassName: "basis-[48%]"
   },
   {
     name: "last_name",
@@ -42,6 +43,7 @@ const signupFields = [
     type: "text" as const,
     placeholder: "Enter your last name",
     className: "!bg-transparent text-gray-500",
+    containerClassName: "basis-[48%]"
   },
   {
     name: "email",

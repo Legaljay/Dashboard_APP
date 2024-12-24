@@ -44,7 +44,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             {showPassword ? <FaEyeSlash /> : <FaEye />}
           </button>
         </div>
-        {error && <span className="text-red-500 text-xs">{error}</span>}
+        {/* {error && <span className="text-red-500 text-xs">{error}</span>} */}
       </div>
     );
   }
