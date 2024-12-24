@@ -11,7 +11,9 @@ const contentVariants = {
 };
 
 const Plan: React.FC<PlanProps> = () => {
-  const subscription = useAppSelector((state) => state.subscription.currentPlan);
+  const currentSubscription = useAppSelector((state) => state.businessSubscription.currentSubscription);
+  const is_Active = currentSubscription?.active;
+  const subscription = currentSubscription?.subscription_details; 
   const { previousPlan, nextPlan } = useAppSelector(selectAdjacentPlans);
 
   return (
@@ -38,7 +40,7 @@ const Plan: React.FC<PlanProps> = () => {
                 <div>
                   <h3 className="font-medium">{subscription?.name || 'Free Plan'}</h3>
                   <p className="text-sm text-gray-500">
-                    {subscription?.status === 'active' ? 'Active' : 'Inactive'}
+                    {is_Active ? 'Active' : 'Inactive'}
                   </p>
                   <p className="text-sm text-gray-500 mt-1">
                     ${subscription?.monthly_amount}/month
