@@ -1,9 +1,9 @@
 import React from 'react';
 import { Upload, message } from 'antd';
 import { FileUploadState } from '../types';
-import docxIcon from '@/Assets/svg/docx.svg';
-import deleteIcon from '@/Assets/svg/delete.svg';
-import uploadIcon from '@/Assets/img/uploadIcon.svg';
+import docxIcon from '@/assets/svg/docx.svg';
+import deleteIcon from '@/assets/svg/delete.svg';
+import uploadIcon from '@/assets/img/uploadIcon.svg';
 
 interface FileUploaderProps {
   fileState: FileUploadState;

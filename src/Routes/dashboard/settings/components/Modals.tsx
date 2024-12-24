@@ -7,7 +7,7 @@
 // import Pay from '../../component/modals/wallet/Pay';
 // import RedeemGift from '../../component/modals/redeemgift';
 // import RedeemSuccess from '../../component/modals/redeemgift/RedeemSuccess';
-// import SettingsSvg from '../../Assets/svg/settings.svg';
+// import SettingsSvg from '../../assets/svg/settings.svg';
 // import { useDispatch } from 'react-redux';
 // import { getCurrentPlan } from '../../features/profile/getCurrentPlanSlice';
 // import { getGiftBalance } from '../../features/profile/getGiftBalanceSlice';

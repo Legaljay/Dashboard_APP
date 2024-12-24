@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useMemo } from "react";
 import { BsPlus } from "react-icons/bs";
-import Purse from "@/Assets/svg/purse.svg";
+import Purse from "@/assets/svg/purse.svg";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button/button";
 import { MODAL_IDS } from "@/constants/modalIds";
