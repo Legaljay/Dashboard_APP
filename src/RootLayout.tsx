@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Mobile from "./Assets/Mobileprompt.png";
+import Mobile from "@/assets/Mobileprompt.png";
 import { Outlet } from "react-router-dom";
 
 
