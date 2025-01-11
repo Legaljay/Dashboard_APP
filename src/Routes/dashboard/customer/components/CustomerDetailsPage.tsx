@@ -93,12 +93,12 @@ const CustomerDetailsPage = () => {
   }, []);
 
   return (
-    <div className="px-10 pt-4 pb-12">
+    <div className="px-10 pt-4 pb-8 mb-16">
       <p className="text-2xl font-medium capitalize">{customer.name}</p>
       <div className="mt-10">
         {/* details  */}
         <p className="text-base font-medium">Details</p>
-        <div className="mt-6 grid grid-cols-5 gap-x-10 gap-y-[50px]">
+        <div className="mt-6 grid grid-cols-5 gap-x-10 gap-y-[50px] border border-[#E5E5E5] rounded-lg p-6">
           <div className="flex flex-col gap-1">
             <p className="customerHeader">Full name</p>
             <p className="text-sm">{customer.name}</p>
