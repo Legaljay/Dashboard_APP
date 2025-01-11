@@ -33,10 +33,10 @@ export const UnsavedChangesModal: React.FC<UnsavedChangesModalProps> = ({
         </DialogHeader>
         <DialogFooter>
           <div className="flex gap-2 justify-end">
-            <Button variant="outline" onClick={onDiscard}>
+            <Button variant="destructive" onClick={onDiscard}>
               Discard
             </Button>
-            <Button variant="default" onClick={onConfirm}>
+            <Button variant="black" onClick={onConfirm}>
               Save Changes
             </Button>
           </div>

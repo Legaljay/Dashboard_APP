@@ -25,7 +25,6 @@ const SettingsWrapper: React.FC = () => {
 
   const handleUploadAssistant = async (formData: SettingsFormData) => {
     setLoading(true);
-    console.log(formData, "formData");
     try {
 
       const response = await dispatch(
@@ -45,7 +44,6 @@ const SettingsWrapper: React.FC = () => {
         throw new Error(response.message || "Failed to create assistant");
       }
     } catch (error: any) {
-      console.error("Error uploading assistant:", error);
       addToast("error", error.message || "Failed to upload assistant");
     } finally {
       setLoading(false);

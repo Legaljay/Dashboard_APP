@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import CustomerContent from './CustomerContent';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useApp } from '@/contexts/AppContext';
+import LoadingFallback from '@/LoadingFallback';
 
 interface CustomerData {
     id: string;
@@ -80,7 +81,7 @@ const CustomerLandingPage = () => {
     }, [id]);
   
     if (loading) {
-      return <div className="customer-loading">Loading customer data...</div>;
+      return <div className='h-[80dvh]'><LoadingFallback/></div>;
     }
   
     if (error) {

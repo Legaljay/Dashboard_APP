@@ -106,6 +106,7 @@
   margin-bottom: 1rem;
   font-family: inherit;
   resize: vertical;
+  background-color: transparent;
 }
 
 .add-note-button {

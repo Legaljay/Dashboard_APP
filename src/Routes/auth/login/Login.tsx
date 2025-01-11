@@ -58,7 +58,9 @@ const LoginForm = () => {
         if(!loginResponse.data.setup_business){
           navigate('company');
         } else {
-          navigate("/dashboard");
+          setTimeout(() => {
+            navigate("/dashboard");
+          }, 1000);
         }
       }
       
@@ -98,10 +100,10 @@ const LoginForm = () => {
         />
       )}
       renderFooter={(form) => (
-        <div className="space-y-4 flex flex-col justify-center items-center">
+        <div className="flex flex-col justify-center items-center space-y-4">
           <Link
             to="/auth/forgot-password"
-            className="w-fit text-center text-sm font-medium text-primary-600 hover:text-primary-500 dark:text-primary-400 dark:hover:text-primary-300"
+            className="text-sm font-medium text-center w-fit text-primary-600 hover:text-primary-500 dark:text-primary-400 dark:hover:text-primary-300"
           >
             Forgot Password
           </Link>
