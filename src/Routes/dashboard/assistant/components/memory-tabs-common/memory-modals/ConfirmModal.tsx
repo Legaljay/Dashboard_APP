@@ -1,5 +1,6 @@
 import React from "react";
 import backgroundImage from "@/assets/img/backdrop.svg";
+import { Modal } from "@/components/ui/modal/Modal";
 
 interface ConfirmModalProps {
   handleClose: () => void;
@@ -36,7 +37,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
   purpose,
 }) => {
   const renderTrainingSteps = () => (
-    <ul className="UlListStyle pl-9 flex flex-col gap-7">
+    <ul className="flex flex-col gap-7 pl-9 list-disc UlListStyle">
       {TRAINING_STEPS.map((step) => (
         <li key={step.key}>
           {step.text.replace("{purpose}", purpose)}
@@ -46,7 +47,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
   );
 
   const renderActionButtons = () => (
-    <div className="flex justify-between w-full items-center mt-12">
+    <div className="flex justify-between items-center mt-12 w-full">
       <button
         className="bg-transparent border border-[#D0D5DD] text-[#828282] py-[10px] px-5 rounded-lg font-semibold text-xs hover:bg-gray-50 transition-colors"
         onClick={handleClose}
@@ -64,9 +65,8 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
     </div>
   );
 
-  return (
-    <div className="bg-WHITE-_100 rounded-lg w-[617px] h-fit mt-[75px]">
-      <div
+  const renderHeader = () => (
+    <div
         className="w-full flex justify-end h-[175px] px-6"
         style={{ backgroundImage: `url(${backgroundImage})` }}
       >
@@ -80,8 +80,14 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
           </button>
         </div>
       </div>
-      
-      <div className="pb-10 pt-3 px-10">
+  );
+
+  return (
+    <Modal 
+      renderCustomHeader={renderHeader} 
+      className="p-0 bg-WHITE-_100 rounded-lg w-[617px] h-fit mt-[75px]"
+    > 
+      <div className="px-10 pt-3 pb-10">
         <h2 className="text-bamboo text-[22px] mb-8 text-center font-semibold">
           What Happens When You Train
         </h2>
@@ -94,7 +100,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
 
         {renderActionButtons()}
       </div>
-    </div>
+    </Modal>
   );
 };
 

@@ -41,6 +41,7 @@ const ProFeatures: React.FC<ProFeaturesProps> = ({
     walletBalanceValue,
     is_sufficientBalance
   } = useProFeatures();
+  
   const modalChain = useModalChain();
   const handleClose = useCallback(() => {
     modalChain.closeChain()
@@ -53,6 +54,9 @@ const ProFeatures: React.FC<ProFeaturesProps> = ({
   }, [])
 
   const handleStartModalChain = useCallback(() => {
+    // check if there is a plan after or if the data is available
+    if(!planAfter || !subscriptions) return
+
     const steps = [
       {
         id: MODAL_IDS.custom("chain-1"),

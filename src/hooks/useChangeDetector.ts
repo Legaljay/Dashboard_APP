@@ -312,17 +312,22 @@ function transformDiff(difference: Diff<any, any>): DetailedChange {
 
 const APPLICATION_TRACKED_KEYS = [
     "icon_url",
-    "app_key", 
-    "type",
+    // "app_key", 
+    // "type",
     "name",
     "deactivated",
     "is_deleted", 
     "sale_agent_name",
-    "switch_app_type",
+    // "switch_app_type",
     "description",
     "personality_type",
     "is_light",
     "verbose"
+  ] as const;
+
+  const MEMORY_TRACKED_KEYS = [
+    "active",
+    "deleted",
   ] as const;
   
   function getPropertyDiffs(oldObj: any, newObj: any, path: string[] = [], category?: ChangeCategory): DetailedChange[] {
@@ -349,6 +354,75 @@ const APPLICATION_TRACKED_KEYS = [
       }
       return changes;
     }
+
+    // if (category === ChangeCategory.MEMORY) {
+    //   const objToCheck = Array.isArray(oldObj) ? oldObj[0] : oldObj;
+    //   const newObjToCheck = Array.isArray(newObj) ? newObj[0] : newObj;
+      
+    //   if (!objToCheck || !newObjToCheck) return changes;
+  
+    //   for (const key of MEMORY_TRACKED_KEYS) {
+    //     // Using strict equality check
+    //     if (objToCheck[key] !== newObjToCheck[key]) {
+    //       changes.push({
+    //         path: [...path, key],
+    //         type: objToCheck[key] === undefined ? ChangeType.ADDED : 
+    //               newObjToCheck[key] === undefined ? ChangeType.REMOVED : 
+    //               ChangeType.UPDATED,
+    //         oldValue: objToCheck[key],
+    //         newValue: newObjToCheck[key]
+    //       });
+    //     }
+    //   }
+    //   return changes;
+    // }
+    if (category === ChangeCategory.MEMORY) {
+      const allKeys = new Set([...MEMORY_TRACKED_KEYS]);
+
+      // Check for added and removed elements
+      const oldIds = new Set(oldObj.map((item: any) => item.id));
+      const newIds = new Set(newObj.map((item: any) => item.id));
+
+      for (const newItem of newObj) {
+          if (!oldIds.has(newItem.id)) { // New item added
+              changes.push({
+                  path: [...path, newItem.id],
+                  type: ChangeType.ADDED,
+                  newValue: newItem,
+              });
+          }
+      }
+
+      for (const oldItem of oldObj) {
+          if (!newIds.has(oldItem.id)) { // Old item removed
+              changes.push({
+                  path: [...path, oldItem.id],
+                  type: ChangeType.REMOVED,
+                  oldValue: oldItem,
+              });
+          }
+      }
+
+      // Check for property changes within existing items
+      for (const newItem of newObj) {
+          const oldItem = oldObj.find((item: any) => item.id === newItem.id);
+          if (oldItem) {
+              for (const key of allKeys) {
+                  if (oldItem[key] !== newItem[key]) {
+                      changes.push({
+                          path: [...path, newItem.id, key],
+                          type: ChangeType.UPDATED,
+                          oldValue: oldItem[key],
+                          newValue: newItem[key],
+                      });
+                  }
+              }
+          }
+      }
+      // You can similarly implement for MEMORY category if needed
+      return changes;
+  }
+
   
     // For other categories, we simplify the comparison
     if (!oldObj || !newObj || typeof oldObj !== typeof newObj) {
@@ -401,10 +475,16 @@ const APPLICATION_TRACKED_KEYS = [
     const [changes, setChanges] = useState<ChangeSummary[]>([]);
   
     // Memoize the inputs to prevent unnecessary recalculations
-    const memoizedCurrent = useMemo(() => currentData, [JSON.stringify(currentData)]);
-    const memoizedPrevious = useMemo(() => previousData, [JSON.stringify(previousData)]);
+    const memoizedCurrent = useMemo(() => currentData ?? null, [JSON.stringify(currentData)]);
+    const memoizedPrevious = useMemo(() => previousData ?? null, [JSON.stringify(previousData)]);
   
     useEffect(() => {
+      //null check before processing
+      if (!memoizedCurrent || !memoizedPrevious) {
+        setChanges([]);
+        return;
+      }
+
       // Memoize the change detection function
       const detectChanges = () => {
         const detectedChanges: ChangeSummary[] = Object.values(ChangeCategory)

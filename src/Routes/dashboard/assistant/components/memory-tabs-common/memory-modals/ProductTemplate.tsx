@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { z } from "zod";
 import { Form } from "@/components/ui/form/Form";
 import { FormField } from "@/components/ui/form/types";
@@ -54,6 +54,7 @@ const ProductTemplate: React.FC<{ handleClose: () => void; key: string }> = ({
   const dispatch = useAppDispatch();
   const { addToast } = useToast();
   const { assistantId: applicationId = "" } = useParams();
+  const formRef = React.useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
   const [fetchedData, setFetchedData] = useState<MemoryTEmplate[]>([]);
 
@@ -84,7 +85,13 @@ const ProductTemplate: React.FC<{ handleClose: () => void; key: string }> = ({
     return foundItem ? foundItem.answer : "";
   };
 
-  const onSubmit = async (values: FormValues) => {
+  const handleTriggerSubmit = useCallback(() => {
+    if (formRef.current) {
+      formRef.current.submit(); 
+    }
+  }, []);
+  
+  const onSubmit = useCallback(async (values: FormValues) => {
     setLoading(true);
     try {
       const template = {
@@ -110,10 +117,12 @@ const ProductTemplate: React.FC<{ handleClose: () => void; key: string }> = ({
         ].filter((item) => item.answer),
       };
 
-      await dispatch(createMemoryTemplate({ applicationId, template }));
-      addToast("success", "Product/Services template updated successfully");
-      setLoading(false);
-      handleClose();
+      const response = await dispatch(createMemoryTemplate({ applicationId, template })).unwrap();
+      if (response.status) {
+        addToast("success", response.message || "Product/Services template updated successfully");
+        setLoading(false);
+        handleClose();
+      }
     } catch (error) {
       console.error("Error submitting form:", error);
       addToast(
@@ -122,7 +131,7 @@ const ProductTemplate: React.FC<{ handleClose: () => void; key: string }> = ({
       );
       setLoading(false);
     }
-  };
+  },[addToast, handleClose]);
 
   const defaultValues = {
     answerOne: getAnswerByCategoryAndQuestion(
@@ -142,7 +151,7 @@ const ProductTemplate: React.FC<{ handleClose: () => void; key: string }> = ({
   const renderHeader = () => (
     <div className="flex items-center">
       <div>
-        <p className="text-xs leading-5 font-normal text-BLACK-_200">
+        <p className="text-xs font-normal leading-5 text-BLACK-_200">
           Fill the template with the necessary information.
         </p>
       </div>
@@ -210,13 +219,14 @@ const ProductTemplate: React.FC<{ handleClose: () => void; key: string }> = ({
       <Modal.Header className="px-6 py-2 border-none">{renderHeader()}</Modal.Header>
       <Modal.Body className="overflow-y-scroll max-h-[60dvh]">
         <Form
+          ref={formRef}
           fields={generateFields()}
           schema={schema}
           onSubmit={onSubmit}
           defaultValues={defaultValues}
           loading={loading}
           submitLabel="Save"
-          className="flex flex-col gap-6 shadow-none border-none  px-6 pb-6 pt-0"
+          className="flex flex-col gap-6 px-6 pt-0 pb-6 border-none shadow-none"
           fieldGroupClassName="space-y-4"
           // renderHeader={renderHeader}
           renderField={(fields, form) =>
@@ -224,7 +234,7 @@ const ProductTemplate: React.FC<{ handleClose: () => void; key: string }> = ({
           }
         />
       </Modal.Body>
-      <Modal.Footer className="flex justify-end gap-5">
+      <Modal.Footer className="flex gap-5 justify-end">
         <Button
           type="button"
           size={"lg"}
@@ -233,7 +243,7 @@ const ProductTemplate: React.FC<{ handleClose: () => void; key: string }> = ({
         >
           Cancel
         </Button>
-        <Button type="submit" size={"lg"} variant="black">
+        <Button type="button" size={"lg"} variant="black" onClick={handleTriggerSubmit}>
           Save
         </Button>
       </Modal.Footer>

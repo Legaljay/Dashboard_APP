@@ -1,4 +1,4 @@
-import { memo, useMemo } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { BiChevronDown } from 'react-icons/bi';
 import { AiOutlineCheck } from 'react-icons/ai';
@@ -10,7 +10,7 @@ import User from '@/assets/svg/user.svg';
 import Skeleton from '@/components/ui/skeleton/Skeleton';
 
 interface StatsProps {
-  walletBalance: any;
+  walletBalance: string;
   firstRender: boolean;
   dashboardData: any;
   conversationWeek: { label: string; value: string };
@@ -19,7 +19,7 @@ interface StatsProps {
   loading: boolean;
 }
 
-const DashboardStats = memo(({
+const DashboardStats = ({
   walletBalance,
   firstRender,
   dashboardData,
@@ -28,11 +28,11 @@ const DashboardStats = memo(({
   setOpenTopUp,
   loading,
 }: StatsProps) => {
-  const convertedCredit = useMemo(() => Math.floor(walletBalance?.balance || 0).toFixed(2).toLocaleString(), [walletBalance]);
+  const convertedCredit =  useMemo(() => (parseFloat(walletBalance) || 0).toFixed(2).toLocaleString(), [walletBalance]);
 
-  const PeriodSelector = () => (
+  const PeriodSelector = useCallback(() => (
     <Menu as="div" className="relative text-left">
-      <Menu.Button className="text-xs flex items-center text-BLACK-_300">
+      <Menu.Button className="flex items-center text-xs text-BLACK-_300">
         {conversationWeek.label}
         <BiChevronDown className="ml-2 -mr-1 h-5 w-5 text-[#828282]" aria-hidden="true" />
       </Menu.Button>
@@ -69,7 +69,7 @@ const DashboardStats = memo(({
         </Menu.Items>
       </Transition>
     </Menu>
-  );
+  ), []);
 
   if (loading && firstRender) {
     return (
@@ -100,8 +100,8 @@ const DashboardStats = memo(({
           </button>
         </div>
         <div className="flex flex-col w-[119px] h-[40px] mt-6 gap-2">
-          <p className="text-BLACK-_300 text-xs">Credits</p>
-          <p className="text-2xl text-BLACK-_600 font-semibold">
+          <p className="text-xs text-BLACK-_300">Credits</p>
+          <p className="text-2xl font-semibold text-BLACK-_600">
             ${convertedCredit.toLowerCase() !== "nan" ? convertedCredit : 0}
           </p>
         </div>
@@ -114,9 +114,9 @@ const DashboardStats = memo(({
           <img src={Task} alt="task" />
           <PeriodSelector />
         </div>
-        <p className="text-BLACK-_300 text-xs font-medium mt-6">Average Resolutions</p>
+        <p className="mt-6 text-xs font-medium text-BLACK-_300">Average Resolutions</p>
         <div className="flex flex-col w-[107px] h-[36px] mt-[6px]">
-          <p className="text-2xl text-BLACK-_600 font-semibold">
+          <p className="text-2xl font-semibold text-BLACK-_600">
             {dashboardData?.tasks?.average || 0}
           </p>
           <p className="text-GREEN-_200 text-[10px]">
@@ -132,9 +132,9 @@ const DashboardStats = memo(({
           <img src={User} alt="user" />
           <PeriodSelector />
         </div>
-        <p className="text-BLACK-_300 text-xs font-medium mt-6">New Users</p>
+        <p className="mt-6 text-xs font-medium text-BLACK-_300">New Users</p>
         <div className="flex flex-col w-[107px] h-[36px] mt-[6px]">
-          <p className="text-2xl text-BLACK-_600 font-semibold">
+          <p className="text-2xl font-semibold text-BLACK-_600">
             {dashboardData?.totalNewUsers || 0}
           </p>
           <p className="text-GREEN-_200 text-[10px]">
@@ -144,7 +144,7 @@ const DashboardStats = memo(({
       </div>
     </div>
   );
-});
+};
 
 DashboardStats.displayName = 'DashboardStats';
 

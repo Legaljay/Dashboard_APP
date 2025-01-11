@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, memo } from "react";
 import { message } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import TemplateIcon from "@/assets/svg/template.svg";
@@ -13,13 +13,15 @@ import {
   createMemoryFile,
   deleteMemoryFile,
   publishMemoryFile,
+  setUploadProgress,
+  resetState,
 } from "@/redux-slice/app-memory/app-memory.slice";
 import { useModal } from "@/contexts/ModalContext";
 import { MODAL_IDS } from "@/constants/modalIds";
 import TemplateTrigger from "./TemplateTrigger";
 import UploadMemory from "./memory-modals/UploadMemory";
 import ConfirmModal from "./memory-modals/ConfirmModal";
-
+import DeleteInstructionModal from "./memory-modals/DeleteSourceModal";
 
 const OTHER_TABS = "other";
 
@@ -28,72 +30,66 @@ const Common: React.FC<TabProps> = ({ tab, template: Template }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { addToast } = useToast();
-  const { openModal,closeModal } = useModal();
+  const { openModal, closeModal } = useModal();
 
   // State management with TypeScript
   const [fileState, setFileState] = useState<FileUploadState>({
     file: null,
     fileList: [],
   });
+
   const [deleteLoading, setDeleteLoading] = useState<Record<string, boolean>>(
     {}
   );
   const [publishLoading, setPublishLoading] = useState<Record<string, boolean>>(
     {}
   );
-  const [modals, setModals] = useState({
-    template: false,
-    upload: false,
-    delete: false,
-    confirm: false,
-    features: false,
-  });
+
   const [sourceId, setSourceId] = useState<string>("");
   const [features, setFeatures] = useState([]);
 
   // Custom hook for fetching memory files
-  const { fetchedData, loading, refetch } = useMemoryFiles(applicationId, tab);
+  const { fetchedData, loading, refetch, isInitialized } = useMemoryFiles(applicationId, tab);
 
   // Memoized handlers
   const handleFileChange = useCallback((file: File | null, fileList: any[]) => {
-    setFileState({ file, fileList });
-  }, []);
+    // setFileState({ file, fileList });
+    setFileState({
+      file,
+      fileList: fileList.map(f => ({
+        ...f,
+        status: f.status || 'done' // Ensure status is set
+      }))
+    });
+  }, [tab]);
 
-  const openUploadModal = useCallback(() => {
-    openModal(MODAL_IDS.custom("upload-memory"), <UploadMemory/>, { preventScroll: true });
-  }, []);
-
-  const handleConfirmUploadModal = useCallback(() => {
-    openModal(MODAL_IDS.custom("confirm-upload"), 
-    <ConfirmModal 
-      handleClose={() =>closeModal(MODAL_IDS.custom("confirm-upload"))} 
-      handleUploadTrain={handleUploadTrain}
-      handleDontShow={() => {
-        localStorage.setItem('confirmModal', 'true');
-        closeModal(MODAL_IDS.custom("confirm-upload"));
-      }}
-      purpose={tab} 
-    />, { preventScroll: true });
-  }, []);
-
+  // handle file upload
   const handleUploadTrain = useCallback(async () => {
-    if (!fileState.file) {
+    console.log('File changed for tab:', tab);
+    console.log('File changed:', fileState?.file, fileState?.fileList); // Add this for debugging
+    if (!fileState?.file) {
       message.error("No file uploaded");
       return;
     }
 
-    // setModals((prev) => ({ ...prev, upload: true }));
     openUploadModal();
     const formData = new FormData();
-    formData.append("file", fileState.file);
+    formData.append("file", fileState?.file);
     formData.append("purpose", tab);
-
+    
+    dispatch(resetState());
     try {
       const response = await dispatch(
-        createMemoryFile({ applicationId, fileData: formData })
+        createMemoryFile({
+          applicationId,
+          fileData: formData,
+          onProgress: (progress) => {
+            dispatch(setUploadProgress(progress));
+            console.log("Upload Progress: ", progress);
+          },
+        })
       ).unwrap();
-
-      if (response.data.status === 201) {
+      if (response.data.status) {
         message.success(`${fileState.file.name} file uploaded successfully.`);
         refetch();
         if (applicationId) {
@@ -101,7 +97,6 @@ const Common: React.FC<TabProps> = ({ tab, template: Template }) => {
         }
         closeModal(MODAL_IDS.custom("upload-memory"));
         closeModal(MODAL_IDS.custom("confirm-upload"));
-        // setModals((prev) => ({ ...prev, upload: false, confirm: false }));
         setFileState({ file: null, fileList: [] });
       }
     } catch (error) {
@@ -109,12 +104,12 @@ const Common: React.FC<TabProps> = ({ tab, template: Template }) => {
       message.error(`${fileState.file.name} file upload failed.`);
       setFeatures([]);
       refetch();
-      // setModals((prev) => ({ ...prev, upload: false }));
       closeModal(MODAL_IDS.custom("upload-memory"));
       setFileState({ file: null, fileList: [] });
     }
-  }, [fileState.file, applicationId, dispatch]);
+  }, [fileState, applicationId, dispatch, closeModal, tab, refetch]);
 
+// handle file delete
   const handleDeleteSource = useCallback(
     async (id: string) => {
       try {
@@ -130,43 +125,104 @@ const Common: React.FC<TabProps> = ({ tab, template: Template }) => {
         }
       } finally {
         setDeleteLoading((prev) => ({ ...prev, [id]: false }));
-        // setModals((prev) => ({ ...prev, delete: false }));
         closeModal(MODAL_IDS.custom("delete-memory"));
       }
     },
-    [applicationId, navigate]
+    [applicationId, navigate, closeModal, dispatch, refetch, addToast]
   );
 
+  // handle file publish
   const handleActivation = useCallback(
     async (id: string) => {
       try {
         setPublishLoading((prev) => ({ ...prev, [id]: true }));
+
         const response = await dispatch(
           publishMemoryFile({ applicationId, fileId: id })
         ).unwrap();
 
-        addToast("success", response.data.message);
-        if (applicationId) {
-          dispatch(fetchDraft(applicationId));
+        // Check if response exists before accessing data
+        if (response?.data?.status) {
+          await refetch();
+
+          if (applicationId) {
+            await dispatch(fetchDraft(applicationId));
+          }
+
+          // Ensure message exists before showing toast
+          addToast(
+            "success",
+            response.data.message || "File published successfully"
+          );
         }
-      } catch (error: any) {
-        addToast("error", error.response?.message);
-        if (error.response?.status === 401) {
+      } catch (error) {
+        // Better error handling with type assertion
+        const err = error as { response?: { message: string; status: number } };
+
+        addToast(
+          "error",
+          err.response?.message || "An error occurred while publishing the file"
+        );
+
+        if (err.response?.status === 401) {
           navigate("/");
         }
       } finally {
         setPublishLoading((prev) => ({ ...prev, [id]: false }));
       }
     },
-    [applicationId, navigate, dispatch]
+    // Include all dependencies
+    [applicationId, navigate, dispatch, refetch, addToast, setPublishLoading]
   );
 
+  //handle upload modal
+  const openUploadModal = useCallback(() => {
+    openModal(MODAL_IDS.custom("upload-memory"), <UploadMemory />, {
+      preventScroll: true,
+      size: "lg",
+    });
+  }, []);
+
+  //handle confirm upload
+  const handleConfirmUploadModal = useCallback(() => {
+    openModal(
+      MODAL_IDS.custom("confirm-upload"),
+      <ConfirmModal
+        handleClose={() => closeModal(MODAL_IDS.custom("confirm-upload"))}
+        handleUploadTrain={handleUploadTrain}
+        handleDontShow={() => {
+          localStorage.setItem("confirmModal", "true");
+          closeModal(MODAL_IDS.custom("confirm-upload"));
+        }}
+        purpose={tab}
+      />,
+      { preventScroll: true }
+    );
+  }, [tab, handleUploadTrain, closeModal]);
+
+// handle open delete modal
+  const openDeleteModal = useCallback(
+    (id: string) => {
+      setSourceId(id);
+      openModal(
+        MODAL_IDS.custom("delete-memory"),
+        <DeleteInstructionModal
+          loading={deleteLoading[id]}
+          handleClose={() => closeModal(MODAL_IDS.custom("delete-memory"))}
+          deleteSource={() => handleDeleteSource(id)}
+        />,
+        { preventScroll: true, size: "lg" }
+      );
+    },
+    [setSourceId]
+  );
+
+
+  //TODO: ui modals category
   const confirmModalStatus = localStorage.getItem("confirmModal");
 
   const handleUploadandTrain = useCallback(() => {
-          confirmModalStatus
-            ? handleUploadTrain()
-            : handleConfirmUploadModal();
+    confirmModalStatus ? handleUploadTrain() : handleConfirmUploadModal();
   }, [confirmModalStatus]);
 
   // Render component
@@ -185,18 +241,13 @@ const Common: React.FC<TabProps> = ({ tab, template: Template }) => {
           />
         </div>
 
-        <section className="flex flex-col items-center gap-3">
+        <section className="flex flex-col gap-3 items-center">
           <button
             disabled={!fileState.file}
             className={`${
               !fileState.file ? "bg-DISABLED" : "bg-[#121212]"
             } mt-4 text-[white] py-3 px-4 rounded-lg text-sm`}
-            onClick={() => {
-              const confirmModalStatus = localStorage.getItem("confirmModal");
-              confirmModalStatus
-                ? handleUploadTrain()
-                : setModals((prev) => ({ ...prev, confirm: true }));
-            }}
+            onClick={handleUploadandTrain}
           >
             Upload and Train
           </button>
@@ -208,11 +259,10 @@ const Common: React.FC<TabProps> = ({ tab, template: Template }) => {
 
         <MemoryTable
           data={fetchedData}
-          loading={loading}
-          onDelete={(id) => {
-            setSourceId(id);
-            setModals((prev) => ({ ...prev, delete: true }));
-          }}
+          loading={isInitialized && loading}
+          onDelete={
+            (id: string) => openDeleteModal(id)
+          }
           onActivate={handleActivation}
           deleteLoading={deleteLoading}
           publishLoading={publishLoading}
@@ -221,30 +271,7 @@ const Common: React.FC<TabProps> = ({ tab, template: Template }) => {
       </section>
 
       {/* Modals */}
-      {/* <ModalPop isOpen={modals.delete}>
-        <DeleteSourceModal
-          handleClose={() => setModals(prev => ({ ...prev, delete: false }))}
-          deleteSource={() => handleDeleteSource(sourceId)}
-          loading={deleteLoading[sourceId]}
-        />
-      </ModalPop>
-
-      <ModalPop isOpen={modals.confirm}>
-        <ConfirmModal
-          handleClose={() => setModals(prev => ({ ...prev, confirm: false }))}
-          handleDontShow={() => {
-            localStorage.setItem('confirmModal', 'true');
-            setModals(prev => ({ ...prev, confirm: false }));
-          }}
-          handleUploadTrain={() => {
-            setModals(prev => ({ ...prev, confirm: false }));
-            handleUploadTrain();
-          }}
-          purpose="about"
-          id={applicationId}
-        />
-      </ModalPop>
-
+      {/* 
       <ModalPop isOpen={modals.features}>
         <CustomFeatures
           data={features}
@@ -252,24 +279,9 @@ const Common: React.FC<TabProps> = ({ tab, template: Template }) => {
         />
       </ModalPop>
 
-      <ModalPop isOpen={modals.upload}>
-        <UploadMemory
-          handleClose={() => setModals(prev => ({ ...prev, upload: false }))}
-        />
-      </ModalPop>
-
-      <ModalPop isOpen={modals.template}>
-        <AboutTemplate
-          handleClose={() => {
-            setModals(prev => ({ ...prev, template: false }));
-            refetch();
-          }}
-        />
-      </ModalPop> 
-      
       */}
     </main>
   );
 };
 
-export default Common;
+export default memo(Common);

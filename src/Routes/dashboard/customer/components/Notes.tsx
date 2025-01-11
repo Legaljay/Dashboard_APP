@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
-import './Customer.css';
+import React, { useState } from "react";
+import { useOutletContext } from "react-router-dom";
+import { motion } from "framer-motion";
+import "./Customer.css";
 
 interface NotesProps {
   customerData: {
@@ -14,7 +15,7 @@ interface NotesProps {
 
 const Notes: React.FC = () => {
   const { customerData } = useOutletContext<NotesProps>();
-  const [newNote, setNewNote] = useState('');
+  const [newNote, setNewNote] = useState("");
 
   const formatDate = (timestamp: string) => {
     return new Date(timestamp).toLocaleString();
@@ -23,12 +24,18 @@ const Notes: React.FC = () => {
   const handleAddNote = (e: React.FormEvent) => {
     e.preventDefault();
     // In a real application, this would make an API call to add the note
-    console.log('Adding note:', newNote);
-    setNewNote('');
+    console.log("Adding note:", newNote);
+    setNewNote("");
   };
 
   return (
-    <div className="notes-container">
+    <motion.div
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 20 }}
+      transition={{ duration: 0.3 }}
+      className="notes-container"
+    >
       <form onSubmit={handleAddNote} className="add-note-form">
         <textarea
           value={newNote}
@@ -46,9 +53,7 @@ const Notes: React.FC = () => {
       </form>
 
       {customerData.notes.length === 0 ? (
-        <div className="no-notes">
-          No notes available for this customer.
-        </div>
+        <div className="no-notes">No notes available for this customer.</div>
       ) : (
         <div className="notes-list">
           {customerData.notes.map((note) => (
@@ -58,14 +63,12 @@ const Notes: React.FC = () => {
                   {formatDate(note.timestamp)}
                 </span>
               </div>
-              <div className="note-content">
-                {note.content}
-              </div>
+              <div className="note-content">{note.content}</div>
             </div>
           ))}
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };
 

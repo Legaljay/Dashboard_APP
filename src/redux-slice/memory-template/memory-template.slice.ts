@@ -42,7 +42,7 @@ export const createMemoryTemplate = createAsyncThunk(
         replaceUrlParams(ApiEndpoints.APP_MEMORY_TEMPLATE_CREATE, { applicationId }),
         template
       );
-      return response.data.data;
+      return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to create memory template');
     }
@@ -137,7 +137,8 @@ const memoryTemplateSlice = createSlice({
       })
       .addCase(createMemoryTemplate.fulfilled, (state, action) => {
         state.loading = false;
-        state.templates[action.payload.category] = action.payload;
+
+        // state.templates[action.payload.category] = action.payload;
       })
       .addCase(createMemoryTemplate.rejected, (state, action) => {
         state.loading = false;

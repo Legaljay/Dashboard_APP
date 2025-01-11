@@ -2,18 +2,20 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { api } from '@/services/api';
 import { ApiEndpoints } from '@/enums/api.enum';
 import { RootState } from '../store';
-// import { RootState } from '../store';
 
-interface Transaction {
+export interface Transaction {
   id: string;
   amount: number;
-  currency: string;
-  status: 'pending' | 'completed' | 'failed';
-  type: string;
+  tokens: string;
   description: string;
+  reference: string;
+  currency: string;
+  currency_symbol: string;
   metadata: Record<string, any>;
-  createdAt: string;
-  updatedAt: string;
+  tx_type: string;
+  status: 'pending' | 'completed' | 'failed';
+  created_at: string;
+  updated_at: string;
 }
 
 interface TransactionState {

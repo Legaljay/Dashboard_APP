@@ -95,7 +95,7 @@ const PublishModal: React.FC<any> = () => {
       case ChangeType.ADDED:
         return (
           <code>
-            <span className="font-bold text-sm text-PRIMARY">Added</span>{" "}
+            <span className="text-sm font-bold text-PRIMARY">Added</span>{" "}
             {pathString}
             {""}: <strong>{formatValue(change.newValue)}</strong>
           </code>
@@ -103,7 +103,7 @@ const PublishModal: React.FC<any> = () => {
       case ChangeType.REMOVED:
         return (
           <code>
-            <span className="font-bold text-sm text-PRIMARY">Removed</span>{" "}
+            <span className="text-sm font-bold text-PRIMARY">Removed</span>{" "}
             {pathString}
             {""}: <strong>{formatValue(change.oldValue)}</strong>
           </code>
@@ -111,7 +111,7 @@ const PublishModal: React.FC<any> = () => {
       case ChangeType.UPDATED:
         return (
           <code>
-            <span className="font-bold text-sm text-PRIMARY">Changed</span>{" "}
+            <span className="text-sm font-bold text-PRIMARY">Changed</span>{" "}
             {pathString} from <strong>{formatValue(change.oldValue)}</strong> to{" "}
             <strong>{formatValue(change.newValue)}</strong>
           </code>
@@ -185,6 +185,8 @@ const PublishModal: React.FC<any> = () => {
     };
   }, [activeAssistant, instructions, memory, plugins, getDraftCategory]);
 
+  console.log(checkPreviousData()); //TODO: remove later
+
   const changes = useChangeDetector(
     appDraftchanges as AppDraft,
     checkPreviousData() as Record<ChangeCategory, any>
@@ -229,9 +231,9 @@ const PublishModal: React.FC<any> = () => {
       onClose={handleClose}
     >
       <Modal.Body>
-        <div className="rounded-xl bg-white h-fit">
-          <p className="font-medium text-sm">Review Changes</p>
-          <div>
+        <div className="bg-white rounded-xl h-fit">
+          <p className="text-sm font-medium">Review Changes</p>
+          <div className="overflow-y-scroll max-h-[300px]">
             {changes.map((categorySummary) => (
               <div key={categorySummary.category} className="mb-4">
                 <h3 className="font-medium text-blue-600">
@@ -251,7 +253,7 @@ const PublishModal: React.FC<any> = () => {
             ))}
           </div>
 
-          <div className="mt-8 flex gap-2 justify-end">
+          <div className="flex gap-2 justify-end mt-8">
             <Button
               disabled={loading}
               variant="outlined"
@@ -268,11 +270,11 @@ const PublishModal: React.FC<any> = () => {
             >
               {loading ? (
                 <span className="flex justify-center w-full">
-                  <CgSpinner className=" animate-spin text-lg text-WHITE-_100" />
+                  <CgSpinner className="text-lg animate-spin text-WHITE-_100" />
                 </span>
               ) : (
                 <p className="text-WHITE-_100 text-[12px] font-medium">
-                  Upload
+                  Publish
                 </p>
               )}
             </Button>

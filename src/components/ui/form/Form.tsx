@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState, useEffect } from "react";
+import React, { useCallback, useMemo, useState, useEffect, useImperativeHandle, forwardRef } from "react";
 import {
   useForm,
   DefaultValues,
@@ -9,7 +9,7 @@ import {
 } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { FormProps, FormField } from "./types";
+import { FormProps, FormField, FormRef } from "./types";
 import { cn } from "../../../lib/utils";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 
@@ -130,7 +130,7 @@ const FormFieldComponent = React.memo(
             <button
               type="button"
               onClick={togglePasswordVisibility}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 focus:outline-none"
+              className="absolute right-3 top-1/2 text-gray-500 transform -translate-y-1/2 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 focus:outline-none"
             >
               {showPassword ? <FaEyeSlash size={16} /> : <FaEye size={16} />}
             </button>
@@ -148,7 +148,7 @@ const FormFieldComponent = React.memo(
 
 FormFieldComponent.displayName = "FormFieldComponent";
 
-const FormComponent = <T extends z.ZodType>({
+const FormComponent = forwardRef(<T extends z.ZodType>({
   fields,
   onSubmit,
   onFormReady,
@@ -167,7 +167,7 @@ const FormComponent = <T extends z.ZodType>({
   hideSubmitButton = false,
   marginTop, 
   mode = "onTouched",
-}: FormProps<T>) => {
+}: FormProps<T>, ref: React.Ref<FormRef>) => {
   type FormData = z.infer<T>;
 
   const form = useForm<FormData>({
@@ -175,6 +175,10 @@ const FormComponent = <T extends z.ZodType>({
     defaultValues: defaultValues as DefaultValues<FormData>,
     mode,
   });
+
+  useImperativeHandle(ref, () => ({
+    submit: form.handleSubmit(onSubmit),
+  }));
 
   useEffect(() => {
     if (onFormReady) {
@@ -270,6 +274,6 @@ const FormComponent = <T extends z.ZodType>({
       {renderFooter && <div className="mt-6">{renderFooter(form)}</div>}
     </form>
   );
-};
+});
 
 export const Form = React.memo(FormComponent) as typeof FormComponent;

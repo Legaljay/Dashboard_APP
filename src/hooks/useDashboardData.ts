@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../redux-slice/hooks';
 import { fetchAppAnalytics } from '../redux-slice/app-analytics/app-analytics.slice';
 import { fetchMemoryFiles } from '@/redux-slice/app-memory/app-memory.slice';
@@ -98,20 +98,117 @@ export interface DashboardData {
  * - Add data caching capability
  * - Implement retry logic for failed fetches
  */
+// export const useDashboardData = (period: string = 'week') => {
+//   const dispatch = useAppDispatch();
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState<string | null>(null);
+  
+//   const walletBalance = useAppSelector((state) => state.businessWallet.wallets);
+//   const analytics = useAppSelector((state) => state.appAnalytics.analytics);
+//   const memoryFiles = useAppSelector((state) => state.memory.memoryFiles);
+//   const currentAppId = useAppSelector((state) => state.applications.selectedApplication);
+//   const business = useAppSelector(state => state.business.activeBusiness);
+//   const businessID = (business && business.id) as string;
+
+//   const walletCredit = walletBalance.find(wallet => wallet.currency === 'USD');
+//   const walletBalanceValue = walletCredit ? walletCredit.balance : 0;
+
+//   const fetchDashboardData = useCallback(async () => {
+//     if (!currentAppId) {
+//       setError('No application selected');
+//       setLoading(false);
+//       return;
+//     }
+
+//     try {
+//       await Promise.all([
+//         dispatch(fetchAppAnalytics({ applicationId: currentAppId, period })).unwrap(),
+//         dispatch(fetchMemoryFiles(currentAppId)).unwrap()
+//       ]);
+//       setError(null);
+//     } catch (err) {
+//       setError('Failed to fetch dashboard data');
+//       console.error('Dashboard data fetch error:', err);
+//     } finally {
+//       setLoading(false);
+//     }
+//   }, [dispatch, currentAppId, period]);
+
+//   const fetchWalletBalance = useCallback(() => {
+//     dispatch(fetchBusinessWallets(businessID));
+//   }, [dispatch]);
+
+//   // Initial data fetch
+//   useEffect(() => {
+//     fetchDashboardData();
+//   }, [fetchDashboardData]);
+
+//   // Wallet balance polling
+//   useEffect(() => {
+//     fetchWalletBalance();
+//     const pollInterval = setInterval(fetchWalletBalance, 30000); // Poll every 30 seconds
+
+//     return () => clearInterval(pollInterval);
+//   }, [fetchWalletBalance]);
+
+//   const refreshData = useCallback(() => {
+//     setLoading(true);
+//     fetchDashboardData();
+//     fetchWalletBalance();
+//   }, [fetchDashboardData, fetchWalletBalance]);
+
+//   return {
+//     dashboardData: analytics,
+//     memoryFiles,
+//     walletBalance,
+//     walletBalanceValue,
+//     walletCredit,
+//     loading,
+//     error,
+//     refreshData,
+//   };
+// };
+
 export const useDashboardData = (period: string = 'week') => {
   const dispatch = useAppDispatch();
+  const mountedRef = useRef(false);
+  const pollingRef = useRef<NodeJS.Timeout>();
+  const lastFetchRef = useRef<number>(0);
+  const POLL_INTERVAL = 30000;
+  const DEBOUNCE_DELAY = 1000;
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   const walletBalance = useAppSelector((state) => state.businessWallet.wallets);
   const analytics = useAppSelector((state) => state.appAnalytics.analytics);
   const memoryFiles = useAppSelector((state) => state.memory.memoryFiles);
   const currentAppId = useAppSelector((state) => state.applications.selectedApplication);
   const business = useAppSelector(state => state.business.activeBusiness);
-  const businessID = (business && business.id) as string;
+  const businessID = (business?.id) as string;
 
   const walletCredit = walletBalance.find(wallet => wallet.currency === 'USD');
-  const walletBalanceValue = walletCredit ? walletCredit.balance : 0;
+  const walletBalanceValue = walletCredit?.balance ?? 0;
+
+  console.log(walletBalance, "walletBalance");
+  console.log(walletCredit, "walletCredit");
+  console.log(walletBalanceValue, "walletBalanceValue");
+
+  const fetchWalletBalance = useCallback(async () => {
+    const now = Date.now();
+    if (now - lastFetchRef.current < DEBOUNCE_DELAY) return;
+    
+    lastFetchRef.current = now;
+    if (!businessID || !mountedRef.current) return;
+    
+
+    try {
+      await dispatch(fetchBusinessWallets(businessID)).unwrap();
+    } catch (err) {
+      console.error('Wallet fetch error:', err);
+      // Silent fail for background polling
+    }
+  }, [dispatch, businessID]);
 
   const fetchDashboardData = useCallback(async () => {
     if (!currentAppId) {
@@ -119,6 +216,14 @@ export const useDashboardData = (period: string = 'week') => {
       setLoading(false);
       return;
     }
+
+    // // Check if the data is already in the store and is fresh
+    // const isDataFresh = analytics && Date.now() - lastFetchRef.current < POLL_INTERVAL;
+
+    // if (isDataFresh) {
+    //   setLoading(false);
+    //   return; // Don't refetch if data is fresh
+    // }
 
     try {
       await Promise.all([
@@ -130,31 +235,44 @@ export const useDashboardData = (period: string = 'week') => {
       setError('Failed to fetch dashboard data');
       console.error('Dashboard data fetch error:', err);
     } finally {
-      setLoading(false);
+      if (mountedRef.current) {
+        setLoading(false);
+      }
     }
   }, [dispatch, currentAppId, period]);
 
-  const fetchWalletBalance = useCallback(() => {
-    dispatch(fetchBusinessWallets(businessID));
-  }, [dispatch]);
-
-  // Initial data fetch
   useEffect(() => {
+    mountedRef.current = true;
     fetchDashboardData();
+
+    return () => {
+      mountedRef.current = false;
+    };
   }, [fetchDashboardData]);
 
-  // Wallet balance polling
   useEffect(() => {
-    fetchWalletBalance();
-    const pollInterval = setInterval(fetchWalletBalance, 30000); // Poll every 30 seconds
+    if (!mountedRef.current || !businessID) return;
 
-    return () => clearInterval(pollInterval);
-  }, [fetchWalletBalance]);
+    const startPolling = () => {
+      fetchWalletBalance();
+      pollingRef.current = setInterval(fetchWalletBalance, POLL_INTERVAL);
+    };
+
+    startPolling();
+
+    return () => {
+      if (pollingRef.current) {
+        clearInterval(pollingRef.current);
+      }
+    };
+  }, [fetchWalletBalance, businessID]);
 
   const refreshData = useCallback(() => {
     setLoading(true);
-    fetchDashboardData();
-    fetchWalletBalance();
+    return Promise.all([
+      fetchDashboardData(),
+      fetchWalletBalance()
+    ]);
   }, [fetchDashboardData, fetchWalletBalance]);
 
   return {

@@ -16,7 +16,7 @@
 }
 
 .customer-tabs {
-  display: flex;
+  display: block;
   gap: 1rem;
   margin-bottom: 2rem;
   border-bottom: 1px solid #eee;

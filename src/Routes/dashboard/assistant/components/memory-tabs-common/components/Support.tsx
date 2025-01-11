@@ -1,5 +1,5 @@
-import Common from "./memory-tabs-common";
-import SupportTemplate from "./memory-tabs-common/memory-modals/SupportTemplate";
+import Common from "..";
+import SupportTemplate from "../memory-modals/SupportTemplate";
 
 const Support: React.FC = () => {
     return <Common tab="support" template={SupportTemplate}/>;

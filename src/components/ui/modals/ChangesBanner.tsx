@@ -50,16 +50,16 @@ import useChangeDetector, {
 //   return (
 //     <div className="mb-4">
 //       {!!appDraftchanges?.length && (
-//         <div className="bg-lightGold px-10 py-2 flex justify-between items-center">
+//         <div className="flex justify-between items-center px-10 py-2 bg-lightGold">
 //           <div>
-//             <p className="text-darkBrown text-sm font-medium">
+//             <p className="text-sm font-medium text-darkBrown">
 //               {appDraftchanges.length} change{appDraftchanges.length > 1 && "s"}{" "}
 //               detected!
 //             </p>
 //             <p className="text-xs text-dBrown">
 //               We detected a few changes. You can
 //               <span
-//                 className="underline cursor-pointer mx-1"
+//                 className="mx-1 underline cursor-pointer"
 //                 onClick={() => {
 //                   setPropShowPopUp(true);
 //                 }}
@@ -68,7 +68,7 @@ import useChangeDetector, {
 //               </span>
 //               or Publish them now to your
 //               <span
-//                 className="underline cursor-pointer mx-1"
+//                 className="mx-1 underline cursor-pointer"
 //                 onClick={() => {
 //                   navigateToIntegrations && navigateToIntegrations();
 //                   navigate("/agent", { state: "Integrations/Deploy" });
@@ -79,7 +79,7 @@ import useChangeDetector, {
 //             </p>
 //           </div>
 //           <p
-//             className="underline text-sm cursor-pointer"
+//             className="text-sm underline cursor-pointer"
 //             onClick={openPublishModal}
 //           >
 //             Publish Changes
@@ -294,8 +294,8 @@ function ChangesBanner({
   if (changes.length === 0) return null;
 
   return (
-    <div className="changes-banner p-4 bg-lightGold">
-      <div className="px-10 py-2 flex justify-between items-center">
+    <div className="p-4 changes-banner bg-lightGold">
+      <div className="flex justify-between items-center px-10 py-2">
         <div>
           <p className="text-xs text-dBrown">
             We detected {changes.map((categorySummary) => (
@@ -309,7 +309,7 @@ function ChangesBanner({
                 </span>
             ))}. You can
             <span
-              className="underline cursor-pointer mx-1"
+              className="mx-1 underline cursor-pointer"
               onClick={() => {
                 setPropShowPopUp?.(true);
               }}
@@ -318,7 +318,7 @@ function ChangesBanner({
             </span>
             or Publish them now to your
             <span
-              className="underline cursor-pointer mx-1"
+              className="mx-1 underline cursor-pointer"
               onClick={() => {
                 navigateToIntegrations && navigateToIntegrations();
                 navigate("/agent", { state: "Integrations/Deploy" });
@@ -329,7 +329,7 @@ function ChangesBanner({
           </p>
         </div>
         <p
-          className="underline text-sm cursor-pointer"
+          className="text-sm underline cursor-pointer"
           onClick={openPublishModal}
         >
           Publish Changes

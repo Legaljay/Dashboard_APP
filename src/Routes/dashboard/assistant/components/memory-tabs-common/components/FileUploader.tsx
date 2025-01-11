@@ -4,6 +4,7 @@ import { FileUploadState } from '../types';
 import docxIcon from '@/assets/svg/docx.svg';
 import deleteIcon from '@/assets/svg/delete.svg';
 import uploadIcon from '@/assets/img/uploadIcon.svg';
+import { UploadChangeParam, UploadFile } from 'antd/es/upload';
 
 interface FileUploaderProps {
   fileState: FileUploadState;
@@ -18,35 +19,48 @@ export const FileUploader: React.FC<FileUploaderProps> = React.memo(({ fileState
     name: 'file',
     multiple: false,
     fileList: fileState.fileList,
+    maxCount: 1,
     beforeUpload: (file: File) => {
-      const isDOC = file.type === 'application/msword';
-      const isDOCX = file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+      const isDoc = file.type === 'application/msword' || 
+                    file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
       
-      if (!isDOC && !isDOCX) {
+      if (!isDoc) {
         message.error('You can only upload Doc files!');
-        onFileChange(null, [{ ...file, status: 'error', name: file.name }]);
-      } else {
-        onFileChange(file, [{ ...file, status: 'success', name: file.name }]);
+        return Upload.LIST_IGNORE;
       }
+      
       return false;
     },
+    onChange: (info: UploadChangeParam<UploadFile>) => {
+      const { file, fileList } = info;
+      
+      if (file.status === 'removed') {
+        onFileChange(null, []);
+      }
+      // For all other cases (like 'error')
+      else {
+        onFileChange(fileList[0]['originFileObj'] || null, fileList);
+      }
+    },
+    accept: '.doc, .docx',
     onRemove: () => {
       onFileChange(null, []);
     },
   };
 
   return (
-    <Dragger {...props}>
+    <Dragger {...props} >
       {fileState.fileList.length ? (
-        <div className="flex flex-col items-center gap-2 py-8 bg-ant">
+        <div className="flex flex-col gap-2 items-center py-8 bg-ant">
           <img src={docxIcon} alt="template" className="w-8 h-8" />
-          <p className="text-BLACK-_200 text-sm">
+          <p className="text-sm text-BLACK-_200">
             {!!fileState.fileList.length && fileState.fileList[0].name}
           </p>
           <div
-            className="flex items-center gap-2 text-RED-_100 text-sm"
+            className="flex gap-2 items-center text-sm text-RED-_100"
             onClick={(e) => {
               e.stopPropagation();
+              e.preventDefault();
               onFileChange(null, []);
             }}
           >

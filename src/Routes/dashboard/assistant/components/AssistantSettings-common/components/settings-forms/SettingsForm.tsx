@@ -1,7 +1,7 @@
 import React from "react";
 import { WanoProfilePicture } from "@/assets/svg";
 import DefaultImage1 from "@/assets/DefaultImage.png";
-import { z } from "zod";
+import { isDirty, z } from "zod";
 import PersonalityField from "@/Routes/auth/customize-assistant/components/PersonalityField";
 import VerbosityField from "./VerbosityField";
 import { SettingsFormData, SettingsFormProps } from "./types";
@@ -44,7 +44,6 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
   const assistantApplication = useAppSelector((state) =>
     state.applications.applications.find(
       (app) => app.id === assistantId
-    //state.applications.selectedApplication
     )
   );
   const updatingAssistant = useAppSelector((state) =>
@@ -52,6 +51,8 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
   );
 
   const assistant = assistantApplication?.draft || assistantApplication;
+
+
   
   //initialize form
   const methods = useForm<SettingsFormDataWithId>({
@@ -73,12 +74,12 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
     handleSubmit,
     register,
     control,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isDirty },
   } = methods;
 
 // show unsaved changes modal if form is dirty
   const { showModal, onClose, onConfirm, onDiscard } = useNavigationBlocker({
-    isDirty: methods.formState.isDirty,
+    isDirty: isDirty,
     basePath: '/assistant',
     onSave: async () => {
         const data = methods.getValues();
@@ -99,7 +100,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
   };
 
   // handle form submit
-  const onSubmit = (
+  const onSubmit = async(
     formData: Omit<SettingsFormDataWithId, "is_light" | "name">
   ) => {
     const completeData: SettingsFormDataWithId = {
@@ -107,7 +108,8 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
       name: formData.sale_agent_name,
     };
     const { assistant_id, icon_url, ...data } = completeData;
-    handleUploadAssistant(data);
+    await handleUploadAssistant(data);
+    methods.reset();
   };
 
 // watch icon_url value to display uploaded image
@@ -115,18 +117,18 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)} className="mb-20 flex gap-5">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex gap-5 mb-20">
         <main>
           <section>
-            <div className="flex gap-20 w-full mb-5">
+            <div className="flex gap-20 mb-5 w-full">
               <div className="w-2/6">
-                <h3 className=" text-sm font-medium">Description</h3>
+                <h3 className="text-sm font-medium">Description</h3>
                 <p className="text-[#7F7F81] font-normal text-xs">
                   Set a description and look for your assistant while it interacts
                   with your customers
                 </p>
               </div>
-              <div className="w-1/2 space-y-3 mb-10">
+              <div className="mb-10 space-y-3 w-1/2">
                 <div className="flex gap-5 items-end">
                   <div className="relative">
                     <WanoProfilePicture />
@@ -161,7 +163,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
                     />
                     <label
                       htmlFor="choosefile"
-                      className="cursor-pointer inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50"
+                      className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm cursor-pointer hover:bg-gray-50"
                     >
                       Choose File
                     </label>
@@ -174,7 +176,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
                   <input
                     type="text"
                     {...register("sale_agent_name")}
-                    className="w-full rounded-lg text-gray-700 bg-white border border-gray-300 px-3 py-2 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="px-3 py-2 w-full text-gray-700 bg-white rounded-lg border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     placeholder="Enter your Assistant's name"
                   />
                   {errors.sale_agent_name && (
@@ -207,7 +209,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
                   <textarea
                     rows={6}
                     {...register("description")}
-                    className="w-full rounded-lg text-gray-700 bg-white border border-gray-300 px-3 py-2 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="px-3 py-2 w-full text-gray-700 bg-white rounded-lg border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     placeholder="Enter your Assistant's description"
                   />
                   {errors.description && (
@@ -221,15 +223,15 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
             <hr className="w-full h-[1px] bg-gray-50" />
           </section>
           <section>
-            <div className="flex gap-20 w-full my-10">
-              <div className=" w-2/6">
-                <p className=" text-xs font-medium">Personality</p>
+            <div className="flex gap-20 my-10 w-full">
+              <div className="w-2/6">
+                <p className="text-xs font-medium">Personality</p>
                 <p className="text-[#7F7F81] text-xs font-normal">
                   Select a Personality for your assistant, you can change this
                   whenever you want
                 </p>
               </div>
-              <div className="w-1/2 space-y-3">
+              <div className="space-y-3 w-1/2">
                 <label className="block text-sm font-medium text-gray-700">
                   Personality Type
                 </label>
@@ -250,14 +252,14 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
             <hr className="w-full h-[1px] bg-gray-50" />
           </section>
           <section>
-            <div className="flex gap-20 w-full my-10">
-              <div className=" w-2/6">
-                <p className=" text-xs font-medium">Verbosity</p>
+            <div className="flex gap-20 my-10 w-full">
+              <div className="w-2/6">
+                <p className="text-xs font-medium">Verbosity</p>
                 <p className="text-[#7F7F81] text-xs font-normal">
                   Adjust Assistant’s response detail or word’s used
                 </p>
               </div>
-              <div className="w-1/2 space-y-3">
+              <div className="space-y-3 w-1/2">
                 <label className="block text-sm font-medium text-gray-700">
                   Choose Verbosity level
                 </label>
@@ -281,7 +283,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
             <DeactivateAssistantField/>
           </section>
         </main>
-        <Button variant="black" disabled={isSubmitting} className="disabled:opacity-50">
+        <Button variant="black" disabled={isSubmitting || !isDirty} className="disabled:opacity-50">
           {isSubmitting || updatingAssistant ? <p>Saving...</p> : <p>Save Changes</p>}
         </Button>
       </form>
@@ -302,7 +304,7 @@ export default SettingsForm;
 //   fields={fields}
 //   onSubmit={handleSubmit}
 //   schema={formSchema}
-//   className="shadow-none border-none pt-3 dark:bg-gray-800"
+//   className="pt-3 border-none shadow-none dark:bg-gray-800"
 //   fieldGroupClassName=""
 //   hideSubmitButton
 //   renderField={(field, form) => {
@@ -312,9 +314,9 @@ export default SettingsForm;
 //           return <AssistantIDField field={field} form={form} />;
 //         case "personality_type":
 //           return (
-//             <section className="flex border-y border-gray-50 my-20">
-//               <div className=" w-2/6">
-//                 <p className=" text-xs font-medium">Personality</p>
+//             <section className="flex my-20 border-gray-50 border-y">
+//               <div className="w-2/6">
+//                 <p className="text-xs font-medium">Personality</p>
 //                 <p className="text-[#7F7F81] text-xs font-normal">
 //                   Select a Personality for your assistant, you can change
 //                   this whenever you want
@@ -332,9 +334,9 @@ export default SettingsForm;
 //           );
 //         case "verbose":
 //           return (
-//             <section className="flex border-y border-gray-50 my-20">
-//               <div className=" w-2/6">
-//                 <p className=" text-xs font-medium">Verbosity</p>
+//             <section className="flex my-20 border-gray-50 border-y">
+//               <div className="w-2/6">
+//                 <p className="text-xs font-medium">Verbosity</p>
 //                 <p className="text-[#7F7F81] text-xs font-normal">
 //                   Adjust Assistant’s response detail or word’s used
 //                 </p>

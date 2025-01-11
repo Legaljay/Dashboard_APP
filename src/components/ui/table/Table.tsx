@@ -17,6 +17,7 @@ import { motion } from "framer-motion";
 import { ChevronDown, ChevronUp, MoreHorizontal, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { TableCard } from "../skeleton/LoadingSkeleton";
+import { Button } from "../button/button";
 
 // Debounce utility function
 const debounce = <T extends (...args: any[]) => any>(
@@ -36,6 +37,7 @@ export interface TableColumn {
 }
 
 export interface TableProps<T> {
+  border?: boolean;
   data: T[];
   columns: ColumnDef<T>[];
   isLoading?: boolean;
@@ -60,11 +62,14 @@ export interface TableProps<T> {
   handleBulkAction?: () => void;
   renderEmptyState?: () => React.ReactNode;
   customEmptyStateMessage?: () => React.ReactNode;
+  setPageSize?: (pageSize: number) => void;
+  setPageCount?: (pageCount: number) => void;
 }
 
 const defaultPollingInterval = 30000; // 30 seconds
 
 export function Table<T>({
+  border = false,
   data,
   columns,
   isLoading = false,
@@ -89,6 +94,8 @@ export function Table<T>({
   handleBulkAction,
   renderEmptyState,
   customEmptyStateMessage,
+  setPageSize,
+  setPageCount,
 }: TableProps<T>) {
   // State management
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -174,20 +181,22 @@ export function Table<T>({
         {customEmptyStateMessage && customEmptyStateMessage()}
         {emptyStateMessage && (<p className="text-gray-500">{emptyStateMessage}</p>)}
         {onRefresh && (
-          <button
-            className="px-4 py-2 mt-4 text-white bg-primary rounded-md hover:bg-primary/80"
+          <Button
+            variant="black"
+            className="px-4 py-2 mt-4 text-white"
             onClick={onRefresh}
           >
             Refresh
-          </button>
+          </Button>
         )}
         {handleButtonClick && (
-          <button
+          <Button
+            variant="black"
             onClick={handleButtonClick}
             className="outline-none py-3 w-auto px-5 bg-[#121212] rounded-lg text-white text-[14px] font-semibold"
           >
             Add Instructions
-          </button>
+          </Button>
         )}
       </div>
     </div>
@@ -240,7 +249,7 @@ export function Table<T>({
     return (
       <div ref={tableContainerRef} className="overflow-auto max-h-[600px]">
         <table className="w-full border-collapse">
-          <thead className="sticky top-0 bg-white z-10">
+          <thead className="sticky top-0 bg-newAsh z-10">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
@@ -248,8 +257,12 @@ export function Table<T>({
                     key={header.id}
                     className={cn(
                       "px-4 py-2 text-left text-sm font-medium text-gray-500 border-b",
-                      header.column.getCanSort() && "cursor-pointer select-none"
+                      header.column.getCanSort() && "cursor-pointer select-none",
+                      "cursor-col-resize select-none",
+                      header.column.getIsResizing() && "bg-secondary-50",
                     )}
+                    onMouseDown={header.getResizeHandler()}
+                    onTouchStart={header.getResizeHandler()}
                     onClick={header.column.getToggleSortingHandler()}
                     style={{ width: header.getSize() }}
                   >
@@ -319,7 +332,7 @@ export function Table<T>({
                       {row.getVisibleCells().map((cell) => (
                         <td
                           key={cell.id}
-                          className="px-4 py-2 text-sm text-gray-900 border-b"
+                          className="px-4 py-2 text-sm text-gray-900"
                         >
                           {flexRender(
                             cell.column.columnDef.cell,
@@ -337,7 +350,7 @@ export function Table<T>({
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     className={cn(
-                      "hover:bg-gray-50 transition-colors",
+                      "hover:bg-gray-50 transition-colors border-b last:border-b-0 border-b-gray-50",
                       onRowClick && "cursor-pointer"
                     )}
                     onClick={() => onRowClick?.(row)}
@@ -345,7 +358,7 @@ export function Table<T>({
                     {row.getVisibleCells().map((cell) => (
                       <td
                         key={cell.id}
-                        className="px-4 py-2 text-sm text-gray-900 border-b"
+                        className="px-4 py-2 text-sm text-gray-900"
                       >
                         {flexRender(
                           cell.column.columnDef.cell,
@@ -385,6 +398,7 @@ export function Table<T>({
         <div className="mt-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <button
+              title="First Page"
               className="px-3 py-1 border rounded-md disabled:opacity-50"
               onClick={() => table.setPageIndex(0)}
               disabled={!table.getCanPreviousPage()}
@@ -392,6 +406,7 @@ export function Table<T>({
               {"<<"}
             </button>
             <button
+              title="Previous Page"
               className="px-3 py-1 border rounded-md disabled:opacity-50"
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
@@ -399,6 +414,7 @@ export function Table<T>({
               {"<"}
             </button>
             <button
+              title="Next Page"
               className="px-3 py-1 border rounded-md disabled:opacity-50"
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
@@ -406,6 +422,7 @@ export function Table<T>({
               {">"}
             </button>
             <button
+              title="Last Page"
               className="px-3 py-1 border rounded-md disabled:opacity-50"
               onClick={() => table.setPageIndex(table.getPageCount() - 1)}
               disabled={!table.getCanNextPage()}
@@ -421,7 +438,10 @@ export function Table<T>({
             <select
               className="px-2 py-1 border rounded-md bg-transparent"
               value={table.getState().pagination.pageSize}
-              onChange={(e) => table.setPageSize(Number(e.target.value))}
+              onChange={(e) => {
+                table.setPageSize(Number(e.target.value));
+                setPageSize?.(Number(e.target.value));
+              }}
             >
               {[10, 25, 50, 100].map((pageSize) => (
                 <option key={pageSize} value={pageSize}>

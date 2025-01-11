@@ -101,11 +101,13 @@ const AssistantDashboard: React.FC = () => {
 
   console.dir(Assistants);
 
-  React.useEffect(() => {
-    if (!state.state.isAuthenticated) {
-      navigate('/');
-    }
-  }, [state.state.isAuthenticated, navigate]);
+  //TODO: to be uncommented
+
+  // React.useEffect(() => {
+  //   if (!state.state.isAuthenticated) {
+  //     navigate('/');
+  //   }
+  // }, [state.state.isAuthenticated, navigate]);
 
   const handleRefresh = () => {
     refetchStats();

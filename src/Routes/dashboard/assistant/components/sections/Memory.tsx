@@ -1,11 +1,11 @@
 import Tabs from "@/components/ui/Tabs";
 import React, { useCallback, useMemo } from "react";
-import Faqs from "../Faqs";
-import ProductsServices from "../ProductsServices";
-import Legal from "../Legal";
-import Support from "../Support";
-import Other from "../Other";
-import About from "../About";
+import Faqs from "../memory-tabs-common/components/Faqs";
+import ProductsServices from "../memory-tabs-common/components/ProductsServices";
+import Legal from "../memory-tabs-common/components/Legal";
+import Support from "../memory-tabs-common/components/Support";
+import Other from "../memory-tabs-common/components/Other";
+import About from "../memory-tabs-common/components/About";
 import MemoryHeader from "./MemoryHeader";
 
 const tabNames = [
@@ -46,10 +46,10 @@ const Memory: React.FC = () => {
   }, [activeTab]);
 
   return (
-    <section className="font-figtree w-full">
+    <section className="w-full font-figtree">
       <MemoryHeader />
-      <div className="flex flex-col items-center justify-center">
-        <Tabs activeTab={activeTab} setActiveTab={switchTab} tabs={tabs} />
+      <div className="flex flex-col justify-center items-center">
+        <Tabs activeTab={activeTab} setActiveTab={switchTab} tabs={tabs} isImportant={[1,2,3]}/>
       </div>
       <div>
         {currentTabComponent}

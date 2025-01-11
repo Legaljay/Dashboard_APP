@@ -55,3 +55,7 @@ export interface FormProps<T extends z.ZodType> {
   hideSubmitButton?: boolean;
   mode?: "onSubmit" | "onChange" | "onBlur" | "onTouched" | "all";
 }
+
+export interface FormRef {
+  submit: () => void;
+}

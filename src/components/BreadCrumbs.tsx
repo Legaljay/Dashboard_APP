@@ -7,12 +7,12 @@ const BreadCrumbs = () => {
 
   return (
     <nav aria-label="breadcrumb">
-      <div className="flex px-6 py-4">
-        {breadcrumbs && (
+      {breadcrumbs.length > 0 && (
+        <div className="flex px-6 py-4">
           <nav aria-label="Breadcrumb" className="mr-4">
-            <ol className="flex items-center justify-center space-x-2">
+            <ol className="flex justify-center items-center space-x-2">
               {breadcrumbs.map((breadcrumb, index) => (
-                <li key={index} className="flex items-center gap-2">
+                <li key={index} className="flex gap-2 items-center">
                   <Link
                     to={breadcrumb.href}
                     className={`text-gray-500 dark:text-[#ccc] hover:text-gray-700 text-sm focus:outline-none  ${
@@ -30,16 +30,13 @@ const BreadCrumbs = () => {
               ))}
             </ol>
           </nav>
-        )}
-      </div>
+        </div>
+      )}
     </nav>
   );
 };
 // focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-white
 export default BreadCrumbs;
-
-
-
 
 /**
  * Capitalizes the first letter of a given string.
@@ -55,8 +52,7 @@ function capitalizeFirstLetter(str: string): string {
 /**
  * Generates an array of breadcrumb objects from the given pathname.
  * Each breadcrumb contains a label and a corresponding href.
- * The function includes all path segments in the href, while 
- * assigning a generic label for parameters (e.g., ':id').
+ * Special handling for dashboard and excluded routes according to requirements.
  *
  * @param {string} pathname - The current pathname to generate breadcrumbs from.
  * @returns {Array<{ label: string; href: string }>} - An array of breadcrumb objects.
@@ -64,21 +60,51 @@ function capitalizeFirstLetter(str: string): string {
 function generateBreadcrumbs(
   pathname: string
 ): { label: string; href: string }[] {
-  const paths =
-    pathname === "/" ? ["Home"] : pathname.split("/").filter(Boolean);
+  const excludedRoutes = [
+    "dashboard", 
+    "customers", 
+    "assistant", 
+    "settings", 
+    "billing", 
+    "support", 
+    "conversations", 
+    "widget", 
+    "appstore", 
+    "deploy", 
+    "ask-assistant"
+  ];
+
+  // Remove trailing slash and split the path
+  const cleanPath = pathname.replace(/\/$/, '');
+  const paths = cleanPath === "/" ? ["Home"] : cleanPath.split("/").filter(Boolean);
+  
+  // If the path only contains dashboard and an excluded route, return empty breadcrumbs
+  if (paths.length === 2 && 
+      paths[0] === "dashboard" && 
+      excludedRoutes.includes(paths[1])) {
+    return [];
+  }
 
   const breadcrumbs: { label: string; href: string }[] = [];
   let currentPath = "";
 
-  for (const path of paths) {
-    // Construct the current path
+  // Process each path segment
+  for (let i = 0; i < paths.length; i++) {
+    const path = paths[i];
+    
+    // Always add path to currentPath
     currentPath += `/${path}`;
-
-    // Determine the label for the breadcrumb
-    const is_ID = path.startsWith(":") || /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(path);
-
-    // Only add to breadcrumbs if the path is not a parameter
-    if (!is_ID){
+    
+    // Skip adding breadcrumb for dashboard but keep it in the path
+    if (path === "dashboard") {
+      continue;
+    }
+    
+    // Check if it's a UUID or parameter
+    const isID = path.startsWith(":") || 
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(path);
+    
+    if (!isID) {
       breadcrumbs.push({
         label: capitalizeFirstLetter(path),
         href: currentPath,

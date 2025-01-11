@@ -14,7 +14,7 @@ const CurrentPlanCard = () => {
   const currentPlanName = "Basic";
   return (
     <div
-      className="w-[373px] h-[168px] py-6 px-5 rounded-xl flex flex-col justify-between gap-1 p-6"
+      className="min-w-[373px] basis-1 h-[168px] py-6 px-5 rounded-xl flex flex-col justify-between gap-1 p-6"
       style={{
         boxShadow: "0px 4px 8px 1px rgba(215, 215, 215, 0.25)",
         background: "linear-gradient(160deg,#F8C4D326 2%,  #1774FD08 68%)",

@@ -121,7 +121,7 @@ const DashboardContainer: React.FC = memo(() => {
       <div className="dashboard-container">
         <div className="error-message">
           {error}
-          <button onClick={() => refreshData()} className="retry-button ml-2">
+          <button onClick={() => refreshData()} className="ml-2 retry-button">
             Retry
           </button>
         </div>
@@ -136,7 +136,7 @@ const DashboardContainer: React.FC = memo(() => {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="!text-xl font-medium !text-BLACK-_600 !mb-1">Welcome, {state.user?.first_name}</h1>
-          <p className="text-BLACK-_300 text-sm">Here's what's happening</p>
+          <p className="text-sm text-BLACK-_300">Here's what's happening</p>
         </div>
         <button
           onClick={() => refreshData()}
@@ -148,7 +148,7 @@ const DashboardContainer: React.FC = memo(() => {
       </div>
       <DashboardStats
         loading={loading}
-        walletBalance={walletCredit}
+        walletBalance={walletBalanceValue as string}
         dashboardData={dashboardData}
         firstRender
         conversationWeek={conversationWeek}
@@ -220,7 +220,7 @@ export default Dashboard;
         />
         <StatCard label="Satisfaction Rate" value={`${stats.satisfaction}%`} />
       </div> */}
-      {/* <div className="flex items-center gap-2 mt-4">
+      {/* <div className="flex gap-2 items-center mt-4">
         <button
           onClick={handleOpenBasicModal}
           className="text-black border-[#1447ad]"

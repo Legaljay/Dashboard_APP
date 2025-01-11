@@ -24,4 +24,20 @@ export default defineConfig({
       '@utils': path.resolve(__dirname, './src/utils'),
     },
   },
+  // server: {
+  //   proxy: {
+  //     '/api': {
+  //       target: process.env.VITE_API_URL,
+  //       changeOrigin: true,
+  //       secure: false, // Add this if dealing with HTTPS
+  //       rewrite: (path) => path.replace(/^\/api/, ''),
+  //       configure: (proxy) => {
+  //         proxy.on('proxyReq', (proxyReq) => {
+  //           proxyReq.removeHeader('origin');
+  //           proxyReq.removeHeader('referer');
+  //         });
+  //       }
+  //     }
+  //   }
+  // }
 })

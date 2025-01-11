@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { z } from "zod";
 import { Form } from "@/components/ui/form/Form";
@@ -13,6 +13,7 @@ import { useParams } from "react-router-dom";
 import { useToast } from "@/contexts/ToastContext";
 import { Modal } from "@/components/ui/modal/Modal";
 import { Button } from "@/components/ui/button/button";
+import { useMemoryFiles } from "../hooks/useMemoryFiles";
 
 const schema = z.object({
   answerOne: z.string().min(1, "This field is required"),
@@ -29,7 +30,9 @@ const AboutTemplate: React.FC<{ handleClose: () => void; key: string }> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { addToast } = useToast();
+  const formRef = React.useRef<HTMLFormElement>(null);
   const { assistantId: applicationId = "" } = useParams();
+  const { refetch } = useMemoryFiles(applicationId, "about");
   const [loading, setLoading] = useState(false);
   const [fetchedData, setFetchedData] = useState<MemoryTEmplate[]>([]);
 
@@ -39,7 +42,13 @@ const AboutTemplate: React.FC<{ handleClose: () => void; key: string }> = ({
     }
   }, [applicationId]);
 
-  const fetchData = async () => {
+  const handleTriggerSubmit = useCallback(() => {
+    if (formRef.current) {
+      formRef.current.submit(); 
+    }
+  }, []);
+
+  const fetchData = useCallback(async () => {
     try {
       const response = await dispatch(
         fetchMemoryTemplates(applicationId)
@@ -48,7 +57,7 @@ const AboutTemplate: React.FC<{ handleClose: () => void; key: string }> = ({
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
+  }, [dispatch, applicationId]);
 
   const getAnswerByCategoryAndQuestion = (
     category: string,
@@ -93,7 +102,7 @@ const AboutTemplate: React.FC<{ handleClose: () => void; key: string }> = ({
     },
   ];
 
-  const onSubmit = async (values: FormValues) => {
+  const onSubmit = useCallback(async (values: FormValues) => {
     setLoading(true);
     try {
       const template = {
@@ -124,16 +133,18 @@ const AboutTemplate: React.FC<{ handleClose: () => void; key: string }> = ({
         ].filter((item) => item.answer),
       };
 
-      await dispatch(createMemoryTemplate({ applicationId, template }));
-      addToast("success", "About template updated successfully");
-      setLoading(false);
-      handleClose();
+      const response = await dispatch(createMemoryTemplate({ applicationId, template })).unwrap();
+      if (response.status) {
+        addToast("success", response.message || "About template updated successfully");
+        setLoading(false);
+        handleClose();
+      }
     } catch (error) {
       console.error("Error submitting form:", error);
       addToast("error", "Error updating about template. Please try again.");
       setLoading(false);
     }
-  };
+  }, [dispatch, addToast, applicationId, handleClose]);
 
   const defaultValues = {
     answerOne: getAnswerByCategoryAndQuestion(
@@ -157,11 +168,10 @@ const AboutTemplate: React.FC<{ handleClose: () => void; key: string }> = ({
   const renderHeader = () => (
     <div className="flex items-center">
       <div>
-        <p className="text-xs leading-5 font-normal text-BLACK-_200">
+        <p className="text-xs font-normal leading-5 text-BLACK-_200">
           Fill the template with the necessary information.
         </p>
       </div>
-      {/* */}
     </div>
   );
 
@@ -170,19 +180,20 @@ const AboutTemplate: React.FC<{ handleClose: () => void; key: string }> = ({
       <Modal.Header className="px-6 py-2 border-none">{renderHeader()}</Modal.Header>
       <Modal.Body className="overflow-y-scroll max-h-[60dvh]">
         <Form
+          ref={formRef}
           fields={fields}
           schema={schema}
           onSubmit={onSubmit}
           defaultValues={defaultValues}
           loading={loading}
           submitLabel="Upload"
-          className="flex flex-col gap-6 p-6 shadow-none border-none"
+          className="flex flex-col gap-6 p-6 border-none shadow-none"
           fieldGroupClassName="space-y-4"
           // renderHeader={renderHeader}
           hideSubmitButton
         />
       </Modal.Body>
-      <Modal.Footer className="flex justify-end gap-5">
+      <Modal.Footer className="flex gap-5 justify-end">
         <Button
           type="button"
           size={"lg"}
@@ -191,7 +202,7 @@ const AboutTemplate: React.FC<{ handleClose: () => void; key: string }> = ({
         >
           Cancel
         </Button>
-        <Button type="submit" size={"lg"} variant="black">
+        <Button type="button" size={"lg"} variant="black" onClick={handleTriggerSubmit}>
           Save
         </Button>
       </Modal.Footer>

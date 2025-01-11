@@ -18,6 +18,7 @@ import { fetchApplications } from "@/redux-slice/applications/applications.slice
 import TokenService from "@/utils/token";
 import ChangesBanner from "@/components/ui/modals/ChangesBanner";
 import ProFeatures from "@/components/ui/modals/pro-service-modals";
+import TestAssistant from "./assistant/components/test-assistant-modal/TestAssistant";
 
 interface Business {
   id: string;
@@ -352,9 +353,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
           <ChangesBanner />
           <BreadCrumbs />
           <div className="h-full w-full overflow-y-auto">{children}</div>
-          {/* {!["customers", "agent", "askAgent"].includes(activeButton) && (
-            <div className="w-10 h-6 fixed bottom-4 right-0">TestAgent Component Placeholder</div>
-        )} */}
+          <TestAssistant propShowPopUp={false} setPropShowPopUp={() => {}} />
         </main>
       </div>
     </div>

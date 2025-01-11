@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { z } from "zod";
 import { Form } from "@/components/ui/form/Form";
@@ -33,8 +33,15 @@ const FaqTemplate: React.FC<{ handleClose: () => void, key: string }> = ({ handl
   const dispatch = useAppDispatch();
   const { addToast } = useToast();
   const { assistantId: applicationId = '' } = useParams();
+  const formRef = React.useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
   const [questionCount, setQuestionCount] = useState(1);
+
+  const handleTriggerSubmit = useCallback(() => {
+    if (formRef.current) {
+      formRef.current.submit(); 
+    }
+  }, []);
 
   const onSubmit = async (values: FormValues) => {
     setLoading(true);
@@ -43,10 +50,12 @@ const FaqTemplate: React.FC<{ handleClose: () => void, key: string }> = ({ handl
         data: values.questionsAndAnswers.filter(item => item.answer && item.question)
       };
 
-      await dispatch(createMemoryTemplate({ applicationId, template }));
-      addToast('success', "FAQ template updated successfully");
-      setLoading(false);
-      handleClose();
+      const response = await dispatch(createMemoryTemplate({ applicationId, template })).unwrap();
+      if (response.status) {
+        addToast('success', response.message || "FAQ template updated successfully");
+        setLoading(false);
+        handleClose();
+      }
     } catch (error) {
       console.error("Error submitting form:", error);
       addToast("error", "Error updating FAQ template. Please try again.");
@@ -82,7 +91,7 @@ const FaqTemplate: React.FC<{ handleClose: () => void, key: string }> = ({ handl
   const renderHeader = () => (
     <div className="flex justify-between items-center">
       <div className="flex flex-col gap-1">
-        <p className="text-xs leading-5 font-normal text-BLACK-_200">
+        <p className="text-xs font-normal leading-5 text-BLACK-_200">
           Fill the template with the necessary information.
         </p>
       </div>
@@ -90,7 +99,7 @@ const FaqTemplate: React.FC<{ handleClose: () => void, key: string }> = ({ handl
   );
 
   const renderAddButton = () => (
-    <div className="w-full flex justify-end">
+    <div className="flex justify-end w-full">
       <p 
         className="text-[#1774FD] text-sm font-semibold cursor-pointer" 
         onClick={() => {
@@ -112,20 +121,21 @@ const FaqTemplate: React.FC<{ handleClose: () => void, key: string }> = ({ handl
       </Modal.Header>
       <Modal.Body className="overflow-y-scroll max-h-[60dvh]">
       <Form
+        ref={formRef}
         fields={generateFields()}
         schema={schema}
         onSubmit={onSubmit}
         defaultValues={initialValues}
         loading={loading}
         submitLabel="Upload"
-        className="flex flex-col gap-6 px-6 pb-6 pt-0 shadow-none border-none"
+        className="flex flex-col gap-6 px-6 pt-0 pb-6 border-none shadow-none"
         fieldGroupClassName="space-y-4"
         // renderHeader={renderHeader}
         renderButton={renderAddButton}
         hideSubmitButton
       />
       </Modal.Body>
-      <Modal.Footer className="flex justify-end gap-5">
+      <Modal.Footer className="flex gap-5 justify-end">
         <Button
           type="button"
           size={"lg"}
@@ -134,7 +144,7 @@ const FaqTemplate: React.FC<{ handleClose: () => void, key: string }> = ({ handl
         >
           Cancel
         </Button>
-        <Button type="submit" size={"lg"} variant="black">
+        <Button type="button" size={"lg"} variant="black" onClick={handleTriggerSubmit}>
           Save
         </Button>
       </Modal.Footer>

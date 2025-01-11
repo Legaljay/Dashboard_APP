@@ -6,19 +6,23 @@ import { cn } from '@/lib/utils';
 export interface TableAction {
   label: string;
   icon?: React.ReactNode;
-  onClick: () => void;
+  // onClick: () => void;
   disabled?: boolean;
   variant?: 'default' | 'destructive';
+  onClick: (row: any) => void;
+  className?: string;
 }
 
 interface TableDropdownMenuProps {
   actions: TableAction[];
   className?: string;
+  info: any;
 }
 
 export const TableDropdownMenu: React.FC<TableDropdownMenuProps> = ({
   actions,
   className,
+  info,
 }) => {
   return (
     <DropdownMenu.Root>
@@ -57,7 +61,7 @@ export const TableDropdownMenu: React.FC<TableDropdownMenuProps> = ({
                 'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
                 action.variant === 'destructive' && 'text-red-600 focus:text-red-50'
               )}
-              onClick={action.onClick}
+              onClick={() => action.onClick(info.row.original)}
               disabled={action.disabled}
             >
               {action.icon && (

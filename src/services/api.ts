@@ -1,7 +1,7 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { store } from '../redux-slice/store';
-import { RootState } from '../redux-slice/store';
-import environmentUtil from '@/lib/env.util';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import { store } from "../redux-slice/store";
+import { RootState } from "../redux-slice/store";
+import environmentUtil from "@/lib/env.util";
 
 export class ApiService {
   private static instance: ApiService;
@@ -9,10 +9,12 @@ export class ApiService {
 
   private constructor() {
     this.api = axios.create({
-      baseURL: environmentUtil.BASE_URL, // || 'http://localhost:3000',
+      baseURL: environmentUtil.BASE_URL,
       timeout: 15000,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
+        // "Access-Control-Allow-Origin": "*",
+        // "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
       },
     });
 
@@ -32,11 +34,11 @@ export class ApiService {
       (config) => {
         const state = store.getState() as RootState;
         const token = state.auth.token;
-        
+
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;
         }
-        
+
         return config;
       },
       (error) => {
@@ -56,9 +58,11 @@ export class ApiService {
 
           try {
             // Attempt to refresh token
-            const refreshToken = localStorage.getItem('refreshToken');
-            const response = await this.api.post('/auth/refresh', { refreshToken });
-            if(!response.data){
+            const refreshToken = localStorage.getItem("refreshToken");
+            const response = await this.api.post("/auth/refresh", {
+              refreshToken,
+            });
+            if (!response.data) {
               localStorage.clear();
               window.location.href = "/login";
               return Promise.reject(error);
@@ -66,14 +70,14 @@ export class ApiService {
             const { token } = response.data;
 
             // Update token in store
-            store.dispatch({ type: 'auth/setCredentials', payload: { token } });
+            store.dispatch({ type: "auth/setCredentials", payload: { token } });
 
             // Retry original request
             originalRequest.headers.Authorization = `Bearer ${token}`;
             return this.api(originalRequest);
           } catch (refreshError) {
             // Handle refresh token failure
-            store.dispatch({ type: 'auth/clearCredentials' });
+            store.dispatch({ type: "auth/clearCredentials" });
             return Promise.reject(refreshError);
           }
         }
@@ -83,23 +87,41 @@ export class ApiService {
     );
   }
 
-  public async get<T = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+  public async get<T = any>(
+    url: string,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<T>> {
     return this.api.get<T>(url, config);
   }
 
-  public async post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+  public async post<T = any>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<T>> {
     return this.api.post<T>(url, data, config);
   }
 
-  public async put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+  public async put<T = any>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<T>> {
     return this.api.put<T>(url, data, config);
   }
 
-  public async patch<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+  public async patch<T = any>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<T>> {
     return this.api.patch<T>(url, data, config);
   }
 
-  public async delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+  public async delete<T = any>(
+    url: string,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<T>> {
     return this.api.delete<T>(url, config);
   }
 }

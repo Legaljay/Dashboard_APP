@@ -1,14 +1,14 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { api } from '@/services/api';
-import { ApiEndpoints } from '@/enums/api.enum';
-import { RootState } from '../store';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { api } from "@/services/api";
+import { ApiEndpoints } from "@/enums/api.enum";
+import { RootState } from "../store";
 
 interface ChatMessage {
   id: string;
   content: string;
   sender: {
     id: string;
-    type: 'user' | 'employee' | 'system';
+    type: "user" | "employee" | "system";
     name: string;
   };
   timestamp: string;
@@ -18,11 +18,11 @@ interface ChatMessage {
 interface Chat {
   id: string;
   applicationId: string;
-  status: 'active' | 'closed';
+  status: "active" | "closed";
   messages: ChatMessage[];
   participants: {
     id: string;
-    type: 'user' | 'employee' | 'system';
+    type: "user" | "employee" | "system";
     name: string;
   }[];
   createdAt: string;
@@ -33,6 +33,7 @@ interface Chat {
 interface AppChatState {
   chats: Chat[];
   activeChat: Chat | null;
+  chatID: string;
   loading: {
     list: boolean;
     create: boolean;
@@ -56,6 +57,7 @@ interface AppChatState {
 const initialState: AppChatState = {
   chats: [],
   activeChat: null,
+  chatID: "",
   loading: {
     list: false,
     create: false,
@@ -77,101 +79,239 @@ const initialState: AppChatState = {
 };
 
 export const fetchChats = createAsyncThunk(
-  'appChat/fetchChats',
+  "appChat/fetchChats",
   async (applicationId: string, { rejectWithValue }) => {
     try {
       const response = await api.get(
-        ApiEndpoints.APP_CHAT.replace(':applicationId', applicationId)
+        ApiEndpoints.APP_CHAT.replace(":applicationId", applicationId)
       );
       return response.data.data;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to fetch chats');
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to fetch chats"
+      );
     }
   }
 );
 
 export const createChat = createAsyncThunk(
-  'appChat/createChat',
-  async ({ applicationId, chatData }: { applicationId: string; chatData: Partial<Chat> }, { rejectWithValue }) => {
+  "appChat/createChat",
+  async (
+    {
+      applicationId,
+      chatData,
+    }: { applicationId: string; chatData: Partial<Chat> },
+    { rejectWithValue }
+  ) => {
     try {
       const response = await api.post(
-        ApiEndpoints.APP_CHAT_CREATE.replace(':applicationId', applicationId),
+        ApiEndpoints.APP_CHAT_CREATE.replace(":applicationId", applicationId),
         chatData
       );
       return response.data.data;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to create chat');
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to create chat"
+      );
     }
   }
 );
 
 export const createDemoChat = createAsyncThunk(
-  'appChat/createDemoChat',
+  "appChat/createDemoChat",
   async (applicationId: string, { rejectWithValue }) => {
     try {
       const response = await api.post(
-        ApiEndpoints.APP_CHAT_DEMO.replace(':applicationId', applicationId)
+        ApiEndpoints.APP_CHAT_DEMO.replace(":applicationId", applicationId)
       );
       return response.data.data;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to create demo chat');
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to create demo chat"
+      );
     }
   }
 );
 
 export const createEmployeeChat = createAsyncThunk(
-  'appChat/createEmployeeChat',
-  async ({ applicationId, employeeData }: { applicationId: string; employeeData: any }, { rejectWithValue }) => {
+  "appChat/createEmployeeChat",
+  async (
+    {
+      applicationId,
+      employeeData,
+    }: { applicationId: string; employeeData: any },
+    { rejectWithValue }
+  ) => {
     try {
       const response = await api.post(
-        ApiEndpoints.APP_CHAT_CREATE_EMPLOYEE.replace(':applicationId', applicationId),
+        ApiEndpoints.APP_CHAT_CREATE_EMPLOYEE.replace(
+          ":applicationId",
+          applicationId
+        ),
         employeeData
       );
       return response.data.data;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to create employee chat');
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to create employee chat"
+      );
     }
   }
 );
 
 export const deleteChat = createAsyncThunk(
-  'appChat/deleteChat',
-  async ({ applicationId, chatId }: { applicationId: string; chatId: string }, { rejectWithValue }) => {
+  "appChat/deleteChat",
+  async (
+    { applicationId, chatId }: { applicationId: string; chatId: string },
+    { rejectWithValue }
+  ) => {
     try {
       const response = await api.delete(
-        ApiEndpoints.APP_CHAT_DELETE
-          .replace(':applicationId', applicationId)
-          .replace(':id', chatId)
+        ApiEndpoints.APP_CHAT_DELETE.replace(
+          ":applicationId",
+          applicationId
+        ).replace(":id", chatId)
       );
       return { chatId, ...response.data.data };
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to delete chat');
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to delete chat"
+      );
     }
   }
 );
 
 export const sendDemoMessage = createAsyncThunk(
-  'appChat/sendDemoMessage',
+  "appChat/sendDemoMessage",
   async (
-    { applicationId, chatId, message }: { applicationId: string; chatId: string; message: string },
+    {
+      applicationId,
+      chatId,
+      message,
+    }: { applicationId: string; chatId: string; message: string },
     { rejectWithValue }
   ) => {
     try {
       const response = await api.post(
-        ApiEndpoints.APP_CHAT_SEND_DEMO
-          .replace(':applicationId', applicationId)
-          .replace(':askAgentChatId', chatId),
+        ApiEndpoints.APP_CHAT_SEND_DEMO.replace(
+          ":applicationId",
+          applicationId
+        ).replace(":askAgentChatId", chatId),
         { message }
       );
       return response.data.data;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to send demo message');
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to send demo message"
+      );
+    }
+  }
+);
+
+export const sendChatDemo = createAsyncThunk(
+  "appChat/sendChatDemo",
+  async (
+    {
+      applicationId,
+      agentChatID,
+    }: { applicationId: string; agentChatID: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await api.post(
+        ApiEndpoints.APP_CHAT_SEND_DEMO.replace(
+          ":applicationId",
+          applicationId
+        ).replace(":askAgentChatId", agentChatID)
+      );
+      return response.data.data;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to create chat"
+      );
+    }
+  }
+);
+
+export const sendChatTestEmployee = createAsyncThunk(
+  "appChat/sendChatTestEmployee",
+  async (
+    {
+      applicationId,
+      agentChatID,
+      data,
+    }: { applicationId: string; agentChatID: string; data: { message: string; assistant_type: string } },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await api.post(
+        ApiEndpoints.APP_CHAT_SEND_TEST_EMPLOYEE.replace(
+          ":applicationId",
+          applicationId
+        ).replace(":askAgentChatId", agentChatID),
+        data,
+      );
+      return response.data.data;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to create chat"
+      );
+    }
+  }
+);
+
+export const sendChat = createAsyncThunk(
+  "appChat/sendChat",
+  async (
+    {
+      applicationId,
+      agentChatID,
+    }: { applicationId: string; agentChatID: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await api.post(
+        ApiEndpoints.APP_CHAT_SEND.replace(
+          ":applicationId",
+          applicationId
+        ).replace(":askAgentChatId", agentChatID)
+      );
+      return response.data.data;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to create chat"
+      );
+    }
+  }
+);
+
+export const chatConversation = createAsyncThunk(
+  "appChat/chatConversation",
+  async (
+    {
+      applicationId,
+      agentChatID,
+    }: { applicationId: string; agentChatID: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await api.post(
+        ApiEndpoints.APP_CHAT_CONVERSATIONS.replace(
+          ":applicationId",
+          applicationId
+        ).replace(":askAgentChatId", agentChatID)
+      );
+      return response.data.data;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to create chat"
+      );
     }
   }
 );
 
 const appChatSlice = createSlice({
-  name: 'appChat',
+  name: "appChat",
   initialState,
   reducers: {
     clearErrors: (state) => {
@@ -188,6 +328,9 @@ const appChatSlice = createSlice({
     resetState: () => initialState,
     setActiveChat: (state, action) => {
       state.activeChat = action.payload;
+    },
+    setChatID: (state, action) => {
+      state.chatID = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -258,7 +401,9 @@ const appChatSlice = createSlice({
       })
       .addCase(deleteChat.fulfilled, (state, action) => {
         state.loading.delete = false;
-        state.chats = state.chats.filter(chat => chat.id !== action.payload.chatId);
+        state.chats = state.chats.filter(
+          (chat) => chat.id !== action.payload.chatId
+        );
         if (state.activeChat?.id === action.payload.chatId) {
           state.activeChat = null;
         }
@@ -278,7 +423,9 @@ const appChatSlice = createSlice({
         if (state.activeChat?.id === action.payload.chatId) {
           state.activeChat?.messages.push(action.payload);
         }
-        const chatIndex = state.chats.findIndex(chat => chat.id === action.payload.chatId);
+        const chatIndex = state.chats.findIndex(
+          (chat) => chat.id === action.payload.chatId
+        );
         if (chatIndex !== -1) {
           state.chats[chatIndex].messages.push(action.payload);
         }
@@ -290,7 +437,7 @@ const appChatSlice = createSlice({
   },
 });
 
-export const { clearErrors, resetState, setActiveChat } = appChatSlice.actions;
+export const { clearErrors, resetState, setActiveChat, setChatID } = appChatSlice.actions;
 
 // Selectors
 export const selectAppChatState = (state: RootState) => state.appChat;
@@ -301,9 +448,10 @@ export const selectAppChatError = (state: RootState) => state.appChat.error;
 
 // Memoized Selectors
 export const selectChatById = (chatId: string) => (state: RootState) =>
-  state.appChat.chats.find(chat => chat.id === chatId);
+  state.appChat.chats.find((chat) => chat.id === chatId);
 
 export const selectActiveChatMessages = (state: RootState) =>
   state.appChat.activeChat?.messages || [];
+
 
 export default appChatSlice.reducer;

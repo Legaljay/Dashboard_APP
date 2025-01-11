@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { api } from '@/services/api';
 import { ApiEndpoints } from '@/enums/api.enum';
 import { RootState } from '../store';
+import { AxiosProgressEvent } from 'axios';
 
 export interface AppMemoryFile {
   id: string;
@@ -25,6 +26,7 @@ interface AppMemoryState {
   memoryFiles: AppMemoryFile[];
   selectedMemoryFile: AppMemoryFile | null;
   applicationId: string;
+  progress: number;
   trainingStatus: TrainingStatus | null;
   loading: {
     fetchMemoryFiles: boolean;
@@ -48,6 +50,7 @@ const initialState: AppMemoryState = {
   memoryFiles: [],
   selectedMemoryFile: null,
   applicationId: "",
+  progress: 0,
   trainingStatus: null,
   loading: {
     fetchMemoryFiles: false,
@@ -105,10 +108,12 @@ export const createMemoryFile = createAsyncThunk(
   async (
     { 
       applicationId, 
-      fileData 
+      fileData,
+      onProgress, 
     }: { 
       applicationId: string; 
       fileData: FormData; // Using FormData for file upload
+      onProgress?: (progress: number) => void;
     },
     { rejectWithValue }
   ) => {
@@ -120,9 +125,19 @@ export const createMemoryFile = createAsyncThunk(
           headers: {
             'Content-Type': 'multipart/form-data',
           },
+          onUploadProgress: (progressEvent: AxiosProgressEvent) => {
+            const { loaded, total } = progressEvent;
+            if (!total) {
+              return;
+            }
+            const percentCompleted = Math.round(
+              (loaded * 100) / total
+            );
+            onProgress?.(percentCompleted);
+          },
         }
       );
-      return {applicationId, data: response.data.data };
+      return {applicationId, data: response.data };
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to create memory file');
     }
@@ -155,12 +170,12 @@ export const publishMemoryFile = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await api.post(
+      const response = await api.put(
         ApiEndpoints.APP_MEMORY_PUBLISH
           .replace(':applicationId', applicationId)
           .replace(':applicationAssistantFileId', fileId)
       );
-      return {applicationId, data: response.data.data};
+      return {applicationId, data: response.data};
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to publish memory file');
     }
@@ -194,6 +209,9 @@ const appMemorySlice = createSlice({
         publishMemoryFile: null,
         trainMemory: null,
       };
+    },
+    setUploadProgress: (state, action) => {
+      state.progress = action.payload;
     },
     resetState: () => initialState,
     clearSelectedMemoryFile: (state) => {
@@ -242,7 +260,7 @@ const appMemorySlice = createSlice({
       })
       .addCase(createMemoryFile.fulfilled, (state, action) => {
         state.loading.createMemoryFile = false;
-        state.memoryFiles.unshift(action.payload.data);
+        // state.memoryFiles.unshift(action.payload.data);
         state.applicationId = action.payload.applicationId;
       })
       .addCase(createMemoryFile.rejected, (state, action) => {
@@ -276,11 +294,11 @@ const appMemorySlice = createSlice({
       .addCase(publishMemoryFile.fulfilled, (state, action) => {
         state.loading.publishMemoryFile = false;
         state.applicationId = action.payload.applicationId;
-        state.selectedMemoryFile = action.payload.data;
-        const index = state.memoryFiles.findIndex(f => f.id === action.payload.data.id);
-        if (index !== -1) {
-          state.memoryFiles[index] = action.payload.data;
-        }
+        // state.selectedMemoryFile = action.payload.data;
+        // const index = state.memoryFiles.findIndex(f => f.id === action.payload.data.id);
+        // if (index !== -1) {
+        //   state.memoryFiles[index] = action.payload.data;
+        // }
       })
       .addCase(publishMemoryFile.rejected, (state, action) => {
         state.loading.publishMemoryFile = false;
@@ -316,7 +334,8 @@ export const {
   clearErrors, 
   resetState, 
   clearSelectedMemoryFile,
-  updateTrainingStatus 
+  updateTrainingStatus,
+  setUploadProgress, 
 } = appMemorySlice.actions;
 
 // Selectors

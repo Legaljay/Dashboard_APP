@@ -48,7 +48,7 @@ const AddInstructionCategory: React.FC<{ applicationId: string }> = ({ applicati
       addToast("success", "Category created successfully");
       closeModal(MODAL_IDS.custom("add-instruction-category"));
     } catch (error: any) {
-      addToast("error", error?.message || "Failed to verify code");
+      addToast("error", error?.message || "Failed to create instruction category");
     }
   };
 
@@ -63,11 +63,11 @@ const AddInstructionCategory: React.FC<{ applicationId: string }> = ({ applicati
           fields={createCategoryFields}
           schema={createCategoryFormSchema}
           onSubmit={handleCreateCategory}
-          className="space-y-6 shadow-none border-none p-0"
+          className="p-0 space-y-6 border-none shadow-none"
           mode="all" // Only validate on form submission
           hideSubmitButton
           renderButton={(form) => (
-            <div className="flex justify-end gap-2 w-2/5">
+            <div className="flex gap-2 justify-end w-2/5">
               <Button
                 onClick={onClose}
                 className="hover:bg-[#FAFAFA] !border !border-[#D0D5DD] bg-transparent w-full py-2 rounded-lg text-sm font-semibold !text-[#7F7f81]"

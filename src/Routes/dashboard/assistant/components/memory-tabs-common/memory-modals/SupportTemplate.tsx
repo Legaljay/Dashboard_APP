@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { z } from "zod";
 import { Form } from "@/components/ui/form/Form";
@@ -30,6 +30,7 @@ const SupportTemplate: React.FC<{ handleClose: () => void, key: string }> = ({ h
   const dispatch = useAppDispatch();
   const { addToast } = useToast();
   const { assistantId: applicationId = ''} = useParams();
+  const formRef = React.useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
   const [fetchedData, setFetchedData] = useState<MemoryTEmplate[]>([]);
   const [countrycode, setCountrycode] = useState("+234");
@@ -121,8 +122,14 @@ const SupportTemplate: React.FC<{ handleClose: () => void, key: string }> = ({ h
       placeholder: "Enter additional information",
     },
   ];
-
-  const onSubmit = async (values: FormValues) => {
+  
+  const handleTriggerSubmit = useCallback(() => {
+    if (formRef.current) {
+      formRef.current.submit(); 
+    }
+  }, []);
+  
+  const onSubmit = useCallback(async (values: FormValues) => {
     setLoading(true);
     try {
       const template = {
@@ -180,16 +187,19 @@ const SupportTemplate: React.FC<{ handleClose: () => void, key: string }> = ({ h
         ].filter(item => item.answer),
       };
 
-      await dispatch(createMemoryTemplate({ applicationId, template }));
-      addToast('success', "Support template updated successfully");
-      setLoading(false);
+      const response = await dispatch(createMemoryTemplate({ applicationId, template })).unwrap();
+      if (response.status) {
+        addToast('success', response.message || "Support template updated successfully");
+        setLoading(false);
+        handleClose();
+      }
       
     } catch (error) {
       console.error("Error submitting form:", error);
       addToast("error", "Error updating support template. Please try again.");
       setLoading(false);
     }
-  };
+  }, [addToast, handleClose]);
 
   const defaultValues = {
     numberOne: getAnswerByCategoryAndQuestion("support", "PhoneNumberOne"),
@@ -216,7 +226,7 @@ const SupportTemplate: React.FC<{ handleClose: () => void, key: string }> = ({ h
   const renderHeader = () => (
     <div className="flex items-center">
       <div>
-        <p className="text-xs leading-5 font-normal text-BLACK-_200">
+        <p className="text-xs font-normal leading-5 text-BLACK-_200">
           Fill the template with the necessary information.
         </p>
       </div>
@@ -230,19 +240,20 @@ const SupportTemplate: React.FC<{ handleClose: () => void, key: string }> = ({ h
       </Modal.Header>
       <Modal.Body className="overflow-y-scroll max-h-[60dvh]">
         <Form
+          ref={formRef}
           fields={fields}
           schema={schema}
           onSubmit={onSubmit}
           defaultValues={defaultValues}
           loading={loading}
           submitLabel="Upload"
-          className="flex flex-col gap-6 px-0 pb-6 pt-0 shadow-none border-none"
+          className="flex flex-col gap-6 px-0 pt-0 pb-6 border-none shadow-none"
           fieldGroupClassName="space-y-4"
           // renderHeader={renderHeader}
           hideSubmitButton
         />
       </Modal.Body>
-      <Modal.Footer className="flex justify-end gap-5">
+      <Modal.Footer className="flex gap-5 justify-end">
         <Button
           type="button"
           size={"lg"}
@@ -251,7 +262,7 @@ const SupportTemplate: React.FC<{ handleClose: () => void, key: string }> = ({ h
         >
           Cancel
         </Button>
-        <Button type="submit" size={"lg"} variant="black">
+        <Button type="button" size={"lg"} variant="black" onClick={handleTriggerSubmit}>
           Save
         </Button>
       </Modal.Footer>

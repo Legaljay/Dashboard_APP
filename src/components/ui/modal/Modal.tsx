@@ -13,6 +13,7 @@ interface ModalProps {
   children: React.ReactNode;
   footer?: React.ReactNode;
   onClose?: () => void;
+  renderCustomHeader?: () => React.ReactNode;
   className?: string;
   childClassName?: string;
   showCloseButton?: boolean;
@@ -30,18 +31,19 @@ export const Modal: ModalComponent = ({
   children,
   footer,
   onClose,
+  renderCustomHeader,
   className,
   childClassName,
   showCloseButton = true,
 }) => {
   return (
     <div className={cn(
-      'bg-white rounded-lg shadow-xl transform transition-all overflow-hidden',
+      'overflow-hidden bg-white rounded-lg shadow-xl transition-all transform',
       className
     )}>
       {/* Header */}
-      {(title || showCloseButton) && (
-        <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+      {renderCustomHeader ? renderCustomHeader() : ((title || showCloseButton) && (
+        <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200">
           <div>
             {title && (
               <h3 className="text-lg font-medium text-gray-900">
@@ -58,13 +60,13 @@ export const Modal: ModalComponent = ({
             <button
               type="button"
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 rounded-full p-1"
+              className="p-1 text-gray-400 rounded-full hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
-              <X className="h-5 w-5" />
+              <X className="w-5 h-5" />
             </button>
           )}
         </div>
-      )}
+      ))}
 
       {/* Content */}
       <div className={cn("px-6 py-4", childClassName)}>
@@ -148,7 +150,7 @@ export const ConfirmModal: React.FC<{
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 bg-red-600 border border-gray-300 rounded-md text-sm font-medium text-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             {cancelText}
           </button>
@@ -156,7 +158,7 @@ export const ConfirmModal: React.FC<{
             type="button"
             onClick={onConfirm}
             className={cn(
-              'px-4 py-2 rounded-md text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all',
+              'px-4 py-2 text-sm font-medium text-white rounded-md transition-all focus:outline-none focus:ring-2 focus:ring-offset-2',
               buttonColors[type]
             )}
           >

@@ -30,7 +30,7 @@ const CreditBalanceCard: React.FC<CreditBalanceCardProps> = ({
   const [amount, setAmount] = React.useState<number>(0);
   const convertedCredit = useMemo(
     () =>
-      Math.floor(walletBalance?.balance || 0)
+      parseFloat(walletBalance || 0)
         .toFixed(2)
         .toLocaleString(),
     [walletBalance]
@@ -118,7 +118,7 @@ const CreditBalanceCard: React.FC<CreditBalanceCardProps> = ({
 
   return (
     <div
-      className="min-w-[30.3%] py-5 px-3.5 rounded-xl step-1 space-y-2"
+      className="min-w-[373px] basis-1 py-5 px-3.5 rounded-xl step-1 space-y-2"
       style={{
         boxShadow: "0px 4px 8px 1px rgba(215, 215, 215, 0.25)",
         background:
@@ -133,14 +133,14 @@ const CreditBalanceCard: React.FC<CreditBalanceCardProps> = ({
         </button>
       </div>
       <div className="flex flex-col w-[119px] gap-2">
-        <p className="text-BLACK-_300 text-xs">Credits</p>
-        <p className="text-2xl text-BLACK-_600 font-semibold">
+        <p className="text-xs text-BLACK-_300">Credits</p>
+        <p className="text-2xl font-semibold text-BLACK-_600">
           ${convertedCredit.toLowerCase() !== "nan" ? convertedCredit : 0}
         </p>
       </div>
       <div className="flex justify-between items-center">
-        <p className="text-BLACK-_300 text-xs">
-          Gift Balance <span>${giftBalance?.balance}</span>
+        <p className="text-xs text-BLACK-_300">
+          Gift Balance <span>${giftBalance}</span>
         </p>
         <Button
           className="flex gap-1 p-0 h-fit"

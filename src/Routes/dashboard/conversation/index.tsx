@@ -2,6 +2,7 @@
 import React, { Suspense } from 'react';
 import { Routes, Route, useSearchParams, Link } from 'react-router-dom';
 import ConversationChats from './components/ConversationChats';
+import PaymentRequestComponent from './components/PaymentRequestComponent';
 
 const SlotWrapper: React.FC<{ children: React.ReactNode; loading?: string }> = ({ children, loading = "Loading..." }) => {
   return (
@@ -12,7 +13,8 @@ const SlotWrapper: React.FC<{ children: React.ReactNode; loading?: string }> = (
 };
 
 // Example slot content components
-const TeamDefault = () => <div className='h-[69lvh]'>Team Members List</div>;
+const TeamDefault = () => <PaymentRequestComponent/>;
+{/* <div className='h-[69lvh]'>Team Members List</div>; */}
 const TeamSettings = () => <div className='h-[69lvh]'>Team Settings</div>;
 
 const MainDashboard = () => <div className='h-[69lvh]'>Main Dashboard</div>;

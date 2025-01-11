@@ -1,5 +1,6 @@
 import React from 'react';
 import { useOutletContext } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import './Customer.css';
 
 interface ConversationProps {
@@ -21,7 +22,13 @@ const Conversation: React.FC = () => {
   };
 
   return (
-    <div className="conversation-container">
+    <motion.div
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 20 }}
+      transition={{ duration: 0.3 }}
+      className="conversation-container"
+    >
       {customerData.conversations.length === 0 ? (
         <div className="no-conversations">
           No conversations found for this customer.
@@ -48,7 +55,7 @@ const Conversation: React.FC = () => {
           ))}
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };
 

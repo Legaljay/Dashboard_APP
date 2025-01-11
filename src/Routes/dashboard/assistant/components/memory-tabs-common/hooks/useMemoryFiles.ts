@@ -182,7 +182,7 @@
 //   return { fetchedData, loading, error, refetch };
 // };
 
-
+//with caching
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { MemoryFile } from '../types';
@@ -192,28 +192,46 @@ import { fetchMemoryFiles } from '@/redux-slice/app-memory/app-memory.slice';
 interface CacheData {
   data: MemoryFile[];
   timestamp: number;
+  error?: string;
 }
 
-// Create a cache structure that allows proper cleanup
 class MemoryCache {
   private cache = new Map<string, Map<string, CacheData>>();
-  private readonly CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+  private readonly CACHE_DURATION: number;
+  private cleanupInterval: NodeJS.Timeout;
+
+  constructor(cacheDuration = 5 * 60 * 1000) { // 5 minutes default
+    this.CACHE_DURATION = cacheDuration;
+    // Periodic cleanup of expired entries
+    this.cleanupInterval = setInterval(() => this.cleanupExpired(), this.CACHE_DURATION);
+  }
+
+  private getCacheKey(applicationId: string, purpose: string): string {
+    return `${applicationId}:${purpose}`;
+  }
 
   set(applicationId: string, purpose: string, data: CacheData) {
+    if (!applicationId || !purpose) return;
+    
     if (!this.cache.has(applicationId)) {
       this.cache.set(applicationId, new Map());
     }
-    this.cache.get(applicationId)?.set(purpose, data);
+    this.cache.get(applicationId)?.set(purpose, {
+      ...data,
+      timestamp: Date.now()
+    });
   }
 
   get(applicationId: string, purpose: string): CacheData | undefined {
+    if (!applicationId || !purpose) return undefined;
     return this.cache.get(applicationId)?.get(purpose);
   }
 
   delete(applicationId: string, purpose?: string) {
+    if (!applicationId) return;
+    
     if (purpose) {
       this.cache.get(applicationId)?.delete(purpose);
-      // Clean up empty application maps
       if (this.cache.get(applicationId)?.size === 0) {
         this.cache.delete(applicationId);
       }
@@ -223,6 +241,8 @@ class MemoryCache {
   }
 
   isValid(applicationId: string, purpose: string): boolean {
+    if (!applicationId || !purpose) return false;
+    
     const cached = this.get(applicationId, purpose);
     if (!cached) return false;
 
@@ -235,8 +255,24 @@ class MemoryCache {
     return true;
   }
 
+  private cleanupExpired() {
+    this.cache.forEach((purposeMap, applicationId) => {
+      purposeMap.forEach((data, purpose) => {
+        if (Date.now() - data.timestamp > this.CACHE_DURATION) {
+          this.delete(applicationId, purpose);
+        }
+      });
+    });
+  }
+
   clear() {
     this.cache.clear();
+    clearInterval(this.cleanupInterval);
+  }
+
+  dispose() {
+    this.clear();
+    clearInterval(this.cleanupInterval);
   }
 }
 
@@ -245,12 +281,23 @@ const memoryFilesCache = new MemoryCache();
 export const useMemoryFiles = (applicationId: string, purpose: string) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [initialized, setInitialized] = useState(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const allMemoryFiles = useAppSelector((state) => state.memory.memoryFiles);
 
-  const getFilteredData = useCallback((data: MemoryFile[]) => {
+  // Validate inputs
+  useEffect(() => {
+    if (!applicationId || !purpose) {
+      setError('Invalid applicationId or purpose');
+      return;
+    }
+    setError(null);
+  }, [applicationId, purpose]);
+
+  const getFilteredData = useCallback((data: MemoryFile[] | null | undefined) => {
+    if (!data) return [];
     return data.filter((item: MemoryFile) => item.purpose === purpose);
   }, [purpose]);
 
@@ -258,74 +305,88 @@ export const useMemoryFiles = (applicationId: string, purpose: string) => {
     return memoryFilesCache.isValid(applicationId, purpose);
   }, [applicationId, purpose]);
 
-  const fetchData = async (forceRefresh = false) => {
-    if (!applicationId) {
-      console.error('No applicationId provided');
+  const fetchData = useCallback(async (forceRefresh = false) => {
+    if (!applicationId || !purpose) {
+      console.error('Missing required parameters');
+      setError('Missing required parameters');
       return;
     }
 
     if (!forceRefresh && hasValidCache()) {
-      // setLoading(false);
       return;
     }
 
     if (!forceRefresh && allMemoryFiles?.length > 0) {
-      // setLoading(false);
       return;
     }
 
     setLoading(true);
+    setError(null);
 
     try {
       const response = await dispatch(fetchMemoryFiles(applicationId)).unwrap();
       
+      if (!response || !response.data) {
+        throw new Error('Invalid response format');
+      }
+
       memoryFilesCache.set(applicationId, purpose, {
         data: response.data,
         timestamp: Date.now()
       });
 
-      setLoading(false);
-
-      if (response.data?.length > 0) {
-        if (response.data?.length === 1) {
-          // Commented out as per original code
-          // dispatch(showTestemployeeTour(true));
-        }
-      }
+      setInitialized(true);
     } catch (error: any) {
+      const errorMessage = error.message || 'Failed to fetch memory files';
+      
       if (error.status === 401) {
         navigate('/');
       }
-      setError(error.message);
-      setLoading(false);
+      
+      setError(errorMessage);
       memoryFilesCache.delete(applicationId, purpose);
-    }
-  };
-
-  useEffect(() => {
-    if (!hasValidCache()) {
-      fetchData();
-    } else {
+      
+      // Cache the error state to prevent constant retries
+      memoryFilesCache.set(applicationId, purpose, {
+        data: [],
+        timestamp: Date.now(),
+        error: errorMessage
+      });
+    } finally {
       setLoading(false);
     }
-  }, [applicationId, purpose]);
+  }, [applicationId, purpose, dispatch, navigate, hasValidCache, allMemoryFiles]);
 
-  // Cleanup specific cache entries when component unmounts
-  // useEffect(() => {
-  //   return () => {
-  //     memoryFilesCache.delete(applicationId, purpose);
-  //   };
-  // }, [applicationId, purpose]);
+  // Initial fetch
+  useEffect(() => {
+    if (!initialized && !hasValidCache()) {
+      fetchData();
+    }
+  }, [initialized, hasValidCache, fetchData]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      // Optional: Uncomment if you want to clear cache on unmount
+      // memoryFilesCache.delete(applicationId, purpose);
+    };
+  }, [applicationId, purpose]);
 
   const fetchedData = useMemo(() => {
     if (hasValidCache()) {
       const cached = memoryFilesCache.get(applicationId, purpose);
-      return getFilteredData(cached?.data || []);
+      return getFilteredData(cached?.data);
     }
-    return getFilteredData(allMemoryFiles || []);
+    return getFilteredData(allMemoryFiles);
   }, [applicationId, purpose, hasValidCache, getFilteredData, allMemoryFiles]);
 
-  const refetch = () => fetchData(true);
+  const refetch = useCallback(() => fetchData(true), [fetchData]);
 
-  return { fetchedData, loading, error, refetch };
+  return {
+    fetchedData,
+    loading,
+    error,
+    refetch,
+    isInitialized: initialized
+  };
 };
