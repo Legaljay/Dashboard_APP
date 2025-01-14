@@ -130,20 +130,13 @@ const ViewFeature: React.FC = () => {
     navigate(`add-instruction`);
   }, [navigate, id]);
 
-  const [propShowPopUp, setPropShowPopUp] = useState(false);
-
   return (
     <section className="flex font-figtree relative w-full">
       <main className="font-figtree w-full px-10 pb-10 mb-[100px] min-h-screen">
-        {/* <ChangesBanner setPropShowPopUp={setPropShowPopUp} />
-        <TestAgent
-          propShowPopUp={propShowPopUp}
-          setPropShowPopUp={setPropShowPopUp}
-        /> */}
         <section className="flex flex-col gap-[33px]">
           <div className="flex justify-between w-full items-center">
             <div>
-              <h2 className="text-[24px] font-medium capitalize text-[#121212]">
+              <h2 className="text-[24px] font-medium capitalize text-[#121212] dark:text-gray-400">
                 {type}
               </h2>
               {type.includes("Scheduled") && (
@@ -164,7 +157,7 @@ const ViewFeature: React.FC = () => {
               )}
               <button
                 onClick={handleAddInstruction}
-                className="outline-none py-3 w-auto px-5 bg-[#121212] rounded-lg text-white text-[14px] font-semibold"
+                className="outline-none py-3 w-auto px-5 bg-[#121212] dark:bg-BLUE-_100 rounded-lg text-white text-[14px] font-semibold"
               >
                 Add Instructions
               </button>
@@ -179,7 +172,7 @@ const ViewFeature: React.FC = () => {
             loadingMessage="Loading..."
             customEmptyStateMessage={() => (
               <div className="flex flex-col items-center justify-center gap-2">
-                <p className="text-[#121212] text-[16px] font-medium text-center">
+                <p className="text-[#121212] dark:text-white text-[16px] font-medium text-center">
                   You haven’t created any Instructions yet
                 </p>
                 <p className="text-center text-sm font-normal text-[#7F7F81] mt-1">
@@ -190,7 +183,7 @@ const ViewFeature: React.FC = () => {
                   onClick={handleAddInstruction}
                   size="sm"
                   variant="black"
-                  className="flex gap-2 items-center w-fit outline-none py-3 px-5 !bg-[#121212] rounded-lg text-white text-[14px] font-semibold"
+                  className="flex gap-2 items-center w-fit outline-none py-3 px-5 !bg-[#121212] dark:!bg-BLUE-_100 rounded-lg text-white text-[14px] font-semibold"
                 >
                   <PlusIcon /> Add Instructions
                 </Button>

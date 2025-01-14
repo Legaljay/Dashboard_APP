@@ -18,7 +18,7 @@ const Pricing: React.FC = () => {
         </p>
         <ul className=" mt-[28px] px-4">
           <section>
-            <li className=" text-[#292D32] text-sm font-normal list-decimal leading-[173%] ">
+            <li className=" text-[#292D32] dark:text-gray-200 text-sm font-normal list-decimal leading-[173%] ">
               Early Explorer (For early explorers){" "}
               <span className="text-[#7F7F81]">Price: $0/month</span>
             </li>
@@ -30,7 +30,7 @@ const Pricing: React.FC = () => {
             </ul>
           </section>
           <section>
-            <li className=" text-[#292D32] text-sm font-normal list-decimal leading-[173%] ">
+            <li className=" text-[#292D32] dark:text-gray-200 text-sm font-normal list-decimal leading-[173%] ">
               Team (For teams needing more collaboration){" "}
               <span className="text-[#7F7F81]">Price: $99/month</span>
             </li>
@@ -43,7 +43,7 @@ const Pricing: React.FC = () => {
             </ul>
           </section>
           <section>
-            <li className=" text-[#292D32] text-sm font-normal list-decimal leading-[173%] ">
+            <li className=" text-[#292D32] dark:text-gray-200 text-sm font-normal list-decimal leading-[173%] ">
               Business (For growing teams)
               <span className="text-[#7F7F81]">Price: $499/month</span>
             </li>
@@ -56,7 +56,7 @@ const Pricing: React.FC = () => {
             </ul>
           </section>
           <section>
-            <li className=" text-[#292D32] text-sm font-normal list-decimal leading-[173%]">
+            <li className=" text-[#292D32] dark:text-gray-200 text-sm font-normal list-decimal leading-[173%]">
               Enterprise (For teams operating at scale){" "}
               <span className="text-[#7F7F81]">Price: Custom pricing</span>
             </li>
@@ -81,7 +81,7 @@ const Pricing: React.FC = () => {
         </ul>
 
         <section>
-          <p className=" text-[#292D32] text-sm font-normal my-7">
+          <p className=" text-[#292D32] dark:text-gray-200 text-sm font-normal my-7">
             How to Purchase Credits:{" "}
             <span className="text-sm font-normal text-[#7F7F81]">
               To purchase credits, simply log in to your Wano account and visit
@@ -96,14 +96,14 @@ const Pricing: React.FC = () => {
           </p>
         </section>
         <section>
-          <p className=" text-[#7F7F81] text-sm font-normal">
+          <p className=" text-[#7F7F81] dark:text-gray-200 text-sm font-normal">
             Please note:{" "}
-            <span className="text-sm font-normal text-[#7F7F81]">
+            <span className="text-sm font-normal text-[#7F7F81] dark:text-gray-200">
               As a new user, you get $5 free credits when you first sign up on
               Wano.
             </span>
           </p>
-          <p className="text-sm font-normal text-[#7F7F81]">
+          <p className="text-sm font-normal text-[#7F7F81] dark:text-gray-200">
             If you have any questions about our pricing or need assistance with
             your billing, please feel free to{" "}
             <a

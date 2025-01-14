@@ -6,19 +6,22 @@ interface AppState {
   company: Company | null;
   isAuthenticated: boolean;
   theme: 'light' | 'dark';
+  testAgent: boolean;
 }
 
 type AppAction =
   | { type: 'SET_USER'; payload: User | null }
   | { type: 'SET_COMPANY'; payload: Company | null }
   | { type: 'SET_AUTH'; payload: boolean }
-  | { type: 'TOGGLE_THEME' };
+  | { type: 'TOGGLE_THEME' }
+  | { type: 'SET_TEST_AGENT'; payload: boolean };
 
 const initialState: AppState = {
   user: null,
   company: null,
   isAuthenticated: false,
   theme: 'light',
+  testAgent: false,
 };
 
 const AppContext = createContext<{
@@ -36,6 +39,8 @@ const appReducer = (state: AppState, action: AppAction): AppState => {
       return { ...state, isAuthenticated: action.payload };
     case 'TOGGLE_THEME':
       return { ...state, theme: state.theme === 'light' ? 'dark' : 'light' };
+    case 'SET_TEST_AGENT':
+      return { ...state, testAgent: action.payload };
     default:
       return state;
   }

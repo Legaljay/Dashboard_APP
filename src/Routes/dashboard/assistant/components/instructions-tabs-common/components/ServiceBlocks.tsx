@@ -81,9 +81,9 @@ const ServicesBlocks: React.FC<ServiceBlocksProps> = ({ applicationId, data, han
   }
   return (
     <>
-      <div className=" h-[158px] bg-[rgba(249,249,249,0.86)] p-4 rounded-xl relative">
-        <section className="flex justify-between ">
-          <div className=" flex gap-3 font-medium text-base">
+      <div className=" h-[158px] bg-[rgba(249,249,249,0.86)] dark:border dark:border-stone-800 dark:bg-stone-950/50 p-4 rounded-xl relative">
+        <section className="flex justify-between">
+          <div className="flex gap-3 text-base font-medium">
             {/* {data.name.toLowerCase() === "complaints" ? (
               <img src={complainIcon} alt="complaints" className="w-8 h-8" />
             ) : data.name.toLowerCase() === "enquiries" ? (
@@ -102,7 +102,7 @@ const ServicesBlocks: React.FC<ServiceBlocksProps> = ({ applicationId, data, han
               <img src={customIcon2} alt="sales" className="w-8 h-8" />
             )} */}
             <img src={data?.image_url} alt="sales" className="w-8 h-8" />
-            <p className=" mt-1 text-[#121212] capitalize">{data.name}</p>
+            <p className=" mt-1 text-[#121212] dark:text-stone-50 capitalize">{data.name}</p>
           </div>
         </section>
         <p className=" text-xs text-[#7F7F81] font-normal mt-[20px]">
@@ -110,7 +110,7 @@ const ServicesBlocks: React.FC<ServiceBlocksProps> = ({ applicationId, data, han
             ? data.description.slice(0, 80) + "..."
             : data.description}
         </p>
-        <section className=" mt-5 flex  w-full justify-between  ">
+        <section className="flex justify-between mt-5 w-full">
           <Link
             to={`/dashboard/assistant/${applicationId}/instructions/${data.id}/${data.name}`}
             className="flex items-center gap-2 text-[#0359D8]"
@@ -122,23 +122,23 @@ const ServicesBlocks: React.FC<ServiceBlocksProps> = ({ applicationId, data, han
           </Link>
           <Popover className="relative">
             <Popover.Button className="outline-none">
-              <div className=" mt-1 cursor-pointer">
+              <div className="mt-1 cursor-pointer">
                 <ThreeDots />
               </div>
             </Popover.Button>
             <Popover.Panel>
-              <Popover.Button className="z-10 cursor-pointer py-[5px] px-[10px] rounded-lg absolute bg-white shadow-md right-3 flex flex-col gap-3">
+              <Popover.Button className="z-10 cursor-pointer py-[5px] px-[10px] rounded-lg absolute bg-white dark:bg-stone-950 shadow-md right-3 flex flex-col gap-3">
                 <div
                   onClick={() => navigate(`/dashboard/assistant/${applicationId}/instructions/${data.id}/${data.name}`)}
-                  className="flex items-center gap-3"
+                  className="flex gap-3 items-center"
                 >
                   <Eye />
-                  <p className="text-xs text-[#121212] font-figtree">View</p>
+                  <p className="text-xs text-[#121212] dark:text-stone-50 font-figtree">View</p>
                 </div>
                 {data.type === "custom" && (
                   <div
                     onClick={openDeleteModal}
-                    className="flex items-center gap-3"
+                    className="flex gap-3 items-center"
                   >
                     <Delete />
                     <p className="text-xs text-[#AF202D] font-figtree">

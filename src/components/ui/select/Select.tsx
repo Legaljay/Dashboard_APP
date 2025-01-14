@@ -204,7 +204,7 @@ export const Select = React.memo(
             aria-controls={`${id}-listbox`}
             aria-disabled={disabled}
             className={cn(
-              "relative w-full cursor-pointer rounded-lg border bg-white px-3 py-2 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm",
+              "relative w-full cursor-pointer rounded-lg text-gray-700 dark:text-gray-100 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 px-3 py-2 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm",
               {
                 "border-red-300": error,
                 "border-gray-300": !error,
@@ -234,7 +234,7 @@ export const Select = React.memo(
           {isOpen && (
             <ul
               ref={listboxRef}
-              className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+              className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-gray-800 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
               tabIndex={-1}
               role="listbox"
               id={`${id}-listbox`}
@@ -244,10 +244,10 @@ export const Select = React.memo(
                 <li
                   key={option.value}
                   className={cn(
-                    "relative cursor-pointer select-none py-2 pl-3 pr-9 text-gray-900",
+                    "relative cursor-pointer select-none py-2 pl-3 pr-9 text-gray-900 dark:text-white",
                     {
-                      "bg-blue-100": highlightedIndex === index,
-                      "bg-blue-50": multiple
+                      "bg-blue-100 dark:bg-secondary-800": highlightedIndex === index,
+                      "bg-blue-50 dark:bg-secondary-800": multiple
                         ? valueArray.includes(option.value)
                         : option.value === value,
                     }
@@ -273,7 +273,7 @@ export const Select = React.memo(
                   {(multiple
                     ? valueArray.includes(option.value)
                     : option.value === value) && (
-                    <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-blue-600">
+                    <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-blue-600 dark:text-WHITE-_100">
                       <Check className="h-4 w-4" aria-hidden="true" />
                     </span>
                   )}

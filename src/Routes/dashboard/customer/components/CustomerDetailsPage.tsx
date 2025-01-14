@@ -93,7 +93,7 @@ const CustomerDetailsPage = () => {
   }, []);
 
   return (
-    <div className="px-10 pt-4 pb-8 mb-16">
+    <div className="px-10 pt-4 mb-40">
       <p className="text-2xl font-medium capitalize">{customer.name}</p>
       <div className="mt-10">
         {/* details  */}

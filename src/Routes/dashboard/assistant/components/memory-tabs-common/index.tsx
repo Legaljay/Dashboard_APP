@@ -254,7 +254,7 @@ const Common: React.FC<TabProps> = ({ tab, template: Template }) => {
         </section>
 
         <section className="mt-8 mb-7">
-          <p className="text-lg font-medium text-[#121212]">Your Sources</p>
+          <p className="text-lg font-medium text-[#121212] dark:text-white">Your Sources</p>
         </section>
 
         <MemoryTable

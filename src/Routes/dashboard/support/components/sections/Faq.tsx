@@ -13,7 +13,7 @@ const Faq: React.FC = () => {
       <main className=" mt-6">
         <ul className=" mt-2 px-4">
           <section className=" mb-[20px]">
-            <li className=" text-[#7F7F81] text-sm font-semibold list-decimal leading-[173%]">
+            <li className=" text-[#7F7F81] dark:text-gray-200 text-sm font-semibold list-decimal leading-[173%]">
               What is Wano?
             </li>
             <ul>
@@ -28,7 +28,7 @@ const Faq: React.FC = () => {
             </ul>
           </section>
           <section className=" mb-[20px]">
-            <li className=" text-[#7F7F81] text-sm font-semibold list-decimal leading-[173%]">
+            <li className=" text-[#7F7F81] dark:text-gray-200 text-sm font-semibold list-decimal leading-[173%]">
               How does pricing work
             </li>
             <p className=" text-sm font-normal list-disc text-[#7F7F81] ml-[-16px] leading-[173%]">
@@ -78,7 +78,7 @@ const Faq: React.FC = () => {
             </ul>
           </section>
           <section className=" mb-[20px]">
-            <li className=" text-[#7F7F81] text-sm font-semibold list-decimal leading-[173%]">
+            <li className=" text-[#7F7F81] dark:text-gray-200 text-sm font-semibold list-decimal leading-[173%]">
               What services does Wano offer?
             </li>
             <ul>
@@ -99,7 +99,7 @@ const Faq: React.FC = () => {
             </ul>
           </section>
           <section className=" mb-[20px]">
-            <li className=" text-[#7F7F81] text-sm font-semibold list-decimal leading-[173%]">
+            <li className=" text-[#7F7F81] dark:text-gray-200 text-sm font-semibold list-decimal leading-[173%]">
               Where can I use my support Assistant?
             </li>
             <ul>
@@ -111,7 +111,7 @@ const Faq: React.FC = () => {
             </ul>
           </section>
           <section className=" mb-[20px]">
-            <li className=" text-[#7F7F81] text-sm font-semibold list-decimal leading-[173%]">
+            <li className=" text-[#7F7F81] dark:text-gray-200 text-sm font-semibold list-decimal leading-[173%]">
               How can My Support Assistants improve my customer support
               operations?
             </li>
@@ -132,7 +132,7 @@ const Faq: React.FC = () => {
             </ul>
           </section>
           <section className=" mb-[20px]">
-            <li className=" text-[#7F7F81] text-sm font-semibold list-decimal leading-[173%]">
+            <li className=" text-[#7F7F81] dark:text-gray-200 text-sm font-semibold list-decimal leading-[173%]">
               Is my data secure when using Wano's services?
             </li>
             <ul>
@@ -149,7 +149,7 @@ const Faq: React.FC = () => {
             </ul>
           </section>
           <section className=" mb-[20px]">
-            <li className=" text-[#7F7F81] text-sm font-semibold list-decimal leading-[173%]">
+            <li className=" text-[#7F7F81] dark:text-gray-200 text-sm font-semibold list-decimal leading-[173%]">
               Is Wano suitable for small businesses, or is it designed for
               larger enterprises only?
             </li>

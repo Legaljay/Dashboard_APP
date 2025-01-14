@@ -26,9 +26,9 @@ const TwoFA: React.FC = () => {
 
 
   return (
-    <div className="flex gap-8 w-full mt-[50px] items-center">
+    <div className="flex gap-8 w-full pt-7 items-center">
       <div className="flex flex-col w-[350px]">
-        <p className="text-sm text-BLACK-_100 font-medium">
+        <p className="text-sm text-BLACK-_100 dark:text-WHITE-_100 font-medium">
           2FA Authentication (Multi Factor)
         </p>
         <p className="text-sm text-[#7F7F81]">
@@ -46,14 +46,14 @@ const TwoFA: React.FC = () => {
                   ? "bg-blue-600"
                   : isEnabled && isSetup
                   ? "bg-blue-600"
-                  : "bg-gray-200"
+                  : "bg-gray-200 dark:bg-gray-700"
               } relative inline-flex h-6 w-11 items-center rounded-full`}
             >
               <span className="sr-only">Enable notifications</span>
               <span
                   className={`${
                   checked ? '-translate-x-4' : isEnabled && isSetup ?  '-translate-x-4' : 'translate-x-1'
-                  } absolute inline-block h-4 w-4 transform rounded-full bg-white transition`}
+                  } absolute inline-block h-4 w-4 transform rounded-full bg-white transition dark:bg-background-dark`}
               />
             </button>
           )}

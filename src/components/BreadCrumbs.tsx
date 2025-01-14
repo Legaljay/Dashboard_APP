@@ -24,7 +24,7 @@ const BreadCrumbs = () => {
                     {breadcrumb.label}
                   </Link>
                   {index < breadcrumbs.length - 1 && (
-                    <ChevronRightIcon className="w-5 h-5 text-gray-400" />
+                    <ChevronRightIcon className="w-5 h-5 text-gray-400 dark:text-gray-800" />
                   )}
                 </li>
               ))}

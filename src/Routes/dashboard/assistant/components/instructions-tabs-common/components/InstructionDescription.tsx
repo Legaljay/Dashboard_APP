@@ -20,7 +20,7 @@ const InstructionDescription: React.FC<InstructionDescriptionProps> = ({ purpose
 
   return (
     <div>
-      <h2 className="text-2xl font-medium">Instruction</h2>
+      <h2 className="text-2xl font-medium dark:!text-gray-400">Instruction</h2>
       {purpose && (
         <p className="mt-[8px] text-xs font-normal text-[#7F7F81]">
           {getDescription()}

@@ -53,7 +53,7 @@ const UpgradePlanPromptModal: React.FC<UpgradePlanPromptModalProps> = ({
           </div>
           <div className="flex flex-col gap-[22px] my-[32px]">
             <div className="flex flex-col gap-[15px]">
-              <h1 className="text-[20px] font-medium leading-[21.5px] text-[#101828] text-center">
+              <h1 className="text-[20px] font-medium leading-[21.5px] text-[#101828] dark:text-WHITE-_100 text-center">
                 {PromptDetailTypeWithData[type].title}
               </h1>
               <p className="text-[14px] text-[#828282] leading-[19px] text-center">
@@ -64,7 +64,7 @@ const UpgradePlanPromptModal: React.FC<UpgradePlanPromptModalProps> = ({
               for
             </p>
             <div className="flex justify-center items-center">
-              <p>${amount}</p>{" "}
+              <p className="dark:text-WHITE-_100">${amount}</p>{" "}
               <span className="text-[12px] leading-[16.62px] text-[#828282]">
                 / per month
               </span>

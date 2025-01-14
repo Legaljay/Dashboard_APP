@@ -22,8 +22,8 @@ const AssistantLayout: React.FC = () => {
   const location = useLocation();
 
   return (
-    <div className="h-full w-full flex">
-      <nav className="pt-[35px] px-5 bg-inherit flex flex-col gap-5 select-none border-r border-[#F7F7F7]">
+    <div className="flex w-full h-full">
+      <nav className="pt-[35px] px-5 bg-inherit flex flex-col gap-5 select-none border-r border-[#F7F7F7] dark:border-secondary-800">
         <Aside />
       </nav>
       <main className="w-full h-full">
@@ -46,7 +46,7 @@ const AssistantLayout: React.FC = () => {
             >
               <Suspense
                 fallback={
-                  <div className="h-screen w-full">
+                  <div className="w-full h-[80svh]">
                     <LoadingSpinner />
                   </div>
                 }

@@ -114,7 +114,7 @@ export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             }}
           >
             <div 
-              className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity max-w-l`}
+              className={`fixed inset-0 bg-black dark:bg-WHITE-_600 dark:bg-opacity-80 bg-opacity-50 transition-opacity max-w-l`}
               // onClick={() => {
               //   console.log('closeOnClickOutside:', closeOnClickOutside);
               //   console.log('Modal ID:', id);

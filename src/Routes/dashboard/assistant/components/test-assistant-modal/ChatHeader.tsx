@@ -20,10 +20,10 @@ export const ChatHeader: React.FC<ChatHeaderProps> = memo(
         </button>
         <button
           onClick={onClose}
-          className="p-0 flex items-center gap-2 text-[#121212] hover:text-[#404040]"
+          className="p-0 flex items-center gap-2 text-[#121212] dark:text-white/50 hover:text-[#404040]"
         >
           <span className="text-sm font-semibold">Minimize</span>
-          <MinimizeIcon />
+          <MinimizeIcon className="text-gray-800 dark:bg-gray-800"/>
         </button>
       </header>
     );

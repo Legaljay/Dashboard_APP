@@ -23,17 +23,17 @@ const Teams: React.FC<TeamsProps> = () => {
       className="w-full max-w-4xl mx-auto"
     >
       <div className="mb-8">
-        <h1 className="text-2xl font-semibold text-gray-900">Team Management</h1>
-        <p className="mt-2 text-sm text-gray-600">
+        <h1 className="text-2xl font-semibold text-gray-900 dark:text-WHITE-_100">Team Management</h1>
+        <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
           Manage your team members and their access levels.
         </p>
       </div>
 
-      <div className="bg-white shadow rounded-lg p-6">
+      <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
         <div className="space-y-6">
           {/* Team List */}
           <div>
-            <h2 className="text-lg font-medium text-gray-900">Your Teams</h2>
+            <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">Your Teams</h2>
             <div className="mt-4 space-y-4">
               {teams?.map((team) => (
                 <div 

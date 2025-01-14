@@ -204,10 +204,6 @@ export function Table<T>({
 
   // Loading state component
   const LoadingState = () => (
-    // <div className="flex items-center justify-center p-8">
-    //   <Loader2 className="w-6 h-6 animate-spin text-primary mr-2" />
-    //   <span className="text-gray-500">{loadingMessage}</span>
-    // </div>
     <div className="flex flex-col items-center justify-center">
       <table className="w-full border-collapse">
         <thead className="sticky top-0 bg-[#FAFAFA] z-10">
@@ -249,17 +245,17 @@ export function Table<T>({
     return (
       <div ref={tableContainerRef} className="overflow-auto max-h-[600px]">
         <table className="w-full border-collapse">
-          <thead className="sticky top-0 bg-newAsh z-10">
+          <thead className="sticky top-0 bg-newAsh dark:bg-gray-800 z-10">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
                     className={cn(
-                      "px-4 py-2 text-left text-sm font-medium text-gray-500 border-b",
+                      "px-4 py-2 text-left text-sm font-medium text-gray-500 border-b dark:border-b-secondary-800",
                       header.column.getCanSort() && "cursor-pointer select-none",
                       "cursor-col-resize select-none",
-                      header.column.getIsResizing() && "bg-secondary-50",
+                      header.column.getIsResizing() && "bg-secondary-50 dark:bg-secondary-800",
                     )}
                     onMouseDown={header.getResizeHandler()}
                     onTouchStart={header.getResizeHandler()}
@@ -297,7 +293,7 @@ export function Table<T>({
                           onTouchStart={header.getResizeHandler()}
                           className={cn(
                             "absolute right-0 top-0 h-full w-1 cursor-col-resize select-none",
-                            header.column.getIsResizing() && "bg-primary"
+                            header.column.getIsResizing() && "bg-primary dark:bg-secondary-900"
                           )}
                         />
                       )}
@@ -324,7 +320,7 @@ export function Table<T>({
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -20 }}
                       className={cn(
-                        "hover:bg-gray-50 transition-colors",
+                        "hover:bg-gray-50 transition-colors dark:hover:bg-secondary-800",
                         onRowClick && "cursor-pointer"
                       )}
                       onClick={() => onRowClick?.(row)}
@@ -332,7 +328,7 @@ export function Table<T>({
                       {row.getVisibleCells().map((cell) => (
                         <td
                           key={cell.id}
-                          className="px-4 py-2 text-sm text-gray-900"
+                          className="px-4 py-2 text-sm text-gray-900 dark:text-gray-300"
                         >
                           {flexRender(
                             cell.column.columnDef.cell,
@@ -350,7 +346,7 @@ export function Table<T>({
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     className={cn(
-                      "hover:bg-gray-50 transition-colors border-b last:border-b-0 border-b-gray-50",
+                      "hover:bg-gray-50 dark:hover:bg-secondary-800 transition-colors border-b last:border-b-0 border-b-gray-50 dark:border-b-secondary-900",
                       onRowClick && "cursor-pointer"
                     )}
                     onClick={() => onRowClick?.(row)}
@@ -358,7 +354,7 @@ export function Table<T>({
                     {row.getVisibleCells().map((cell) => (
                       <td
                         key={cell.id}
-                        className="px-4 py-2 text-sm text-gray-900"
+                        className="px-4 py-2 text-sm text-gray-900 dark:text-gray-300"
                       >
                         {flexRender(
                           cell.column.columnDef.cell,
@@ -382,14 +378,14 @@ export function Table<T>({
           <input
             type="text"
             placeholder="Search..."
-            className="px-4 py-2 border rounded-md w-full max-w-sm bg-transparent outline-none"
+            className="px-4 py-2 border rounded-md w-full max-w-sm bg-transparent outline-none dark:border-secondary-800"
             onChange={(e) => debouncedSetGlobalFilter(e.target.value)}
           />
         </div>
       )}
 
       {/* Table */}
-      <div className="border rounded-lg overflow-hidden">
+      <div className="border rounded-lg overflow-hidden dark:border-secondary-800">
         {renderTableContent()}
       </div>
 
@@ -436,7 +432,7 @@ export function Table<T>({
               {table.getPageCount()}
             </span>
             <select
-              className="px-2 py-1 border rounded-md bg-transparent"
+              className="px-2 py-1 border rounded-md bg-transparent dark:border-secondary-800"
               value={table.getState().pagination.pageSize}
               onChange={(e) => {
                 table.setPageSize(Number(e.target.value));

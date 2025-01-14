@@ -38,15 +38,15 @@ export const Modal: ModalComponent = ({
 }) => {
   return (
     <div className={cn(
-      'overflow-hidden bg-white rounded-lg shadow-xl transition-all transform',
+      'overflow-hidden bg-white dark:bg-background-dark rounded-lg shadow-xl transition-all transform',
       className
     )}>
       {/* Header */}
       {renderCustomHeader ? renderCustomHeader() : ((title || showCloseButton) && (
-        <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200">
+        <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-secondary-800">
           <div>
             {title && (
-              <h3 className="text-lg font-medium text-gray-900">
+              <h3 className="text-lg font-medium text-gray-900 dark:text-WHITE-_100">
                 {title}
               </h3>
             )}
@@ -75,7 +75,7 @@ export const Modal: ModalComponent = ({
 
       {/* Footer */}
       {footer && (
-        <div className="px-6 py-4 border-t border-gray-200">
+        <div className="px-6 py-4 border-t border-gray-200 dark:border-secondary-800">
           {footer}
         </div>
       )}
@@ -89,7 +89,7 @@ Modal.Header = function ModalHeader({
   className 
 }: ModalSubComponentProps) {
   return (
-    <div className={cn("px-6 py-4 border-b border-gray-200", className)}>
+    <div className={cn("px-6 py-4 border-b border-gray-200 dark:border-secondary-800", className)}>
       {children}
     </div>
   );
@@ -111,7 +111,7 @@ Modal.Footer = function ModalFooter({
   className 
 }: ModalSubComponentProps) {
   return (
-    <div className={cn("px-6 py-4 border-t border-gray-200", className)}>
+    <div className={cn("px-6 py-4 border-t border-gray-200 dark:border-secondary-800", className)}>
       {children}
     </div>
   );
@@ -150,7 +150,7 @@ export const ConfirmModal: React.FC<{
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md border border-gray-300 dark:border-secondary-800 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             {cancelText}
           </button>

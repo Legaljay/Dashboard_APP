@@ -42,7 +42,7 @@ const RedeemSuccess: React.FC<RedeemSuccessProps> = ({
               />
             </div>
             <div className="flex flex-col gap-[15px]">
-              <h1 className="font-medium text-[20px] leading-[21.5px] text-[#101828] text-center">
+              <h1 className="font-medium text-[20px] leading-[21.5px] text-[#101828] dark:text-WHITE-_100 text-center">
                 {title}
               </h1>
               <p className="text-[14px] leading-[21px] text-[#828282] text-center">

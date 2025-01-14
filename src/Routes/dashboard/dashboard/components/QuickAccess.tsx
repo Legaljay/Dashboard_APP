@@ -35,7 +35,7 @@ const QuickAccess = memo(() => {
 
   return (
     <div className="mt-[80px]">
-      <h1 className="mb-[32px] !text-xl font-medium !text-BLACK-_600 leading-[21.6px]">
+      <h1 className="mb-[32px] !text-xl font-medium !text-BLACK-_600 dark:!text-gray-400 leading-[21.6px]">
         Quick Access
       </h1>
       <div className="mt-[20px] flex gap-[24px]">

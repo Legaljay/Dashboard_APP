@@ -38,7 +38,7 @@ const Overview: React.FC = () => {
       initial="initial"
       animate="animate"
       exit="exit"
-      className="px-20 space-y-36 mb-40"
+      className="px-20 mt-16 space-y-32 mb-40"
     >
       <section>
         {isLoading && loading ? (
@@ -61,7 +61,7 @@ const Overview: React.FC = () => {
         )}
       </section>
       <section className="space-y-3">
-        <h2 className="text-[#121212] text-2xl font-medium">Funding</h2>
+        <h2 className="text-[#121212] dark:text-gray-400 text-2xl font-medium">Funding History</h2>
         <Table<Transaction>
           columns={[
             createDateTimeColumn("created_at", "Date", 400, {
@@ -73,10 +73,6 @@ const Overview: React.FC = () => {
               header: "Amount",
               accessorKey: "amount",
             },
-            // {
-            //   header: "Value",
-            //   accessorKey: "amount",
-            // },
             createCustomColumn("currency_symbol", "amount", "Value"),
             {
               header: "Type",

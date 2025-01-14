@@ -22,18 +22,18 @@ export const MemoryTable: React.FC<MemoryTableProps> = React.memo(
     if (loading) {
       return (
         <div className="flex flex-col gap-2 justify-center w-full">
-          <Skeleton className="h-12 w-full flex items-center justify-center">
+          <Skeleton className="flex justify-center items-center w-full h-12">
             <div className="bg-[#FAFAFA] w-full h-6 mix-blend-soft-light" />
           </Skeleton>
-          <Skeleton className="h-12 w-full" />
-          <Skeleton className="h-12 w-full" />
+          <Skeleton className="w-full h-12" />
+          <Skeleton className="w-full h-12" />
         </div>
       );
     }
 
     if (data.length === 0) {
       return (
-        <table className="fixed-width-table w-full">
+        <table className="w-full fixed-width-table">
           <thead>
             <tr>
               <th>
@@ -48,7 +48,7 @@ export const MemoryTable: React.FC<MemoryTableProps> = React.memo(
           </thead>
           <tbody>
             <tr>
-              <td colSpan={6} className="w-full pt-16">
+              <td colSpan={6} className="pt-16 w-full">
                 <p className="text-[rgba(130,130,130,1)] text-lg font-medium text-center">
                   No Memory Records Found in {activeTab &&activeTab?.charAt(0).toUpperCase() + activeTab?.slice(1)} Section
                 </p>
@@ -64,7 +64,7 @@ export const MemoryTable: React.FC<MemoryTableProps> = React.memo(
     }
 
     return (
-      <table className="fixed-width-table w-full">
+      <table className="w-full fixed-width-table">
         <thead>
           <tr>
             <th>
@@ -79,21 +79,21 @@ export const MemoryTable: React.FC<MemoryTableProps> = React.memo(
         </thead>
         <tbody>
           {data.map((item) => (
-            <tr key={item.id} className="border-b border-[#F7F7F7]">
-              <td className="flex truncate items-center pl-[20px] py-[20px] text-[#121212] font-normal text-sm">
+            <tr key={item.id} className="border-b border-[#F7F7F7] dark:border-secondary-800">
+              <td className="flex truncate items-center pl-[20px] py-[20px] text-[#121212] dark:text-white font-normal text-sm">
                 <span className="truncate">{item.name}</span>
               </td>
-              <td className="text-[#121212] font-normal text-sm capitalize">
+              <td className="text-[#121212] dark:text-white font-normal text-sm capitalize">
                 {item.name.split(".").slice(-1)}
               </td>
-              <td className="text-[#121212] font-normal text-sm">
+              <td className="text-[#121212] dark:text-white font-normal text-sm">
                 <div className="text-[#057601] text-xs font-normal px-2 py-1 rounded-[28px] border border-solid border-[#059c00] bg-[#BBFDB9] w-min">
                   {item.status}
                 </div>
               </td>
               <td className="text-[#121212] font-normal text-sm">
                 {publishLoading[item.id] ? (
-                  <CgSpinner className="animate-spin text-lg" />
+                  <CgSpinner className="text-lg animate-spin" />
                 ) : (
                   <Switch
                     checked={item.draft ? item.draft.active : item.active}
@@ -110,39 +110,39 @@ export const MemoryTable: React.FC<MemoryTableProps> = React.memo(
                         (item.draft ? item.draft.active : item.active)
                           ? "translate-x-2"
                           : "translate-x-1"
-                      } absolute inline-block h-4 w-4 transform rounded-full bg-white transition`}
+                      } absolute inline-block h-4 w-4 transform rounded-full bg-white dark:bg-background-dark transition`}
                     />
                   </Switch>
                 )}
               </td>
-              <td className="text-[#121212] font-normal text-sm">
+              <td className="text-[#121212] dark:text-white font-normal text-sm">
                 <Popover className="relative">
                   <Popover.Button className="outline-none">
-                    <PiDotsThreeVerticalBold className="cursor-pointer text-base text-[#121212]" />
+                    <PiDotsThreeVerticalBold className="cursor-pointer text-base text-[#121212] dark:text-white" />
                   </Popover.Button>
                   <Popover.Panel>
-                    <Popover.Button className="cursor-pointer py-[5px] px-[10px] rounded-lg z-10 absolute bg-white shadow-md right-3 flex flex-col gap-3">
+                    <Popover.Button className="cursor-pointer py-[5px] px-[10px] rounded-lg z-10 absolute bg-white dark:bg-gray-800 shadow-md right-3 flex flex-col gap-3">
                       <a
                         href={item.file_url}
                         target="_blank"
                         rel="noreferrer"
-                        className="flex items-center gap-3"
+                        className="flex gap-3 items-center"
                       >
                         <Eye />
-                        <p className="text-xs text-[#121212] font-figtree">
+                        <p className="text-xs text-[#121212] dark:text-white font-figtree">
                           View
                         </p>
                       </a>
                       <div className="flex gap-2">
                         {deleteLoading[item.id] ? (
-                          <CgSpinner className="animate-spin text-lg" />
+                          <CgSpinner className="text-lg animate-spin" />
                         ) : (
                           <div
                             className="flex gap-3 cursor-pointer"
                             onClick={() => onDelete(item.id)}
                           >
                             <Delete />
-                            <p className="text-xs text-[#121212] font-figtree">
+                            <p className="text-xs text-[#121212] dark:text-white font-figtree">
                               Delete
                             </p>
                           </div>

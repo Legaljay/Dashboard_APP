@@ -9,15 +9,16 @@ import {
   // fetchBusinessProfile,
   fetchInitialDashboardData,
 } from "@/redux-slice/business/business.slice";
-import LoadingSpinner from '@/LoadingFallback';
+import LoadingSpinner from "@/LoadingFallback";
+import { AppProvider } from "@/contexts/AppContext";
 // import { fetchApplications } from "@/redux-slice/applications/applications.slice";
 // import { fetchNotifications } from "@/redux-slice/notifications/notifications.slice";
 // import { fetchUserProfile } from "@/redux-slice/user/user.slice";
 // import { useUpdateEffect } from "@/hooks/useUpdateEffect";
 
 const LoadingFallback = () => (
-  <div className="w-full h-full flex items-center justify-center">
-    <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500" />
+  <div className="flex justify-center items-center w-full h-full">
+    <div className="w-8 h-8 rounded-full border-t-2 border-b-2 border-blue-500 animate-spin" />
   </div>
 );
 
@@ -36,15 +37,17 @@ const DashboardLayoutWrapper = () => {
   }, [dispatch]);
 
   return (
-    <TourProvider>
-      <ModalProvider>
-        <DashboardLayout>
-          <Suspense fallback={<LoadingSpinner />}>
-            <Outlet context={{ state }} />
-          </Suspense>
-        </DashboardLayout>
-      </ModalProvider>
-    </TourProvider>
+    <AppProvider>
+      <TourProvider>
+        <ModalProvider>
+          <DashboardLayout>
+            <Suspense fallback={<LoadingSpinner />}>
+              <Outlet context={{ state }} />
+            </Suspense>
+          </DashboardLayout>
+        </ModalProvider>
+      </TourProvider>
+    </AppProvider>
   );
 };
 

@@ -33,7 +33,7 @@ export const SettingsNav: React.FC<SettingsNavProps> = ({
 
   return (
     <motion.div
-      className="pt-[35px] pl-[27px] pr-[43px] bg-inherit flex flex-col gap-5 select-none border-r border-[#F7F7F7]"
+      className="pt-[35px] pl-[27px] pr-[43px] bg-inherit flex flex-col gap-5 select-none border-r border-[#F7F7F7] dark:border-secondary-800"
       variants={navVariants}
       initial="hidden"
       animate="visible"
@@ -46,7 +46,7 @@ export const SettingsNav: React.FC<SettingsNavProps> = ({
           whileTap={{ scale: 0.98 }}
           className={`font-medium text-sm text-start p-[10px_16px] w-[135px] transform transition-transform outline-none ${
             currentPath === route.path
-              ? "text-[#1774FD] bg-[#FAFAFA] rounded-md"
+              ? "text-[#1774FD] bg-[#FAFAFA] dark:bg-primary-900/70 rounded-md"
               : "text-[#7F7F81]"
           }`}
           onClick={() => handleNavigate(route.path)}

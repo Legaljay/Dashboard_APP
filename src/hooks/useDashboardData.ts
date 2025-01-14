@@ -190,9 +190,6 @@ export const useDashboardData = (period: string = 'week') => {
   const walletCredit = walletBalance.find(wallet => wallet.currency === 'USD');
   const walletBalanceValue = walletCredit?.balance ?? 0;
 
-  console.log(walletBalance, "walletBalance");
-  console.log(walletCredit, "walletCredit");
-  console.log(walletBalanceValue, "walletBalanceValue");
 
   const fetchWalletBalance = useCallback(async () => {
     const now = Date.now();

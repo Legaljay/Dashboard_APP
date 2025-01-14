@@ -36,7 +36,7 @@ const ApiKeyCard: React.FC<ApiKeyCardProps> = ({
 }) => (
   <div className="space-y-1">
     <div className="flex justify-between items-center">
-      <h2 className="text-sm font-medium text-gray-700">{title}</h2>
+      <h2 className="text-sm font-medium text-gray-700 dark:text-gray-200">{title}</h2>
       <CopyButton
         textToCopy={keyValue || ''}
         variant="ghost"
@@ -44,7 +44,7 @@ const ApiKeyCard: React.FC<ApiKeyCardProps> = ({
       />
     </div>
     <div className="mt-1">
-      <div className="flex items-center justify-between px-2 py-1 border rounded-lg bg-gray-50">
+      <div className="flex items-center justify-between px-2 py-1 border dark:border-secondary-800 rounded-lg bg-gray-50 dark:bg-background-dark">
         <div className="flex-1 truncate mr-4">
           <h3 className="font-mono text-sm text-gray-600">{keyValue}</h3>
         </div>
@@ -136,14 +136,14 @@ const ApiKeys: React.FC<ApiKeysProps> = () => {
       className="w-full max-w-4xl mx-auto"
     >
       <div className="mb-8">
-        <h1 className="text-2xl font-semibold text-gray-900">API Keys</h1>
+        <h1 className="text-2xl font-semibold text-gray-900 dark:text-WHITE-_100">API Keys</h1>
         <p className="mt-2 text-sm text-gray-600">
           Securely manage your API keys and access tokens. Keep these keys confidential 
           and never share them in public repositories or client-side code.
         </p>
       </div>
 
-      <div className="bg-white shadow rounded-lg p-6 space-y-8 divide-y divide-gray-200">
+      <div className="bg-white shadow rounded-lg p-6 space-y-8 divide-y divide-gray-200 dark:divide-secondary-800 dark:bg-gray-800">
         <ApiKeyCard
           title="Secret API Key"
           keyValue={getDisplayedApiKey('secretKey')}

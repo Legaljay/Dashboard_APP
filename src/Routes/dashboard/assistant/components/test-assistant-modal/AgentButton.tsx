@@ -17,7 +17,7 @@ interface AgentButtonProps {
   
     return (
       <div 
-        className="flex gap-3 bg-white items-center py-[11.25px] px-[15px] rounded-full shadow-md shadow-box hover:shadow-lg transition-shadow cursor-pointer"
+        className="flex gap-3 bg-white dark:bg-white/50 items-center py-[11.25px] px-[15px] rounded-full shadow-md shadow-box hover:shadow-lg transition-shadow cursor-pointer"
         onClick={onClick}
         role="button"
         tabIndex={0}
@@ -31,14 +31,14 @@ interface AgentButtonProps {
           <img
             src={getAgentIcon()}
             alt={`${agent?.name || 'Test'} assistant`}
-            className="w-8 h-8 rounded-full object-cover"
+            className="object-cover w-8 h-8 rounded-full"
           />
           <span className="absolute -bottom-1 -right-1 text-[#1774FD] text-[5.163px]">
             AI
           </span>
         </div>
   
-        <div className="text-[15px] font-medium text-[#121212]">
+        <div className="text-[15px] font-medium text-[#121212] dark:text-gray-800">
           Test Assistant
         </div>
   

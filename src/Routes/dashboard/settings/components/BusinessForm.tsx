@@ -157,7 +157,7 @@ const BusinessForm: React.FC = () => {
   return (
     <div className="flex gap-8 w-full py-[30px]">
       <div className="w-[350px]">
-        <h2 className="text-sm text-BLACK-_100 font-medium">
+        <h2 className="text-sm text-BLACK-_100 dark:text-WHITE-_100 font-medium">
           Business Profile
         </h2>
         <p className="text-sm text-gray-500">
@@ -178,7 +178,7 @@ const BusinessForm: React.FC = () => {
             <input
               type="text"
               {...register("name")}
-              className="w-full rounded-lg text-gray-700 bg-white border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
+              className="w-full rounded-lg text-gray-700 dark:text-gray-100 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
               placeholder="Enter your business name"
             />
             {errors.name && (
@@ -193,7 +193,7 @@ const BusinessForm: React.FC = () => {
             <input
               type="text"
               {...register("website_url")}
-              className="w-full rounded-lg text-gray-700 bg-white border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
+              className="w-full rounded-lg text-gray-700 dark:text-gray-100 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
               placeholder="Enter your website URL"
             />
             {errors.website_url && (
@@ -224,7 +224,7 @@ const BusinessForm: React.FC = () => {
               <input
                 type="text"
                 {...register("otherCategory")}
-                className="w-full rounded-lg text-gray-700 bg-white border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
+                className="w-full rounded-lg text-gray-700 dark:text-gray-100 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
                 placeholder="Enter your business category"
               />
               {selectedCategory && errors.otherCategory && (
@@ -242,7 +242,7 @@ const BusinessForm: React.FC = () => {
             <input
               type="text"
               {...register("description")}
-              className="w-full rounded-lg text-gray-700 bg-white border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
+              className="w-full rounded-lg text-gray-700 dark:text-gray-100 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
               placeholder="Enter your role"
             />
             {errors.description && (
@@ -273,7 +273,7 @@ const BusinessForm: React.FC = () => {
               <input
                 type="text"
                 {...register("otherTeam_size")}
-                className="w-full rounded-lg text-gray-700 bg-white border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
+                className="w-full rounded-lg text-gray-700 dark:text-gray-100 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
                 placeholder="Enter your team size"
               />
               {errors.otherTeam_size && (

@@ -24,7 +24,7 @@ export const UnsavedChangesModal: React.FC<UnsavedChangesModalProps> = ({
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className='bg-white'>
+      <DialogContent className='bg-white dark:bg-background-dark'>
         <DialogHeader>
           <DialogTitle>Unsaved Changes</DialogTitle>
           <DialogDescription>

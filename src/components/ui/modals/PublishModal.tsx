@@ -231,7 +231,7 @@ const PublishModal: React.FC<any> = () => {
       onClose={handleClose}
     >
       <Modal.Body>
-        <div className="bg-white rounded-xl h-fit">
+        <div className="bg-white dark:bg-background-dark rounded-xl h-fit">
           <p className="text-sm font-medium">Review Changes</p>
           <div className="overflow-y-scroll max-h-[300px]">
             {changes.map((categorySummary) => (

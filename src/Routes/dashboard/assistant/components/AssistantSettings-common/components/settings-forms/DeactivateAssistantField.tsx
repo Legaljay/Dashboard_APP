@@ -42,7 +42,7 @@ const DeactivateAssistantField: React.FC = () => {
   return (
     <div className="flex gap-8 w-full mt-[50px] items-center">
       <div className="flex flex-col w-2/6">
-        <p className="text-sm text-BLACK-_100 font-medium">
+        <p className="text-sm font-medium text-BLACK-_100 dark:text-WHITE-_100">
           Deactivate Assistant
         </p>
         <p className="text-sm text-[#7F7F81]">
@@ -64,18 +64,18 @@ const DeactivateAssistantField: React.FC = () => {
                   ? "bg-blue-600"
                   : is_active
                   ? "bg-blue-600"
-                  : "bg-gray-200"
+                  : "bg-gray-200 dark:bg-gray-800 dark:border-secondary-800 dark:border"
               } relative inline-flex h-6 w-11 items-center rounded-full`}
             >
               <span className="sr-only">Enable notifications</span>
               <span
                 className={`${
                   checked
-                    ? "-translate-x-4"
+                    ? "translate-x-1"
                     : is_active
-                    ? "-translate-x-4"
-                    : "translate-x-1"
-                } absolute inline-block h-4 w-4 transform rounded-full bg-white transition`}
+                    ? "translate-x-1"
+                    : "-translate-x-4"
+                } absolute inline-block h-4 w-4 transform rounded-full bg-white dark:bg-background-dark transition`}
               />
             </button>
           )}

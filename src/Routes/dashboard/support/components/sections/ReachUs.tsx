@@ -15,11 +15,11 @@ const ReachUs: React.FC = () => {
       <main className=" mt-6 flex gap-[40px]">
         <a href="mailto:support@wano.app">
           <section className="flex gap-3">
-            <span className=" border border-[#E5E5E5] p-2 rounded-md cursor-pointer">
+            <span className=" border border-[#E5E5E5] dark:border-secondary-800 p-2 flex items-center justify-center rounded-md cursor-pointer">
               <LuMail className=" text-base text-[rgba(41,45,50,1)]" />
             </span>
             <div>
-              <p className=" text-sm font-medium text-[#121212] ">Mail Us</p>
+              <p className=" text-sm font-medium text-[#121212] dark:text-gray-200">Mail Us</p>
 
               <p className=" text-xs font-normal text-[#7F7F81]">
                 Send us a mail, we’re here to help
@@ -29,11 +29,11 @@ const ReachUs: React.FC = () => {
         </a>
         <a href="https://x.com/wanohq">
           <section className="flex gap-3">
-            <span className=" border border-[#E5E5E5] p-2 rounded-md cursor-pointer">
+            <span className=" border border-[#E5E5E5] dark:border-secondary-800 p-2 flex items-center justify-center rounded-md cursor-pointer">
               <FaXTwitter className=" text-base text-[rgba(41,45,50,1)]" />
             </span>
             <div>
-              <p className=" text-sm font-medium text-[#121212] ">
+              <p className=" text-sm font-medium text-[#121212] dark:text-gray-200">
                 Follow us on X
               </p>
 

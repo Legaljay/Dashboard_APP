@@ -71,6 +71,7 @@ export const Sidebar: React.FC = memo(() => {
   const handleAssistantSelection = useCallback(
     (application: Application) => {
       dispatch(setSelectedApplication(application.id));
+      navigate(`/dashboard`, { state: { loading: true }});
     },
     [dispatch]
   );
@@ -90,18 +91,17 @@ export const Sidebar: React.FC = memo(() => {
       initial={{ width: 240 }}
       animate={{ width: isCollapsed ? 80 : 240 }}
       transition={{ duration: 0.3 }}
-      className="h-screen bg-white dark:bg-background-dark border-r border-gray-200 dark:border-secondary-800"
+      className="h-screen bg-white border-r border-gray-200 dark:bg-background-dark dark:border-secondary-800"
     >
       <div className="flex flex-col h-full">
         {/* Logo border-b border-gray-200 */}
         <div
           className={`relative h-16 mt-[21px] flex ${
-            isCollapsed ? "justify-center" : ""
-          } items-center px-4  dark:border-secondary-800`}
+            isCollapsed ? "justify-center" : "items-center px-4" } dark:border-secondary-800`}
         >
           <img
             src={!isCollapsed ? Logo : MiniLogo}
-            className="h-[25px]"
+            className="h-[25px] dark:invert dark:saturate-0 dark:contrast-200"
             alt="logo"
           />
           <button
@@ -127,10 +127,10 @@ export const Sidebar: React.FC = memo(() => {
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto py-4 flex flex-col">
+        <nav className="flex overflow-y-auto flex-col flex-1 py-4">
           {/* Assistant Navigation Items */}
           {selectedApplication?.name && active !== "/getstarted" && (
-            <Menu as="div" className="relative space-y-1 mb-4 px-3">
+            <Menu as="div" className="relative px-3 mb-4 space-y-1">
               <Menu.Button
                 className={`w-full flex items-center rounded-lg cursor-pointer border-[#E5E5E5] dark:border-secondary-800 border ${
                   isCollapsed
@@ -197,7 +197,7 @@ export const Sidebar: React.FC = memo(() => {
                         className="cursor-pointer bg-[#F9F9F9] dark:dark:bg-gray-800 rounded-lg h-8 py-[9px] flex justify-center items-center gap-2"
                       >
                         <AddBlue />
-                        <p className="text-xs text-blue-600 dark:text-gray-300 font-medium">
+                        <p className="text-xs font-medium text-blue-600 dark:text-gray-300">
                           Add New Assistant
                         </p>
                       </div>
@@ -210,12 +210,12 @@ export const Sidebar: React.FC = memo(() => {
 
           <div
             onClick={handleNavigateToCustomizeAssistant}
-            className="space-y-1 mb-4 px-3"
+            className="px-3 mb-4 space-y-1"
           >
             <div className="cursor-pointer text-[#1774FD] dark:bg-[#F9F9F9] rounded-lg h-8 py-[9px] flex justify-center items-center gap-2">
               {!isCollapsed && <AddBlue />}
 
-              <p className="text-xs text-PRIMARY font-medium">
+              <p className="text-xs font-medium text-PRIMARY">
                 Add
                 {!isCollapsed ? " New Assistant" : ""}
               </p>
@@ -223,7 +223,7 @@ export const Sidebar: React.FC = memo(() => {
           </div>
 
           {/* Main Navigation Items */}
-          <ul className="space-y-1 px-3">
+          <ul className="px-3 space-y-1">
             {mainNavItems.map((item) => {
               const Icon = item.icon;
 
@@ -252,7 +252,7 @@ export const Sidebar: React.FC = memo(() => {
           </ul>
 
           {/* Bottom Navigation Items */}
-          <ul className="space-y-1 px-3 mt-auto">
+          <ul className="px-3 mt-auto space-y-1">
             {bottomNavItems.map((item) => {
               const Icon = item.icon;
 

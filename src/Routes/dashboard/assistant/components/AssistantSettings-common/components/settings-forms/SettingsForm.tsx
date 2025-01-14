@@ -118,11 +118,11 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} className="flex gap-5 mb-20">
-        <main>
+        <main className="divide-y divide-gray-100 dark:divide-secondary-800">
           <section>
             <div className="flex gap-20 mb-5 w-full">
               <div className="w-2/6">
-                <h3 className="text-sm font-medium">Description</h3>
+                <h3 className="text-sm font-medium dark:text-WHITE-_100">Description</h3>
                 <p className="text-[#7F7F81] font-normal text-xs">
                   Set a description and look for your assistant while it interacts
                   with your customers
@@ -163,20 +163,20 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
                     />
                     <label
                       htmlFor="choosefile"
-                      className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm cursor-pointer hover:bg-gray-50"
+                      className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm cursor-pointer dark:text-stone-50 dark:border-secondary-800 dark:bg-gray-800 hover:bg-gray-50"
                     >
                       Choose File
                     </label>
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Name
                   </label>
                   <input
                     type="text"
                     {...register("sale_agent_name")}
-                    className="px-3 py-2 w-full text-gray-700 bg-white rounded-lg border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="px-3 py-2 w-full text-gray-700 bg-white rounded-lg border border-gray-300 dark:border-secondary-800 dark:bg-transparent focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     placeholder="Enter your Assistant's name"
                   />
                   {errors.sale_agent_name && (
@@ -187,7 +187,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Assistant ID
                   </label>
                 <Controller
@@ -203,13 +203,13 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Description
                   </label>
                   <textarea
                     rows={6}
                     {...register("description")}
-                    className="px-3 py-2 w-full text-gray-700 bg-white rounded-lg border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="px-3 py-2 w-full text-gray-700 bg-white rounded-lg border border-gray-300 dark:border-secondary-800 dark:bg-transparent focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     placeholder="Enter your Assistant's description"
                   />
                   {errors.description && (
@@ -220,19 +220,18 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
                 </div>
               </div>
             </div>
-            <hr className="w-full h-[1px] bg-gray-50" />
           </section>
           <section>
             <div className="flex gap-20 my-10 w-full">
               <div className="w-2/6">
-                <p className="text-xs font-medium">Personality</p>
+                <p className="text-xs font-medium dark:text-WHITE-_100">Personality</p>
                 <p className="text-[#7F7F81] text-xs font-normal">
                   Select a Personality for your assistant, you can change this
                   whenever you want
                 </p>
               </div>
               <div className="space-y-3 w-1/2">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Personality Type
                 </label>
                 <Controller
@@ -249,18 +248,17 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
                 />
               </div>
             </div>
-            <hr className="w-full h-[1px] bg-gray-50" />
           </section>
           <section>
             <div className="flex gap-20 my-10 w-full">
               <div className="w-2/6">
-                <p className="text-xs font-medium">Verbosity</p>
+                <p className="text-xs font-medium dark:text-WHITE-_100">Verbosity</p>
                 <p className="text-[#7F7F81] text-xs font-normal">
                   Adjust Assistant’s response detail or word’s used
                 </p>
               </div>
               <div className="space-y-3 w-1/2">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Choose Verbosity level
                 </label>
                 <Controller
@@ -277,7 +275,6 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
                 />
               </div>
             </div>
-            <hr className="w-full h-[1px] bg-gray-50" />
           </section>
           <section>
             <DeactivateAssistantField/>

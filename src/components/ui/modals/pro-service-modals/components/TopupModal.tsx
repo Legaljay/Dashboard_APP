@@ -142,25 +142,24 @@ const TopupModal: React.FC<TopupModalProps> = ({
   return (
     <Modal title="Top Up Wallet" onClose={handleClose}>
       <div
-        className="bg-WHITE-_100 w-[578px] h-[545px] overflow-y-scroll rounded-lg hide-scrollbar"
+        className="bg-WHITE-_100 dark:bg-background-dark h-[545px] overflow-y-scroll rounded-lg hide-scrollbar"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         <div className="flex items-center justify-center mt-[33px]">
           <div
-            className="h-[413px] w-[472px] mx-auto rounded-lg"
-            style={{ boxShadow: "0px 4px 8px 1px rgba(215, 215, 215, 0.25)" }}
+            className="h-[413px] w-[472px] mx-auto rounded-lg shadow-boxShadow dark:shadow-lg dark:bg-gray-800"
           >
             <div
-              className="px-[24px] py-[24px]"
+              className="px-[24px] py-[24px] rounded-t-lg"
               style={{ background: "rgba(205, 222, 248, 0.20)" }}
             >
               <div>
                 <div className="flex flex-col gap-3.5">
-                  <p className="text-[14px] leading-[16.8px] font-medium text-BLACK-_500">
+                  <p className="text-[14px] leading-[16.8px] font-medium text-BLACK-_500 dark:text-WHITE-_100">
                     Pay-As-You-Go
                   </p>
                   <div className="flex gap-2.5">
-                    <p className="font-medium text-[35px] leading-[42px] text-BLACK-_500">
+                    <p className="font-medium text-[35px] leading-[42px] text-BLACK-_500 dark:text-WHITE-_100">
                       {/* {currentPlanTaskAmount}{" "} */}0
                     </p>
                     <p className="text-sm text-BLACK-_300 mt-2.5">
@@ -168,7 +167,7 @@ const TopupModal: React.FC<TopupModalProps> = ({
                     </p>
                   </div>
                 </div>
-                <span className="text-[#1774FD] text-[12px] mt-[12px]">
+                <span className="text-[#1774FD] dark:text-WHITE-_100 text-[12px] mt-[12px]">
                   Subscription charges will be taken from this wallet. Find out
                   more{" "}
                   <span

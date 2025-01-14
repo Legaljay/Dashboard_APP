@@ -118,12 +118,7 @@ const CreditBalanceCard: React.FC<CreditBalanceCardProps> = ({
 
   return (
     <div
-      className="min-w-[373px] basis-1 py-5 px-3.5 rounded-xl step-1 space-y-2"
-      style={{
-        boxShadow: "0px 4px 8px 1px rgba(215, 215, 215, 0.25)",
-        background:
-          "linear-gradient(90deg, #F7F7F7 0%, rgba(250, 250, 250, 0.48) 52.26%, #F7F7F7 100.19%)",
-      }}
+      className="min-w-[373px] basis-1 py-5 px-3.5 rounded-xl step-1 space-y-2 shadow-boxShadow bg-dashboard-stats-card-background dark:shadow-lg dark:bg-quick-access-dark dark:border dark:border-secondary-800"
     >
       <div className="flex justify-between">
         <img src={Purse} alt="wallet" />
@@ -134,7 +129,7 @@ const CreditBalanceCard: React.FC<CreditBalanceCardProps> = ({
       </div>
       <div className="flex flex-col w-[119px] gap-2">
         <p className="text-xs text-BLACK-_300">Credits</p>
-        <p className="text-2xl font-semibold text-BLACK-_600">
+        <p className="text-2xl font-semibold text-BLACK-_600 dark:text-WHITE-_100">
           ${convertedCredit.toLowerCase() !== "nan" ? convertedCredit : 0}
         </p>
       </div>

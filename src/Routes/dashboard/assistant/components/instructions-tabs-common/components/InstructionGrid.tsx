@@ -35,13 +35,13 @@ const InstructionGrid: React.FC<InstructionGridProps> = ({
       )}
 
       <div
-        className="cursor-pointer h-[158px] bg-white border border-[#E5E5E5] p-4 rounded-xl"
+        className="cursor-pointer h-[158px] bg-white dark:bg-stone-950 dark:border-stone-800 dark:text-stone-50 border border-[#E5E5E5] p-4 rounded-xl"
         onClick={onAddInstruction}
       >
         <div className="mb-5">
           <AddBtnService />
         </div>
-        <p className="text-[#121212] text-base font-medium">
+        <p className="text-[#121212] dark:text-stone-50 text-base font-medium">
           Add Instruction Category
         </p>
         <p className="text-xs font-normal text-[#7F7F81] mt-2">

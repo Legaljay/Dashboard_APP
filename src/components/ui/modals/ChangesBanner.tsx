@@ -11,6 +11,7 @@ import useChangeDetector, {
   ChangeType,
   DetailedChange,
 } from "@/hooks/useChangeDetector";
+import { useApp } from "@/contexts/AppContext";
 
 // interface ChangesBannerProps {
 //     setPropShowPopUp: React.Dispatch<React.SetStateAction<boolean>>;
@@ -159,6 +160,8 @@ function ChangesBanner({
   const navigate = useNavigate();
   const { openModal } = useModal();
   const { assistantId = "" } = useParams();
+
+  const { dispatch: testAgentDispatch } = useApp();
 
   const assistant = useAppSelector(
     (state) => state.applications.selectedApplication
@@ -311,7 +314,11 @@ function ChangesBanner({
             <span
               className="mx-1 underline cursor-pointer"
               onClick={() => {
-                setPropShowPopUp?.(true);
+                testAgentDispatch({
+                  type: "SET_TEST_AGENT",
+                  payload: true
+                });
+                // setPropShowPopUp?.(true);
               }}
             >
               Test these changes
@@ -321,7 +328,7 @@ function ChangesBanner({
               className="mx-1 underline cursor-pointer"
               onClick={() => {
                 navigateToIntegrations && navigateToIntegrations();
-                navigate("/agent", { state: "Integrations/Deploy" });
+                navigate(`/dashboard/assistant/${assistantId}/test-launch`);
               }}
             >
               Channels

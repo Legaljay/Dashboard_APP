@@ -35,11 +35,11 @@ const VerbosityField: React.FC<VerbosityFieldProps> = ({
           type="text"
           value={formattedValue}
           readOnly
-          className="block w-full px-3 py-2 text-gray-600 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm capitalize"
+          className="block px-3 py-2 w-full text-gray-600 capitalize bg-white rounded-md border border-gray-300 shadow-sm dark:border-secondary-800 dark:bg-transparent focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
         />
         <div
           onClick={handleVerbosityModal}
-          className="absolute inset-y-0 right-0 flex items-center px-2 cursor-pointer"
+          className="flex absolute inset-y-0 right-0 items-center px-2 cursor-pointer"
         >
           <ChooseIcon />
         </div>

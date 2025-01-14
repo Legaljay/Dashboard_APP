@@ -1243,7 +1243,7 @@ export const MaximizeIcon = ({ className }: { className?: string }) => {
     </svg>
   );
 };
-export const MinimizeIcon = ({ className }: { className?: string }) => {
+export const MinimizeIcon = ({ className, color }: { className?: string; color?: string }) => {
   return (
     <svg
       width="36"

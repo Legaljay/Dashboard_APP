@@ -66,3 +66,13 @@
 .fixed-width-table th:last-child {
   border-top-right-radius: 0.5rem;
 }
+
+/* @media (prefers-color-scheme: light) {
+  .fixed-width-table th {
+    background-color: #333333;
+  }
+
+  .read-the-docs {
+    color: #333;
+  }
+} */

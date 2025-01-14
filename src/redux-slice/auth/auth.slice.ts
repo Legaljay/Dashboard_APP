@@ -40,7 +40,7 @@ const initialState: AuthState = {
 // Auth Thunks
 export const loginUser = createAsyncThunk<
   ILoginResponse,
-  { email: string; password: string; mfaCode?: string },
+  { email: string; password: string; code?: string },
   { rejectValue: ApiError }
 >("auth/login", async (credentials, { rejectWithValue }) => {
   try {

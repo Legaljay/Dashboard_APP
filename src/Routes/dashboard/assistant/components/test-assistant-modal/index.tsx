@@ -96,9 +96,9 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
   className = '',
 }) => {
   return (
-    <div className={`bg-white rounded-[12px] p-4 flex flex-col gap-3 ${className}`}>
-      <div className="flex items-center gap-2">
-        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-red-100">
+    <div className={`flex flex-col gap-3 p-4 bg-white rounded-[12px] ${className}`}>
+      <div className="flex gap-2 items-center">
+        <div className="flex justify-center items-center w-8 h-8 bg-red-100 rounded-full">
           <svg
             className="w-5 h-5 text-red-600"
             fill="none"
@@ -144,8 +144,8 @@ export const AgentInfo: React.FC<AgentInfoProps> = React.memo(({
   const formattedBalance = formatWalletBalance(walletBalance);
   
   return (
-    <aside className={`px-4 pt-2 bg-white rounded-[8px] w-[367px] shadow-sm h-[71.5px] my-[12.5px] ${className}`}>
-      <div className="flex items-center gap-3">
+    <aside className={`px-4 pt-2 bg-white dark:bg-gray-800 rounded-[8px] w-[367px] shadow-sm h-[71.5px] my-[12.5px] ${className}`}>
+      <div className="flex gap-3 items-center">
         <div className="basis-[24px] relative">
           <div className="flex">
             <img 
@@ -159,7 +159,7 @@ export const AgentInfo: React.FC<AgentInfoProps> = React.memo(({
           </div>
         </div>
         
-        <div className="basis-full flex flex-col">
+        <div className="flex flex-col basis-full">
           <h2 className="text-[15px] font-medium text-[#121212]">
             {agent.name || 'Test Assistant'}
           </h2>
@@ -197,7 +197,7 @@ export const Introduction: React.FC<IntroductionProps> = React.memo(({ assistant
         <img src={smile} alt="sales" className="w-10 h-10" />
       </div>
 
-      <p className="text-center text-base">
+      <p className="text-base text-center">
         I’m {assistant.name} 👋
       </p>
       <p className="text-xs text-center">
@@ -224,7 +224,7 @@ export const AgentInfoSkeleton: React.FC = () => (
       <div className="mt-4">
         <div className="w-5 h-5 bg-gray-200 rounded-full" />
       </div>
-      <div className="flex flex-col gap-2 flex-1">
+      <div className="flex flex-col flex-1 gap-2">
         <div className="w-1/3 h-4 bg-gray-200 rounded" />
         <div className="w-full h-3 bg-gray-200 rounded" />
       </div>

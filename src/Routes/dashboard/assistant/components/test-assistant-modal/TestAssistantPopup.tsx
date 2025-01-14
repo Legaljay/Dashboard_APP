@@ -65,14 +65,14 @@ export const TestAssistantPopup: React.FC<TestAgentPopupProps> = memo(({
   }, []);
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-40">
-      <div className="bg-black bg-opacity-50 h-screen w-screen fixed top-0 left-0" />
+    <div className="flex fixed inset-0 z-40 justify-center items-center">
+      <div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-50" />
       <motion.div
         initial={{ opacity: 0, y: 200 }}
         exit={{ opacity: 0, y: 200 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9 }}
-        className={`h-[90vh] p-6 bg-[#FAFAFA] fixed w-[415px] right-[26px] bottom-10 z-50 rounded-lg flex flex-col ${
+        className={`h-[90vh] p-6 bg-[#FAFAFA] dark:bg-background-dark fixed w-[415px] right-[26px] bottom-10 z-50 rounded-lg flex flex-col ${
           isMinimizing
             ? "animate__animated animate__slideOutDown"
             : "animate__animated animate__slideInUp"
@@ -94,7 +94,7 @@ export const TestAssistantPopup: React.FC<TestAgentPopupProps> = memo(({
           <MdVerified className="text-[#00E25C]" />
         </header>
         )}
-        <section className="h-full flex-1 bg-[#FAFBFC] border shadow border-[#F7F7F7] rounded-lg pb-1">
+        <section className="h-full flex-1 bg-[#FAFBFC] dark:bg-gray-800 border shadow border-[#F7F7F7] rounded-lg pb-1">
           {memoryExists ? (
             <div className="relative h-full">
               {startChat ? (

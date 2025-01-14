@@ -14,9 +14,8 @@ const CurrentPlanCard = () => {
   const currentPlanName = "Basic";
   return (
     <div
-      className="min-w-[373px] basis-1 h-[168px] py-6 px-5 rounded-xl flex flex-col justify-between gap-1 p-6"
+      className="min-w-[373px] basis-1 h-[168px] py-6 px-5 rounded-xl flex flex-col justify-between gap-1 p-6 shadow-boxShadow dark:shadow-lg dark:bg-quick-access-dark dark:border dark:border-secondary-800"
       style={{
-        boxShadow: "0px 4px 8px 1px rgba(215, 215, 215, 0.25)",
         background: "linear-gradient(160deg,#F8C4D326 2%,  #1774FD08 68%)",
       }}
     >
@@ -32,7 +31,7 @@ const CurrentPlanCard = () => {
         </Button>
       </div>
       <p className="text-BLACK-_300 text-xs">Current Plan</p>
-      <p className="text-[20px] leading-[24px] text-[#052C67] font-semibold">
+      <p className="text-[20px] leading-[24px] text-[#052C67] dark:text-[#900999]/70 font-semibold">
         {currentPlanName}
       </p>
     </div>

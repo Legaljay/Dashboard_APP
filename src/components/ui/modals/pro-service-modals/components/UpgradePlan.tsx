@@ -82,7 +82,7 @@ const UpgradePlan: React.FC<UpgradePlanProps> = ({
           <div className="">
             <div className="flex justify-between">
               <div>
-                <h1 className="text-xl leading-[21.5px] text-[#101828] font-medium">
+                <h1 className="text-xl leading-[21.5px] text-[#101828] dark:text-WHITE-_100 font-medium">
                   {name}
                 </h1>
                 <p className="text-[#828282] text-sm leading-[28px]">
@@ -91,7 +91,7 @@ const UpgradePlan: React.FC<UpgradePlanProps> = ({
               </div>
 
               <div className="flex items-center self-end">
-                <h1 className="text-2xl text-[#101828] font-medium leading-[28.12px]">
+                <h1 className="text-2xl text-[#101828] dark:text-WHITE-_100 font-medium leading-[28.12px]">
                   ${monthly_amount}
                 </h1>
                 <span className="text-[#828282] text-sm leading-[36.62px]">
@@ -138,7 +138,7 @@ const UpgradePlan: React.FC<UpgradePlanProps> = ({
         <div className="flex justify-center">
           <button
             onClick={handleUpgrade}
-            className="bg-[#121212] text-[#FFFFFF] w-[435px] py-[8px] px-[20px] text-[12px] leading-[24px] font-semibold mx-auto rounded-lg"
+            className="bg-[#121212] dark:bg-gray-800 text-[#FFFFFF] w-[435px] py-[8px] px-[20px] text-[12px] leading-[24px] font-semibold mx-auto rounded-lg"
           >
             Confirm Upgrade Plan
           </button>

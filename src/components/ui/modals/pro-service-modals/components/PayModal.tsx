@@ -33,10 +33,10 @@ const PaymentOption: React.FC<PaymentOptionProps> = ({
   onClick,
   disabled,
 }) => (
-  <div className="bg-[#f9f9f966] flex items-center justify-between rounded-lg border border-[#E5E5E5] py-[24px] px-[20px]">
+  <div className="bg-[#f9f9f966] flex items-center justify-between rounded-lg border border-[#E5E5E5] dark:border-secondary-800 py-[24px] px-[20px]">
     <div className="flex items-center gap-[10px]">
       <img src={icon} alt={`${label} icon`} className="w-[29px] h-[29px]" />
-      <p className="text-[#121212] text-base font-medium">{label}</p>
+      <p className="text-[#121212] dark:text-WHITE-_100 text-base font-medium">{label}</p>
     </div>
     {/* <RadioGroup value={checked} onChange={onChange} name="payment-option">
       <RadioGroup.Option value={checked} disabled={disabled}>
@@ -106,7 +106,7 @@ const PayModal: React.FC<PayProps> = ({
           </div>
         )}
         <div className="p-10">
-          <p className="text-lg font-medium text-[#121212]">
+          <p className="text-lg font-medium text-[#121212] dark:text-WHITE-_100">
             For Payment: ${payAmount}
           </p>
           <div className="mt-[31px] gap-[31px] flex flex-col">

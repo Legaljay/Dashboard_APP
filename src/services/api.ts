@@ -28,6 +28,25 @@ export class ApiService {
     return ApiService.instance;
   }
 
+  private navigateToLogin(): void {
+    // Check if we're in a browser environment
+    if (typeof window !== 'undefined') {
+      window.location.href = "/";
+    } else {
+      console.warn("Navigation attempted in non-browser environment");
+    }
+  }
+
+  private clearAuthData(): void {
+    // Clear redux store
+    store.dispatch({ type: "auth/clearCredentials" });
+    
+    // Clear localStorage if in browser environment
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.clear();
+    }
+  }
+
   private setupInterceptors(): void {
     // Request interceptor
     this.api.interceptors.request.use(
@@ -57,16 +76,27 @@ export class ApiService {
           originalRequest._retry = true;
 
           try {
+
+            // Only attempt token refresh in browser environment
+            if (typeof window === 'undefined' || !window.localStorage) {
+              throw new Error('Not in browser environment');
+            }
+
             // Attempt to refresh token
             const refreshToken = localStorage.getItem("refreshToken");
+            if (!refreshToken) {
+              throw new Error('No refresh token found');
+            }
+
             const response = await this.api.post("/auth/refresh", {
               refreshToken,
             });
+
             if (!response.data) {
-              localStorage.clear();
-              window.location.href = "/login";
-              return Promise.reject(error);
+              throw new Error('No data received from refresh token request');
             }
+
+            // Extract new token
             const { token } = response.data;
 
             // Update token in store
@@ -77,7 +107,8 @@ export class ApiService {
             return this.api(originalRequest);
           } catch (refreshError) {
             // Handle refresh token failure
-            store.dispatch({ type: "auth/clearCredentials" });
+            this.clearAuthData();
+            this.navigateToLogin();
             return Promise.reject(refreshError);
           }
         }

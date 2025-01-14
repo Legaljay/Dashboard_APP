@@ -40,13 +40,13 @@ export default function Tabs({ logo, tabs, color, activeTab, fullWidth, loading,
         </div>
         :
         <div className="flex justify-between text-xs font-medium text-center rounded-lg transition-transform transform outline-none">
-          <div className={`flex border border-neutral-200 bg-[#FAFAFA] space-x-2 rounded-lg ${fullWidth ? 'w-full' : 'w-full lg:w-max lg:overflow-visible'} overflow-x-auto overflow-y-hidden`}>
+          <div className={`flex border border-neutral-200 dark:border-secondary-800 bg-[#FAFAFA] dark:bg-gray-800 space-x-2 rounded-lg ${fullWidth ? 'w-full' : 'w-full lg:w-max lg:overflow-visible'} overflow-x-auto overflow-y-hidden`}>
             {tabs.map((tab, index) => (
               <div
                 key={index}
                 onClick={() => selectTab(index)}
                 role='button'
-                className={`cursor-pointer py-2 px-6 rounded-lg text-primary-dark-blue transition-all body-medium ${activeTab == index ? " text-[#1774FD] bg-white shadow": "text-[#7F7F81]"}`}>
+                className={`cursor-pointer py-2 px-6 rounded-lg text-primary-dark-blue transition-all body-medium ${activeTab == index ? " text-[#1774FD] bg-white dark:bg-background-dark shadow": "text-[#7F7F81]"}`}>
                   <div className="flex gap-[2px]">
                     <p className='whitespace-nowrap'>{tab}</p>
                     {isImportant?.[index] && (<span className="text-RED-_100">*</span>)}

@@ -66,8 +66,8 @@ const Setup2FAModal: React.FC<Setup2FA> = ({ updateFAState }) => {
     <Modal title="Setup Two-Factor Authentication" onClose={onClose}>
       <Modal.Header>
         <div className="flex flex-col justify-center items-center gap-2 mx-auto">
-          <img src={Qr} alt="qr-code" className="w-[24px] h-[24px]" />
-          <p className="text-[#101828] text-xl font-medium">Set up 2FA</p>
+          <img src={Qr} alt="qr-code" className="w-[24px] h-[24px] dark:invert" />
+          <p className="text-[#101828] dark:text-WHITE-_100 text-xl font-medium">Set up 2FA</p>
           <p className="text-[13px] text-[#828282] font-normal">
             Scan the QR Code below with your authenticator app.
           </p>
@@ -84,8 +84,7 @@ const Setup2FAModal: React.FC<Setup2FA> = ({ updateFAState }) => {
             </p>
             {qrCode && (
               <div
-                className="flex mx-auto h-[220px] justify-center py-[20px] mt-5 rounded-lg"
-                style={{ background: "rgba(241, 241, 241, 0.39)" }}
+                className="flex mx-auto h-[220px] justify-center py-[20px] mt-5 rounded-lg bg-stone-100 dark:bg-stone-900"
               >
                 <div className="w-fit bg-white p-[10px] rounded-lg">
                   <QRCodeSVG
@@ -112,7 +111,7 @@ const Setup2FAModal: React.FC<Setup2FA> = ({ updateFAState }) => {
               schema={OTPSchema}
               onSubmit={handleVerifySubmit}
               submitLabel="Verify"
-              className="p-0 border-none shadow-none"
+              className="p-0 border-none shadow-none dark:bg-background-dark"
               renderField={(field, form) => {
                 if (field.type === "custom") {
                   return <OTPInputWithFormField field={field} form={form} />;
@@ -124,7 +123,7 @@ const Setup2FAModal: React.FC<Setup2FA> = ({ updateFAState }) => {
                   <Button
                     type="button"
                     variant={"ghost"}
-                    className="text-black"
+                    className="text-black dark:text-gray-200"
                     onClick={onClose}
                   >
                     Cancel

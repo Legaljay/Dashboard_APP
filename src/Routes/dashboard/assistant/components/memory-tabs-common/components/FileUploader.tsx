@@ -49,7 +49,7 @@ export const FileUploader: React.FC<FileUploaderProps> = React.memo(({ fileState
   };
 
   return (
-    <Dragger {...props} >
+    <Dragger {...props} className=''>
       {fileState.fileList.length ? (
         <div className="flex flex-col gap-2 items-center py-8 bg-ant">
           <img src={docxIcon} alt="template" className="w-8 h-8" />

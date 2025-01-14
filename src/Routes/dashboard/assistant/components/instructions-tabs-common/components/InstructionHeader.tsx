@@ -9,16 +9,13 @@ interface InstructionHeaderProps {
 const InstructionHeader: React.FC<InstructionHeaderProps> = ({ onViewTemplates }) => {
   return (
     <header
-      className="pl-[24px] relative shadow-box pr-[51px] w-full py-[47px] rounded-xl mb-8 flex justify-between items-center"
-      style={{
-        backgroundImage: "linear-gradient(to bottom right, #FDF6F9 10%, #F6F6FC 50%, #FAFCFF 100%)",
-      }}
+      className="pl-[24px] relative shadow-box pr-[51px] w-full py-[47px] rounded-xl mb-8 flex justify-between items-center bg-instructions-header dark:bg-instructions-header-dark"
     >
       <div className="flex flex-col">
         <p className="font-bold text-[32px] text-bamboo">
           Need Help? Use templates!
         </p>
-        <p className="text-sm font-normal text-BLACK-_300 leading-6">
+        <p className="text-sm font-normal leading-6 text-BLACK-_300">
           Don't know how to get started with instructions? Use our already made templates as your guide.
         </p>
         <div>

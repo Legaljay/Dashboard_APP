@@ -213,9 +213,6 @@ export const selectAdjacentPlans = createSelector(
   [selectAvailablePlans, selectCurrentPlan],
   (availablePlans, currentPlan) => {
 
-    console.log('Available Plans:', availablePlans);
-    console.log('Current Plan:', currentPlan);
-
     // Check if availablePlans and currentPlan are defined
     if (!availablePlans || !currentPlan) {
       return { previousPlan: null, nextPlan: null };
@@ -229,8 +226,7 @@ export const selectAdjacentPlans = createSelector(
     });
     
     // Find current plan index
-    const currentIndex = sortedPlans.findIndex(plan => plan.id === currentPlan.id);
-    console.log('Current Index:', currentIndex);
+    const currentIndex = sortedPlans.findIndex(plan => plan.id === currentPlan.subscription_details.id);
     
     if (currentIndex === -1) {
       return { previousPlan: null, nextPlan: null };

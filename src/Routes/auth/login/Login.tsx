@@ -4,8 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import WanoLogo from "@/assets/wano logo 1 1.png";
 import { useToast } from "@/contexts/ToastContext";
 import { useAppDispatch } from "@/redux-slice/hooks";
-import { loginUser, setTempEmail } from "@/redux-slice/auth/auth.slice";
+import { loginUser, setTempEmail, setTempPassword } from "@/redux-slice/auth/auth.slice";
 import React from "react";
+import { fetchApplications } from "@/redux-slice/applications/applications.slice";
 
 // Define form schema
 const loginSchema = z.object({
@@ -35,6 +36,9 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 
 const NOT_VERIFIED = "Account not verified";
 
+const TWO_FA_OTP_REQUIRED = "2FA OTP is required";
+
+
 const LoginForm = () => {
   const navigate = useNavigate();
   const { addToast } = useToast();
@@ -58,9 +62,10 @@ const LoginForm = () => {
         if(!loginResponse.data.setup_business){
           navigate('company');
         } else {
+          await dispatch(fetchApplications())
           setTimeout(() => {
             navigate("/dashboard");
-          }, 1000);
+          }, 2000);
         }
       }
       
@@ -73,6 +78,15 @@ const LoginForm = () => {
         dispatch(setTempEmail(data.email));
         // navigate to the verify account page
         navigate('verify-account');
+      }
+
+      // check if the error message is "2FA OTP is required"
+      if(errorMessage === TWO_FA_OTP_REQUIRED){
+        // store the email in the redux store
+        dispatch(setTempEmail(data.email));
+        dispatch(setTempPassword(data.password));
+        // navigate to the 2fa authentication page
+        navigate('2Fa-Authentication');
       }
     }
   };

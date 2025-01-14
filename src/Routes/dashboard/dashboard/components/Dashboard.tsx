@@ -1,17 +1,15 @@
 import React, { memo, useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 // import { ModalExamples } from "@/components/examples/ModalExamples";
 // import { useApp } from "@/contexts/AppContext";
 // import useDataFetching from "@/hooks/useDataFetching";
 import { DashboardStats as DashStats } from "@/types/common";
-import { useModal } from "@/contexts/ModalContext";
-import { Modal, ConfirmModal } from "@/components/ui/modal/Modal";
-import { MODAL_IDS } from "@/constants/modalIds";
 import "./Dashboard.css";
 import { useAppSelector } from "@/redux-slice/hooks";
 import QuickAccess from "./QuickAccess";
 import DashboardStats from "./DashboardStats";
 import { useDashboardData } from "@/hooks/useDashboardData";
+import LoadingFallback from "@/LoadingFallback";
 
 interface StatCardProps {
   label: string;
@@ -20,8 +18,8 @@ interface StatCardProps {
 }
 
 interface ConversionType {
-  label: string; 
-  value: string
+  label: string;
+  value: string;
 }
 
 const StatCard: React.FC<StatCardProps> = ({ label, value, icon }) => (
@@ -43,11 +41,16 @@ const getDashboardStats = async (): Promise<DashStats> => {
 };
 
 const DashboardContainer: React.FC = memo(() => {
-  const [conversationWeek, setConversationWeek] = useState<ConversionType>({ label: "Today", value: "today" });
-  const [openTopUp, setOpenTopUp] = useState<boolean>(false);
-  const state = useAppSelector((state) => state.auth);
-  const { openModal, closeModal } = useModal();
+  const [conversationWeek, setConversationWeek] = useState<ConversionType>({
+    label: "Today",
+    value: "today",
+  });
+  const [applicationReset, setApplicationReset] = useState<boolean>(false);
+  const auth = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const appResetLoading = state?.loading ?? false;
+
   const {
     dashboardData,
     walletBalance,
@@ -60,61 +63,28 @@ const DashboardContainer: React.FC = memo(() => {
   } = useDashboardData(conversationWeek.value);
 
   React.useEffect(() => {
-    if (!state.isAuthenticated) {
-      navigate("/dashboard"); // to be changed to '/'
+    if (!auth.isAuthenticated) {
+      navigate("/");
     }
-  }, [state.isAuthenticated, navigate]);
+  }, [auth.isAuthenticated, navigate]);
 
-  // Example of opening a basic modal
-  const handleOpenBasicModal = () => {
-    openModal(
-      MODAL_IDS.EDIT_PROFILE,
-      <Modal
-        title="Edit Profile"
-        onClose={() => closeModal(MODAL_IDS.EDIT_PROFILE)}
-      >
-        {/* Your modal content */}
-        <Modal.Body>
-          <p className="text-sm text-gray-500">Edit profile form goes here</p>
-        </Modal.Body>
+  React.useEffect(() => {
+    if (appResetLoading) {
+      setApplicationReset(true);
+      setTimeout(() => {
+        setApplicationReset(false);
+        navigate("/dashboard", { replace: true });
+      }, 3000);
+    }
+  }, [appResetLoading, navigate, applicationReset]);
 
-        {/* Your modal footer */}
-        <Modal.Footer>
-          <button
-            className="bg-red-800"
-            onClick={() => closeModal(MODAL_IDS.EDIT_PROFILE)}
-          >
-            Close
-          </button>
-        </Modal.Footer>
-      </Modal>
+  if (applicationReset) {
+    return (
+      <div className="dashboard-container h-[80lvh]">
+        <LoadingFallback />
+      </div>
     );
-  };
-
-  // Example of opening a confirmation modal
-  const handleOpenConfirmModal = () => {
-    openModal(
-      MODAL_IDS.CONFIRM_DELETE,
-      <ConfirmModal
-        title="Confirm Delete"
-        message="Are you sure you want to delete this item?"
-        onConfirm={() => {
-          // Handle confirmation
-          closeModal(MODAL_IDS.CONFIRM_DELETE);
-        }}
-        onCancel={() => closeModal(MODAL_IDS.CONFIRM_DELETE)}
-        type="neutral"
-      />
-    );
-  };
-
-  // if (loading) {
-  //   return (
-  //     <div className="dashboard-container">
-  //       <div className="loading-spinner">Loading...</div>
-  //     </div>
-  //   );
-  // }
+  }
 
   if (error) {
     return (
@@ -129,13 +99,14 @@ const DashboardContainer: React.FC = memo(() => {
     );
   }
 
-  // if (!stats) return null;
 
   return (
     <div className="dashboard-container">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="!text-xl font-medium !text-BLACK-_600 !mb-1">Welcome, {state.user?.first_name}</h1>
+          <h1 className="!text-xl font-medium !text-BLACK-_600 dark:!text-gray-400 !mb-1">
+            Welcome, {auth.user?.first_name}
+          </h1>
           <p className="text-sm text-BLACK-_300">Here's what's happening</p>
         </div>
         <button
@@ -153,7 +124,6 @@ const DashboardContainer: React.FC = memo(() => {
         firstRender
         conversationWeek={conversationWeek}
         setConversationWeek={setConversationWeek}
-        setOpenTopUp = {setOpenTopUp}
       />
       <QuickAccess />
     </div>
@@ -172,40 +142,40 @@ export default Dashboard;
 
 // TODO: Replace with actual API call
 // const {
-  //   data: stats,
-  //   loading,
-  //   error,
-  //   isValidating,
-  //   refetch,
-  // } = useDataFetching<DashboardStats>(getDashboardStats, [], {
-  //   showToasts: {
-  //     error: true,
-  //     success: false,
-  //   },
-  //   toastMessages: {
-  //     error: (error) => `Failed to load dashboard statistics: ${error.message}`,
-  //   },
-  //   pollingInterval: 30000, // Poll every 30 seconds
-  //   pollingEnabled: true,
-  //   revalidateOnFocus: true,
-  //   revalidateOnReconnect: true,
-  //   retryCount: 3,
-  //   onSuccess: (data, dispatch) => {
-  //     // You can dispatch Redux actions here
-  //     dispatch({ type: "dashboard/statsUpdated", payload: data });
-  //   },
-  //   onError: (error, dispatch) => {
-  //     dispatch({ type: "dashboard/statsError", payload: error.message });
-  //   },
-  //   transform: (data) => ({
-  //     ...data,
-  //     // You can transform the data here if needed
-  //     satisfaction: Number(data.satisfaction.toFixed(1)),
-  //   }),
-  // });
+//   data: stats,
+//   loading,
+//   error,
+//   isValidating,
+//   refetch,
+// } = useDataFetching<DashboardStats>(getDashboardStats, [], {
+//   showToasts: {
+//     error: true,
+//     success: false,
+//   },
+//   toastMessages: {
+//     error: (error) => `Failed to load dashboard statistics: ${error.message}`,
+//   },
+//   pollingInterval: 30000, // Poll every 30 seconds
+//   pollingEnabled: true,
+//   revalidateOnFocus: true,
+//   revalidateOnReconnect: true,
+//   retryCount: 3,
+//   onSuccess: (data, dispatch) => {
+//     // You can dispatch Redux actions here
+//     dispatch({ type: "dashboard/statsUpdated", payload: data });
+//   },
+//   onError: (error, dispatch) => {
+//     dispatch({ type: "dashboard/statsError", payload: error.message });
+//   },
+//   transform: (data) => ({
+//     ...data,
+//     // You can transform the data here if needed
+//     satisfaction: Number(data.satisfaction.toFixed(1)),
+//   }),
+// });
 
-
-{/* <div className="stats-grid">
+{
+  /* <div className="stats-grid">
         <StatCard
           label="Total Customers"
           value={stats.totalCustomers.toLocaleString()}
@@ -219,8 +189,10 @@ export default Dashboard;
           value={stats.resolvedChats.toLocaleString()}
         />
         <StatCard label="Satisfaction Rate" value={`${stats.satisfaction}%`} />
-      </div> */}
-      {/* <div className="flex gap-2 items-center mt-4">
+      </div> */
+}
+{
+  /* <div className="flex gap-2 items-center mt-4">
         <button
           onClick={handleOpenBasicModal}
           className="text-black border-[#1447ad]"
@@ -233,5 +205,51 @@ export default Dashboard;
         >
           Delete Item
         </button>
-      </div> */}
-      {/* <ModalExamples /> */}
+      </div> */
+}
+{
+  /* <ModalExamples /> */
+}
+
+// // Example of opening a basic modal
+// const handleOpenBasicModal = () => {
+//   openModal(
+//     MODAL_IDS.EDIT_PROFILE,
+//     <Modal
+//       title="Edit Profile"
+//       onClose={() => closeModal(MODAL_IDS.EDIT_PROFILE)}
+//     >
+//       {/* Your modal content */}
+//       <Modal.Body>
+//         <p className="text-sm text-gray-500">Edit profile form goes here</p>
+//       </Modal.Body>
+
+//       {/* Your modal footer */}
+//       <Modal.Footer>
+//         <button
+//           className="bg-red-800"
+//           onClick={() => closeModal(MODAL_IDS.EDIT_PROFILE)}
+//         >
+//           Close
+//         </button>
+//       </Modal.Footer>
+//     </Modal>
+//   );
+// };
+
+// // Example of opening a confirmation modal
+// const handleOpenConfirmModal = () => {
+//   openModal(
+//     MODAL_IDS.CONFIRM_DELETE,
+//     <ConfirmModal
+//       title="Confirm Delete"
+//       message="Are you sure you want to delete this item?"
+//       onConfirm={() => {
+//         // Handle confirmation
+//         closeModal(MODAL_IDS.CONFIRM_DELETE);
+//       }}
+//       onCancel={() => closeModal(MODAL_IDS.CONFIRM_DELETE)}
+//       type="neutral"
+//     />
+//   );
+// };

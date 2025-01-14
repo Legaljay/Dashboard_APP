@@ -32,7 +32,7 @@ const contentVariants = {
     opacity: 1, 
     height: "auto",
     transition: {
-      duration: 0.3,
+      duration: 0.5,
       ease: "easeInOut"
     }
   },
@@ -40,7 +40,7 @@ const contentVariants = {
     opacity: 0, 
     height: 0,
     transition: {
-      duration: 0.2,
+      duration: 0.4,
       ease: "easeInOut"
     }
   }
@@ -62,15 +62,13 @@ const AccordionItem = React.memo(({
     variants={itemVariants}
     className={`px-6 py-5 rounded-xl ${
       isOpen
-        ? "bg-white border border-[#E5E5E5] border-solid"
-        : "bg-[rgba(252,252,252,0.68)]"
+        ? "bg-white dark:bg-stone-950 border border-[#E5E5E5] dark:border-secondary-800 border-solid"
+        : "bg-[rgba(252,252,252,0.98)] dark:bg-gray-800"
     } cursor-pointer`}
     onClick={onToggle}
-    whileHover={{ scale: 1.01 }}
-    whileTap={{ scale: 0.99 }}
   >
     <div className="flex justify-between">
-      <p className={`text-[16px] font-normal ${isOpen ? "text-[#121212]" : "text-[#828282]"}`}>
+      <p className={`text-[16px] font-normal ${isOpen ? "text-[#121212] dark:text-stone-50" : "text-[#828282]"}`}>
         {title}
       </p>
       <motion.div
@@ -112,7 +110,7 @@ const SupportContent: React.FC<SupportContentProps> = React.memo(({
       animate="visible"
     >
       <motion.h2 
-        className="text-black text-3xl font-medium"
+        className="text-black text-3xl font-medium dark:text-stone-100"
         variants={itemVariants}
       >
         Need Help?

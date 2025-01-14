@@ -21,12 +21,10 @@ const Profile: React.FC<ProfileProps> = () => {
       variants={contentVariants}
       initial="initial"
       animate="animate"
-      className="w-full max-w-4xl mx-auto mb-24"
+      className="w-full max-w-4xl mx-auto mb-24 divide-y divide-stone-300 dark:divide-secondary-800"
     >
       <UserForm/>
-      <hr />
       <BusinessForm/>
-      <hr />
       <TwoFA/>
     </motion.div>
   );

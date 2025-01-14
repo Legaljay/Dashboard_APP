@@ -14,11 +14,12 @@ import {
   setBusiness,
   selectBusinessData,
 } from "@/redux-slice/business/business.slice";
-import { fetchApplications } from "@/redux-slice/applications/applications.slice";
+import { fetchApplications, resetState } from "@/redux-slice/applications/applications.slice";
 import TokenService from "@/utils/token";
 import ChangesBanner from "@/components/ui/modals/ChangesBanner";
 import ProFeatures from "@/components/ui/modals/pro-service-modals";
 import TestAssistant from "./assistant/components/test-assistant-modal/TestAssistant";
+import { clearCredentials } from "@/redux-slice/auth/auth.slice";
 
 interface Business {
   id: string;
@@ -76,12 +77,12 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const [skip] = useState(true);
   const [user] = useState(null);
 
-  // const [activeButton, setActiveButton] = useState("");
-  // const [propShowPopUp, setPropShowPopUp] = useState(false);
 
   const logout = useCallback(async () => {
     try {
       await TokenService.removeToken();
+      dispatch(clearCredentials());
+      dispatch(resetState());
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -145,13 +146,13 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   }, [location.pathname]);
 
   return (
-    <div className="flex h-full w-full bg-white dark:bg-background-dark transition-colors duration-200 overflow-hidden">
+    <div className="flex overflow-hidden w-full h-full bg-white transition-colors duration-200 dark:bg-background-dark">
       <aside>
         <Sidebar />
       </aside>
 
       <div className="w-full rounded">
-        <header className="flex justify-between w-full px-10 items-center py-4 border-b border-gray-200 dark:border-secondary-800">
+        <header className="flex justify-between items-center px-10 py-4 w-full border-b border-gray-200 dark:border-secondary-800">
           <div>
             <p className="text-[18px] font-medium text-[#101828] dark:text-[#ccc] capitalize">
               {title}
@@ -199,7 +200,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
               >
                 <Menu.Items className="z-10 absolute right-0 mt-6 w-[240px] origin-top-right rounded-md bg-white dark:dark:bg-gray-800 shadow-lg ring-1 ring-black/5 focus:outline-none">
                   <div className="">
-                    <div className="py-3 px-4 gap-3 items-center flex">
+                    <div className="flex gap-3 items-center px-4 py-3">
                       <div className="w-8 h-8 bg-[#1774FD] rounded-lg justify-center items-center flex">
                         <p className="text-white text-[16px] font-bold capitalize">
                           {profileData?.first_name[0]}
@@ -219,7 +220,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                         Switch business
                       </p>
                     </div>
-                    <div className="max-h-52 overflow-y-scroll">
+                    <div className="overflow-y-scroll max-h-52">
                       {businessData?.map((b, id) => {
                         return (
                           <Menu.Item key={id}>
@@ -248,7 +249,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                               className="hover:bg-[#FAFAFA] hover:dark:bg-secondary-800 group flex text-[#121212] dark:text-white justify-between w-full items-center px-4 py-[9px] font-medium text-sm"
                               onClick={handleAddBusiness}
                             >
-                              <div className="flex items-center gap-2">
+                              <div className="flex gap-2 items-center">
                                 <FaPlus className="text-[#a7a7a7] dark:text-white" />
                                 <p>Add New Business</p>
                               </div>
@@ -280,7 +281,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                 >
                   <Bell />
                   {unreadCount > 0 && (
-                    <span className="absolute top-0 right-0 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                    <span className="flex absolute top-0 right-0 justify-center items-center w-4 h-4 text-xs text-white bg-red-500 rounded-full">
                       {unreadCount}
                     </span>
                   )}
@@ -332,7 +333,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                           })}
                         </>
                       ) : (
-                        <div className="p-6 flex justify-center items-center">
+                        <div className="flex justify-center items-center p-6">
                           <p>No Notifications!</p>
                         </div>
                       )}
@@ -343,16 +344,16 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
             ) : null}
             <div
               className="cursor-pointer border p-2 border-[#F7F7F7] dark:border-secondary-800 rounded-lg"
-              onClick={() => navigate("/support")}
+              onClick={() => navigate("/dashboard/support")}
             >
               <Help />
             </div>
           </div>
         </header>
-        <main className="w-full h-full flex-1 px-2 pt-3 pb-8">
+        <main className="flex-1 px-2 pt-3 pb-8 w-full h-full">
           <ChangesBanner />
           <BreadCrumbs />
-          <div className="h-full w-full overflow-y-auto">{children}</div>
+          <div className="overflow-y-auto w-full h-full">{children}</div>
           <TestAssistant propShowPopUp={false} setPropShowPopUp={() => {}} />
         </main>
       </div>

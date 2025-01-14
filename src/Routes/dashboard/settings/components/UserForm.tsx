@@ -259,7 +259,7 @@ export const UserForm: React.FC = () => {
   return (
     <div className="flex gap-8 w-full">
       <div className="w-[350px]">
-        <h2 className="text-sm text-BLACK-_100 font-medium">
+        <h2 className="text-sm text-BLACK-_100 dark:text-WHITE-_100 font-medium">
           Personal Profile
         </h2>
         <p className="text-sm text-gray-500">
@@ -273,7 +273,7 @@ export const UserForm: React.FC = () => {
         onSubmit={onSubmit}
         onFormReady={handleFormReady}
         submitLabel="Save Changes"
-        className="space-y-6 shadow-none border-none w-[520px] px-[50px] pt-0"
+        className="space-y-6 shadow-none border-none w-[520px] px-[50px] pt-0 dark:bg-inherit"
         renderFieldGroup={renderFieldGroup}
         renderButton={renderButton}
         defaultValues={defaultValues}
