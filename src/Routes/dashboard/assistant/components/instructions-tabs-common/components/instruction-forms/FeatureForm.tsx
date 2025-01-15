@@ -24,12 +24,12 @@ const FeatureFormFields = [
     name: "name",
     customLabel: (field: UseFormReturn<FieldValues>) => {
       return (
-        <div className="text-xs font-figtree text-[#101828] flex items-center">
+        <div className="text-xs font-figtree text-[#101828] dark:text-gray-300 flex items-center">
           Name <span className="text-red-700 pl-[2px]">*</span>{" "}
         </div>
       );
     },
-    className: "bg-transparent text-gray-500 placeholder:text-sm",
+    className: "bg-transparent dark:bg-gray-800 text-gray-500 placeholder:text-sm",
     type: "text" as const,
     placeholder: "Card Request",
   },
@@ -37,12 +37,12 @@ const FeatureFormFields = [
     name: "description",
     customLabel: (field: UseFormReturn<FieldValues>) => {
       return (
-        <div className="text-xs font-figtree text-[#101828] flex items-center">
+        <div className="text-xs font-figtree text-[#101828] dark:text-gray-300 flex items-center">
           Description <span className="text-red-700 pl-[2px]">*</span>{" "}
         </div>
       );
     },
-    className: "bg-transparent placeholder:text-sm",
+    className: "bg-transparent dark:bg-gray-800 placeholder:text-sm",
     type: "text" as const,
     placeholder: "e.g. These instructions are for whenever a customer has a complaint about a Failed Transaction and would like it resolved.",
   },
@@ -50,7 +50,7 @@ const FeatureFormFields = [
     name: "how_it_works",
     customLabel: (field: UseFormReturn<FieldValues>) => {
       return (
-        <div className="text-xs font-figtree text-[#101828] flex items-center">
+        <div className="text-xs font-figtree text-[#101828] dark:text-gray-300 flex items-center">
           Enter Instructions <span className="text-red-700 pl-[2px]">*</span>{" "}
           <span className="text-[#7F7F81] ml-[5px]">
             (Provide a Step by Step Description of how this instruction should
@@ -59,7 +59,7 @@ const FeatureFormFields = [
         </div>
       );
     },
-    className: "bg-transparent text-gray-500 placeholder:text-sm",
+    className: "bg-transparent dark:bg-gray-800 text-gray-500 placeholder:text-sm",
     type: "textarea" as const,
     placeholder:
       "Enter your instructions here and press '@' to use apps in your instructions",
@@ -69,7 +69,7 @@ const FeatureFormFields = [
     name: "support_channel",
     customLabel: (field: UseFormReturn<FieldValues>) => {
       return (
-        <div className="text-xs font-figtree text-[#101828] flex items-center">
+        <div className="text-xs font-figtree text-[#101828] dark:text-gray-300 flex items-center">
           Support Channels <span className="text-red-700 pl-[2px]">*</span>{" "}
         </div>
       );
@@ -214,7 +214,7 @@ const FeatureForm = forwardRef(
         onSubmit={handleSubmit}
         schema={FeatureFormSchema}
         mode="all"
-        className="bg-transparent w-[711px] p-0 border-none shadow-none mt-11 gap-6"
+        className="bg-transparent w-[711px] p-0 border-none shadow-none mt-11 gap-6 dark:border-stone-600 dark:bg-transparent"
         defaultValues={defaultValues}
         submitLabel="Add Instruction"
         renderField={(field, form) => {

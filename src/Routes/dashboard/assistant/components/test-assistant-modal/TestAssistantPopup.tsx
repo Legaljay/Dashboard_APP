@@ -94,7 +94,7 @@ export const TestAssistantPopup: React.FC<TestAgentPopupProps> = memo(({
           <MdVerified className="text-[#00E25C]" />
         </header>
         )}
-        <section className="h-full flex-1 bg-[#FAFBFC] dark:bg-gray-800 border shadow border-[#F7F7F7] rounded-lg pb-1">
+        <section className="h-full flex-1 bg-[#FAFBFC] dark:bg-gray-800 border shadow border-[#F7F7F7] dark:border-secondary-800 rounded-lg pb-1">
           {memoryExists ? (
             <div className="relative h-full">
               {startChat ? (

@@ -414,7 +414,7 @@ const AddInstruction: React.FC = () => {
     <main className="font-figtree pr-10 pb-10 mb-7 w-full">
       <section className="flex justify-between w-full items-center">
         <div className="flex flex-col gap-2">
-          <h1 className="text-[24px] font-medium text-[#121212] font-figtree">
+          <h1 className="text-[24px] font-medium text-[#121212] dark:text-WHITE-_400 font-figtree">
             Add Instruction
           </h1>
         </div>
@@ -430,13 +430,13 @@ const AddInstruction: React.FC = () => {
           </div>
           <div className="flex items-center gap-3">
             {loading ? (
-              <button className="outline-none py-3 w-[139px] px-5 bg-[#121212] rounded-lg text-white text-[14px] font-bold flex justify-center">
+              <button className="outline-none py-3 w-[139px] px-5 bg-[#121212] dark:text-gray-300 rounded-lg text-white text-[14px] font-bold flex justify-center">
                 <CgSpinner className=" animate-spin text-lg " />
               </button>
             ) : (
               <button
                 onClick={handleFormSubmit}
-                className="cursor-pointer outline-none py-3 w-auto px-5 bg-[#121212] rounded-lg text-white text-[14px] font-bold"
+                className="cursor-pointer outline-none py-3 w-auto px-5 bg-[#121212] dark:bg-gray-800 dark:text-gray-300 rounded-lg text-white text-[14px] font-bold"
               >
                 Add Instruction
               </button>
@@ -452,7 +452,7 @@ const AddInstruction: React.FC = () => {
             <FeatureForm ref={formRef} action={createInstruction} />
           )}
           <div
-          className="border border-[#D0D5DD] h-fit w-[330px] mt-[70px] px-[20px] py-[14px] rounded-[8px]"
+          className="border border-[#D0D5DD] dark:border-stone-600 h-fit w-[330px] mt-[70px] px-[20px] py-[14px] rounded-[8px]"
           style={{
             boxShadow: "0px 4px 8px 1px rgba(215, 215, 215, 0.25)",
             background: "linear-gradient(160deg,#F8C4D326 2%,  #1774FD08 68%)",

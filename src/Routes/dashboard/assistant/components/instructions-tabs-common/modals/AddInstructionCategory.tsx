@@ -63,7 +63,7 @@ const AddInstructionCategory: React.FC<{ applicationId: string }> = ({ applicati
           fields={createCategoryFields}
           schema={createCategoryFormSchema}
           onSubmit={handleCreateCategory}
-          className="p-0 space-y-6 border-none shadow-none"
+          className="p-0 space-y-6 border-none shadow-none dark:bg-transparent"
           mode="all" // Only validate on form submission
           hideSubmitButton
           renderButton={(form) => (

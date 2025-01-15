@@ -96,7 +96,7 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
   className = '',
 }) => {
   return (
-    <div className={`flex flex-col gap-3 p-4 bg-white rounded-[12px] ${className}`}>
+    <div className={`flex flex-col gap-3 p-4 bg-white dark:bg-stone-800 rounded-[12px] ${className}`}>
       <div className="flex gap-2 items-center">
         <div className="flex justify-center items-center w-8 h-8 bg-red-100 rounded-full">
           <svg
@@ -112,7 +112,7 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
           </svg>
         </div>
         <div className="flex-1">
-          <p className="text-sm font-medium text-[#121212]">Error</p>
+          <p className="text-sm font-medium text-[#121212] dark:text-WHITE-_100">Error</p>
           <p className="text-sm text-[#828282]">{error}</p>
         </div>
       </div>

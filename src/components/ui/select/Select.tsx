@@ -204,10 +204,11 @@ export const Select = React.memo(
             aria-controls={`${id}-listbox`}
             aria-disabled={disabled}
             className={cn(
-              "relative w-full cursor-pointer rounded-lg text-gray-700 dark:text-gray-100 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 px-3 py-2 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm",
+              "relative w-full cursor-pointer rounded-lg text-gray-700 dark:text-gray-100 bg-white dark:bg-gray-800 border px-3 py-2 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm",
               {
                 "border-red-300": error,
                 "border-gray-300": !error,
+                "dark:border-gray-700": !error,
                 "opacity-50 cursor-not-allowed": disabled,
                 "text-gray-400": !selectedOptions.length,
                 "text-gray-700": selectedOptions.length > 0,

@@ -32,7 +32,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
       className="absolute right-4 top-[33%] -translate-y-1/2 p-0"
     >
       {isLoading ? (
-        <CgSpinner className="animate-spin text-lg text-[#121212]" />
+        <CgSpinner className="animate-spin text-lg text-[#121212] dark:text-WHITE-_100" />
       ) : (
         <SendMessageIcon />
       )}

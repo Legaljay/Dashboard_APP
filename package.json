@@ -40,6 +40,7 @@
     "country-flag-icons": "^1.5.13",
     "deep-diff": "^1.0.2",
     "framer-motion": "^11.11.17",
+    "lenis": "^1.1.19",
     "lodash": "^4.17.21",
     "lucide-react": "^0.460.0",
     "postcss": "^8.4.49",

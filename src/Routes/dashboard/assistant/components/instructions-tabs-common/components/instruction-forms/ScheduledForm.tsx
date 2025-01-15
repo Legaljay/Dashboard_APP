@@ -183,7 +183,7 @@ const ScheduledForm = forwardRef(
                   multiple
                   classObj={{
                     placeholderClass: "text-gray-500 placeholder:text-sm",
-                    trigger: "bg-transparent",
+                    trigger: `bg-transparent ${errors.support_channel ? "border-red-600": ""}`,
                   }}
                   maxSelections={3}
                   placeholder="Select Support Channel"

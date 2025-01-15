@@ -20,7 +20,7 @@ export const SettingsContent: React.FC<SettingsContentProps> = () => {
 
   return (
     <div
-      className="w-full p-10 !sticky top-[0] z-0 overflow-y-scroll hide-scrollbar"
+      className="w-full p-10 !sticky top-[0] z-0 overflow-y-scroll hide-scrollbar smooth-scroll"
       style={{
         height: 'calc(92vh)',
         scrollbarWidth: 'none',

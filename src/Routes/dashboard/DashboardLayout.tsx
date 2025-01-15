@@ -353,8 +353,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
         <main className="flex-1 px-2 pt-3 pb-8 w-full h-full">
           <ChangesBanner />
           <BreadCrumbs />
-          <div className="overflow-y-auto w-full h-full">{children}</div>
-          <TestAssistant propShowPopUp={false} setPropShowPopUp={() => {}} />
+          <div className="overflow-y-auto w-full h-full smooth-scroll hide-scrollbar">{children}</div>
+          <TestAssistant/>
         </main>
       </div>
     </div>

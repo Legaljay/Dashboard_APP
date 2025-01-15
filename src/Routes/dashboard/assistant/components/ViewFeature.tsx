@@ -149,8 +149,8 @@ const ViewFeature: React.FC = () => {
             <div className="gap-[12px] flex">
               {type.includes("Scheduled") && (
                 <button
-                  onClick={() => navigate(`${type}/${id}/archives`)}
-                  className="outline-none py-3 w-auto px-5 bg-[#ffffff] rounded-lg text-[#828282] border border-neutral-100 text-[14px] font-semibold"
+                  onClick={() => navigate(`archives`)}
+                  className="outline-none py-3 w-auto px-5 bg-[#ffffff] dark:bg-background-dark rounded-lg text-[#828282] border border-neutral-100 dark:border-secondary-800 text-[14px] font-semibold"
                 >
                   Archives
                 </button>

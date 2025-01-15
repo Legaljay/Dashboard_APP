@@ -36,11 +36,11 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
           )
         }
         <div className="flex flex-col">
-          <span className={`text-sm font-semibold text-[#121212] ${isUser ? "text-right" : ""}`}>
+          <span className={`text-sm font-semibold text-[#121212] dark:text-WHITE-_100 ${isUser ? "text-right" : ""}`}>
             {isUser ? "You" : assistantName}
           </span>
           {isUser ? (
-            <p className="rounded-lg py-2 text-[#121212] text-xs font-normal">
+            <p className="rounded-lg py-2 text-[#121212] dark:text-WHITE-_100 text-xs font-normal">
               {message.message}
             </p>
           ) : (

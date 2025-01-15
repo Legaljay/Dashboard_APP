@@ -23,7 +23,7 @@ export const MemoryTable: React.FC<MemoryTableProps> = React.memo(
       return (
         <div className="flex flex-col gap-2 justify-center w-full">
           <Skeleton className="flex justify-center items-center w-full h-12">
-            <div className="bg-[#FAFAFA] w-full h-6 mix-blend-soft-light" />
+            <div className="bg-[#FAFAFA] dark:bg-background-dark w-full h-6 mix-blend-soft-light" />
           </Skeleton>
           <Skeleton className="w-full h-12" />
           <Skeleton className="w-full h-12" />
@@ -34,8 +34,8 @@ export const MemoryTable: React.FC<MemoryTableProps> = React.memo(
     if (data.length === 0) {
       return (
         <table className="w-full fixed-width-table">
-          <thead>
-            <tr>
+          <thead className="!bg-[#FAFAFA] dark:!bg-gray-800">
+            <tr >
               <th>
                 <div className="flex items-center">Source</div>
               </th>
@@ -65,7 +65,7 @@ export const MemoryTable: React.FC<MemoryTableProps> = React.memo(
 
     return (
       <table className="w-full fixed-width-table">
-        <thead>
+        <thead className="!bg-[#FAFAFA] dark:!bg-gray-800">
           <tr>
             <th>
               <div className="flex items-center">Source</div>

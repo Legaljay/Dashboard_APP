@@ -179,7 +179,7 @@ const Instructions: React.FC<InstructionsProps> = ({ purpose }) => {
       <Route path="*" element={<InstructionsLayout purpose={purpose} />}>
         <Route index element={<InstructionsPage/>}/>
         <Route path=":id/:type" element={<ViewFeature />} />
-        <Route path=":type/archives" element={<Archives />} />
+        <Route path=":id/:type/archives" element={<Archives />} />
         <Route path=":type/:name/:mId/view-instruction" element={<EditFeature />} />
         <Route path=":id/:instructionType/add-instruction" element={<AddInstruction />} />
       </Route>

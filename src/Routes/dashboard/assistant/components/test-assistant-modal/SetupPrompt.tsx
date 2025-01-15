@@ -29,7 +29,7 @@ export const SetupPrompt: React.FC<SetupPromptProps> = memo(
           size="lg"
           className="mb-4"
         />
-        <h2 className="text-lg font-semibold text-[#121212] mb-2">
+        <h2 className="text-lg font-semibold text-[#121212] dark:text-WHITE-_100 mb-2">
           Upload Documents
         </h2>
         <p className="text-sm text-[#828282] mb-6 max-w-md">

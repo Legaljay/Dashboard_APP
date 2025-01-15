@@ -65,7 +65,7 @@ const FormFieldComponent = React.memo(
       autoFocus: field.autoFocus,
       className: cn(
         "w-full px-3 py-2 border rounded-lg border-gray-200 focus:ring-2 focus:ring-primary-500 outline-none",
-        "bg-white dark:bg-secondary-800",
+        "bg-white dark:bg-gray-800",
         error && isTouched ? "border-red-500" : "dark:border-gray-700",
         field.className
       ),

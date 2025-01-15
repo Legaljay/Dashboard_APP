@@ -200,7 +200,7 @@ export const routes: RouteObject[] = [
             element: <Billing />,
           },
           {
-            path: "support/*",
+            path: "support",
             element: <Support />,
           },
         ],

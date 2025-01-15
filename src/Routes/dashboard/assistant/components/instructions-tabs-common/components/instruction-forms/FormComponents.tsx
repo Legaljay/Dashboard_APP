@@ -20,7 +20,7 @@ const TextInput: React.FC<TextInputProps> = forwardRef(({
 }, ref: Ref<HTMLInputElement>) => {
   return (
     <div className="flex flex-col gap-1">
-      <label className="text-xs font-figtree text-[#101828] flex items-center">
+      <label className="text-xs font-figtree text-[#101828] dark:text-gray-300 flex items-center">
         {label}
         {required && <span className="text-red-700 pl-[2px]">*</span>}
       </label>
@@ -30,8 +30,8 @@ const TextInput: React.FC<TextInputProps> = forwardRef(({
         onChange={onChange}
         placeholder={placeholder}
         className={`text-[#101828] text-xs py-[10px] px-[14px] rounded-lg border ${
-          error ? "border-[#AF202D]" : "border-[#D0D5DD]"
-        } bg-white focus:outline-none w-full`}
+          error ? "border-[#AF202D]" : "border-[#D0D5DD] dark:border-stone-600"
+        } bg-white dark:bg-gray-800 focus:outline-none w-full`}
       />
       {error && <span className="text-[#AF202D] text-xs">{error}</span>}
     </div>
@@ -59,7 +59,7 @@ const TextArea: React.FC<TextAreaProps> = forwardRef(({
 }, ref: Ref<HTMLTextAreaElement>) => {
   return (
     <div className="flex flex-col gap-1">
-      <label className="text-xs font-figtree text-[#101828] flex items-center">
+      <label className="text-xs font-figtree text-[#101828] dark:text-gray-300 flex items-center">
         {customLabel ? (
           customLabel
         ) : (
@@ -74,9 +74,9 @@ const TextArea: React.FC<TextAreaProps> = forwardRef(({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className={`text-[#101828] text-xs py-[10px] px-[14px] rounded-lg border ${
-          error ? "border-[#AF202D]" : "border-[#D0D5DD]"
-        } bg-white focus:outline-none w-full`}
+        className={`text-[#101828]  dark:text-gray-300 text-xs py-[10px] px-[14px] rounded-lg border ${
+          error ? "border-[#AF202D]" : "border-[#D0D5DD] dark:border-stone-600"
+        } bg-white dark:bg-gray-800 focus:outline-none w-full`}
         rows={10}
       />
       {error && <span className="text-[#AF202D] text-xs">{error}</span>}
@@ -106,7 +106,7 @@ const SupportChannel: React.FC<SupportChannelProps> = ({
   return (
     <div className="flex flex-col gap-1">
       <div className="w-full flex justify-between items-center">
-        <label className="text-xs font-figtree text-[#101828]">{channel.support_channel}</label>
+        <label className="text-xs font-figtree text-[#101828] dark:text-gray-300">{channel.support_channel}</label>
         <div className="cursor-pointer" onClick={() => onRemove(index)}>
           <Delete />
         </div>
@@ -115,8 +115,8 @@ const SupportChannel: React.FC<SupportChannelProps> = ({
         type="text"
         value={channel.website}
         onChange={(e) => onChange(channel.support_channel, e.target.value)}
-        className={`border bg-transparent rounded-lg py-[8px] px-[14px] text-sm ${
-          error ? "border-[#AF202D]" : "border-[#D0D5DD]"
+        className={`border bg-transparent dark:bg-gray-800 rounded-lg py-[8px] px-[14px] text-sm ${
+          error ? "border-[#AF202D]" : "border-[#D0D5DD] dark:border-stone-600"
         }`}
         placeholder={`Enter ${channel.support_channel} details`}
       />

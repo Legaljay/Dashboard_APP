@@ -17,7 +17,7 @@ interface AgentButtonProps {
   
     return (
       <div 
-        className="flex gap-3 bg-white dark:bg-white/50 items-center py-[11.25px] px-[15px] rounded-full shadow-md shadow-box hover:shadow-lg transition-shadow cursor-pointer"
+        className="flex gap-3 bg-white dark:bg-gray-800 items-center py-[11.25px] px-[15px] rounded-full shadow-md shadow-box hover:shadow-lg transition-shadow cursor-pointer"
         onClick={onClick}
         role="button"
         tabIndex={0}
@@ -38,7 +38,7 @@ interface AgentButtonProps {
           </span>
         </div>
   
-        <div className="text-[15px] font-medium text-[#121212] dark:text-gray-800">
+        <div className="text-[15px] font-medium text-[#121212] dark:text-gray-100">
           Test Assistant
         </div>
   

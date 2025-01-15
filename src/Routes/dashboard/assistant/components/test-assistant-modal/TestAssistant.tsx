@@ -8,8 +8,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useApp } from "@/contexts/AppContext";
 
 interface TestAssistantProps {
-  propShowPopUp: boolean;
-  setPropShowPopUp: (show: boolean) => void;
+  propShowPopUp?: boolean;
+  setPropShowPopUp?: (show: boolean) => void;
 }
 
 const TestAssistant: React.FC<TestAssistantProps> = ({
@@ -40,7 +40,7 @@ const TestAssistant: React.FC<TestAssistantProps> = ({
     setIsMinimizing(true);
     setTimeout(() => {
       setIsMinimizing(false);
-      setPropShowPopUp(false);
+      setPropShowPopUp?.(false);
       dispatch({ type: "SET_TEST_AGENT", payload: false });
     }, 500);
   }, [dispatch, setPropShowPopUp, setIsMinimizing]);
