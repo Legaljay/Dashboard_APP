@@ -81,26 +81,9 @@ const ServicesBlocks: React.FC<ServiceBlocksProps> = ({ applicationId, data, han
   }
   return (
     <>
-      <div className=" h-[158px] bg-[rgba(249,249,249,0.86)] dark:border dark:border-stone-800 dark:bg-stone-950/50 p-4 rounded-xl relative">
+      <div className="h-[158px] bg-[rgba(249,249,249,0.86)] dark:border dark:border-stone-800 dark:bg-stone-950/50 p-4 rounded-xl relative">
         <section className="flex justify-between">
           <div className="flex gap-3 text-base font-medium">
-            {/* {data.name.toLowerCase() === "complaints" ? (
-              <img src={complainIcon} alt="complaints" className="w-8 h-8" />
-            ) : data.name.toLowerCase() === "enquiries" ? (
-              <img src={enquiryIcon} alt="enquiries" className="w-8 h-8" />
-            ) : data.name.toLowerCase() === "requests" ? (
-              <img src={requestIcon} alt="requests" className="w-8 h-8" />
-            ) : data.name.toLowerCase() === "sales" ? (
-              <img src={salesIcon} alt="sales" className="w-8 h-8" />
-            ) : data.name.includes("Scheduled") ? (
-              <img src={data?.image_url} alt="sales" className="w-8 h-8" />
-            ) : hashToIndex(data.id) === 0 ? (
-              <img src={customIcon} alt="sales" className="w-8 h-8" />
-            ) : hashToIndex(data.id) === 1 ? (
-              <img src={customIcon1} alt="sales" className="w-8 h-8" />
-            ) : (
-              <img src={customIcon2} alt="sales" className="w-8 h-8" />
-            )} */}
             <img src={data?.image_url} alt="sales" className="w-8 h-8" />
             <p className=" mt-1 text-[#121212] dark:text-stone-50 capitalize">{data.name}</p>
           </div>
@@ -155,3 +138,22 @@ const ServicesBlocks: React.FC<ServiceBlocksProps> = ({ applicationId, data, han
   );
 }
 export default ServicesBlocks;
+
+
+{/* {data.name.toLowerCase() === "complaints" ? (
+              <img src={complainIcon} alt="complaints" className="w-8 h-8" />
+            ) : data.name.toLowerCase() === "enquiries" ? (
+              <img src={enquiryIcon} alt="enquiries" className="w-8 h-8" />
+            ) : data.name.toLowerCase() === "requests" ? (
+              <img src={requestIcon} alt="requests" className="w-8 h-8" />
+            ) : data.name.toLowerCase() === "sales" ? (
+              <img src={salesIcon} alt="sales" className="w-8 h-8" />
+            ) : data.name.includes("Scheduled") ? (
+              <img src={data?.image_url} alt="sales" className="w-8 h-8" />
+            ) : hashToIndex(data.id) === 0 ? (
+              <img src={customIcon} alt="sales" className="w-8 h-8" />
+            ) : hashToIndex(data.id) === 1 ? (
+              <img src={customIcon1} alt="sales" className="w-8 h-8" />
+            ) : (
+              <img src={customIcon2} alt="sales" className="w-8 h-8" />
+            )} */}

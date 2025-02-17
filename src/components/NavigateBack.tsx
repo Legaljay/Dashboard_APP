@@ -14,6 +14,7 @@ const NavigateBack: React.FC<navigateBackProps> = ({
   const navigate = useNavigate();
   let handleNavigation = () => navigate(-1);
   if (href) handleNavigation = () => navigate(href);
+  
   return (
     <>
       {allowNavigation && (
